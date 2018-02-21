@@ -9,8 +9,10 @@ public class Minion implements Card {
     private int cost;
     private int attack;
     private int health;
+    private int baseHealth;
     private Ability ability;
     private Hero owner;
+    private boolean active;
 
     /**
      * Does NOT copy whole owner object, only reference.
@@ -26,12 +28,13 @@ public class Minion implements Card {
         copy.setHealth(health);
         copy.setOwner(owner);
         copy.setAbility(ability);
-
+        copy.setBaseHealth(baseHealth);
+        copy.setActive(active);
         return copy;
     }
 
     @Override
-    public void doAction(Hero owner, Hero enemy) {
+    public void doAction(Hero owner, Hero enemy, Hero tergetHero, Minion targetMinion) {
         // blank default action for minion
     }
 
@@ -48,6 +51,13 @@ public class Minion implements Card {
         notifyHeroIfDeadMinion();
     }
 
+    public void increaseHealth(int hm)
+    {
+    	health+=hm;
+    	if(health>baseHealth)
+    		health=baseHealth;
+    }
+    
     public void notifyHeroIfDeadMinion() {
         if(isDead()) {
             owner.deadMinionNotification(this);
@@ -129,4 +139,20 @@ public class Minion implements Card {
         result = 31 * result + (ability != null ? ability.hashCode() : 0);
         return result;
     }
+
+	public int getBaseHealth() {
+		return baseHealth;
+	}
+
+	public void setBaseHealth(int baseHealth) {
+		this.baseHealth = baseHealth;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 }

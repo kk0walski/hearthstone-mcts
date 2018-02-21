@@ -10,6 +10,6 @@ public class RiverCrocolisk extends Minion {
         setCost(2);
         setHealth(3);
         setName("River Crocolisk");
-        setAbility(new BattlecryDealDamageToSelfHero());
+        //setAbility(new BattlecryDealDamageToSelfHero());
     }
 }

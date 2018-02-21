@@ -1,31 +1,28 @@
 package engine.cards.spells;
 
-
 import engine.Hero;
 import engine.cards.Minion;
 import engine.cards.Spell;
 
 /**
- * Restore 8 Health.
+ * Deal 1 damage.
  */
-public class HealingTouch extends Spell {
+public class Fireball extends Spell {
 
-	
-	
-    public HealingTouch() {
-        setCost(3);
-        setName("Healing Touch");
+    public Fireball() {
+        setCost(4);
+        setName("Fireball");
     }
-
+    
     @Override
     public void doAction(Hero owner, Hero enemy, Hero tergetHero, Minion targetMinion) {
         if(tergetHero!=null)
         {
-        	tergetHero.increaseHealth(8);
+        	tergetHero.receiveDamage(8);
         }
         if(targetMinion!=null)
         {
-        	targetMinion.increaseHealth(8);
+        	targetMinion.receiveDamage(8);
         }
     }
 }

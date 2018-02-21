@@ -1,6 +1,8 @@
 package engine.cards.abilities;
 
+import engine.Hero;
 import engine.cards.Ability;
+import engine.heroes.DefaultHero;
 
 /**
  * Poison causes any minion to die if they take damage from the minion that posesses Poison.
@@ -10,4 +12,10 @@ import engine.cards.Ability;
  * Poison cannot penetrate a Divine Shield.
  */
 public class Poision implements Ability {
+
+	@Override
+	public void performAbility(Hero self, Hero hero2) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -8,6 +8,7 @@ public class Spell implements Card {
     private String name;
     private int cost;
     private Hero owner;
+    
 
     /**
      * Does NOT copy whole owner object, only reference.
@@ -25,7 +26,7 @@ public class Spell implements Card {
     }
 
     @Override
-    public void doAction(Hero owner, Hero enemy) {
+    public void doAction(Hero owner, Hero enemy, Hero tergetHero, Minion targetMiniony) {
         // blank default action for spell
     }
 

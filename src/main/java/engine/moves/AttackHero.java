@@ -23,4 +23,10 @@ public class AttackHero implements Move {
     public void performMove() {
         ((Minion) board.get(cardInBoardIndex)).attack(heroToGetAttacked);
     }
+
+	@Override
+	public boolean isMovePossible() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 }

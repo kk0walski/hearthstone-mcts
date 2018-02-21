@@ -1,6 +1,8 @@
 package engine.cards.abilities;
 
+import engine.Hero;
 import engine.cards.Ability;
+import engine.heroes.DefaultHero;
 
 /** If a minion has Windfury, it will be able to attack twice in one turn.
  *
@@ -15,4 +17,10 @@ import engine.cards.Ability;
  * A minion with Windfury cannot attack on the turn it was played unless it has Charge.
 */
 public class Windfury implements Ability {
+
+	@Override
+	public void performAbility(Hero self, Hero hero2) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -5,9 +5,14 @@ import engine.Game;
 import engine.Hero;
 import engine.Move;
 import engine.cards.Minion;
+import engine.cards.Spell;
+import engine.cards.spells.DeadlyShot;
+import engine.cards.spells.Fireball;
+import engine.cards.spells.HealingTouch;
 import engine.moves.AttackHero;
 import engine.moves.AttackMinion;
 import engine.moves.PutCard;
+import engine.moves.UseSpell;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +41,19 @@ public class DefaultHero implements Hero {
     }
 
     public void startRound() {
+    	activate();
         increaseMana();
         pickCardFromDeck();
         notifyIfDeadHero();
     }
 
-    /**
+    private void activate() {
+		for(Card c:board)
+			((Minion) c).setActive(true);
+		
+	}
+
+	/**
      * Depending on implementation - this method may contain AI algorithm, user's actions or hardcoded action.
      * Default hero does nothing. :) useless boy
      */
@@ -49,6 +61,39 @@ public class DefaultHero implements Hero {
 
     }
 
+    private  List<Move> addSpellMoves(int index)
+    {
+    	 List<Move> res= new ArrayList<>();
+    	 Spell spell=(Spell) hand.get(index);
+    	 Hero enymy=game.getEnemyOf(this);
+    	if(spell instanceof Fireball) {
+    		
+    		List<Card> cards=enymy.getBoard();
+    		for(Card card:cards)
+    		{
+    			res.add(new UseSpell(index, this, enymy, (Minion) card, null)); 
+    		}
+    		res.add(new UseSpell(index, this, enymy, null, enymy)); 
+    	}
+    	
+  	  	if(spell instanceof HealingTouch)
+  	  	{
+  	  		for(Card card:hand)
+  	  		{
+  	  			res.add(new UseSpell(index, this, enymy, (Minion) card, null)); 
+  	  		}
+  	  		res.add(new UseSpell(index, this, enymy, null, this)); 
+  	  	}
+  	  	
+  	  	if(spell instanceof DeadlyShot)
+  	  	{
+
+  	  		res.add(new UseSpell(index, this, enymy, null, null)); 
+	  		
+	  	}
+  	  	return res;
+    }
+    
     /**
      * Returns list of all possible moves for hero at the moment, keeping the mana constraints.
      */
@@ -56,9 +101,11 @@ public class DefaultHero implements Hero {
         List<Move> possibleMoves = new ArrayList<>();
 
         for(int cardInHandIndex=0; cardInHandIndex<hand.size(); cardInHandIndex++) {
-            if(hand.get(cardInHandIndex).getCost() <= mana) {
-                possibleMoves.add(new PutCard(cardInHandIndex, hand, board)); // TODO it adds both Spells and Minions to possibleMoves - ERROR
+            if(hand.get(cardInHandIndex).getCost() <= mana && hand.get(cardInHandIndex) instanceof Minion) {
+                possibleMoves.add(new PutCard(cardInHandIndex, this,  game.getEnemyOf(this)));
             }
+            if(hand.get(cardInHandIndex).getCost() <= mana && hand.get(cardInHandIndex) instanceof Spell)
+            	possibleMoves.addAll(addSpellMoves(cardInHandIndex));
         }
 
         // TODO - verify if performing attack should not use mana
@@ -68,10 +115,12 @@ public class DefaultHero implements Hero {
 
 
         for(int cardOnBoardIndex=0; cardOnBoardIndex<board.size(); cardOnBoardIndex++) {
-            possibleMoves.add(new AttackHero(cardOnBoardIndex, board, game.getEnemyOf(this)));
-            for(int cardOnEnemyBoardIndex=0; cardOnEnemyBoardIndex<game.getEnemyOf(this).getBoard().size(); cardOnEnemyBoardIndex++) {
-                possibleMoves.add(new AttackMinion(cardOnBoardIndex, board, game.getEnemyOf(this).getBoard().get(cardOnEnemyBoardIndex)));
-            }
+        	if(((Minion) board.get(cardOnBoardIndex)).isActive()) {
+        		possibleMoves.add(new AttackHero(cardOnBoardIndex, board, game.getEnemyOf(this)));
+        		for(int cardOnEnemyBoardIndex=0; cardOnEnemyBoardIndex<game.getEnemyOf(this).getBoard().size(); cardOnEnemyBoardIndex++) {
+        			possibleMoves.add(new AttackMinion(cardOnBoardIndex, board, game.getEnemyOf(this).getBoard().get(cardOnEnemyBoardIndex)));
+        		}
+        	}
         }
 
         return possibleMoves;
@@ -120,6 +169,21 @@ public class DefaultHero implements Hero {
             mana++;
         }
     }
+    @Override
+	public void manaDecrease(int hm) {
+		if(mana>=hm)
+			mana-=hm;
+		
+	}
+    
+    @Override
+	public void increaseHealth(int hm) {
+		health+=hm;
+		if(health>20)
+			health=20;
+		
+	}
+
 
     private void initHand(int initialHandSize) {
         hand = new ArrayList<>();
@@ -215,4 +279,7 @@ public class DefaultHero implements Hero {
     public void setGame(Game game) {
         this.game = game;
     }
+
+	
+	
 }

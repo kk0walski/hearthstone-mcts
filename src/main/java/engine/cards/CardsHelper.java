@@ -1,8 +1,11 @@
 package engine.cards;
 
 import engine.Card;
+import engine.cards.minions.Alleycat;
+import engine.cards.minions.AntiqueHealbot;
 import engine.cards.minions.LordOfTheArena;
 import engine.cards.minions.MassiveGnoll;
+import engine.cards.minions.Tabbycat;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,6 +62,9 @@ public class CardsHelper {
 
         registerCard(registeredStandardDeck, new MassiveGnoll());
         registerCard(registeredStandardDeck, new LordOfTheArena());
+        registerCard(registeredStandardDeck, new Tabbycat());
+        registerCard(registeredStandardDeck, new Alleycat());
+        registerCard(registeredStandardDeck, new AntiqueHealbot());
         // TODO add all cards here
     }
 

@@ -1,6 +1,8 @@
 package engine.cards.abilities;
 
+import engine.Hero;
 import engine.cards.Ability;
+import engine.heroes.DefaultHero;
 
 /**
  * When a minion has Stealth, it is untargettable by any minions, Heroes or Spells until it has attacked a target,
@@ -13,4 +15,10 @@ import engine.cards.Ability;
  * or deal damage to random minions can still hit a Stealthed minion.
  */
 public class Stealth implements Ability {
+
+	@Override
+	public void performAbility(Hero self, Hero hero2) {
+		// TODO Auto-generated method stub
+		
+	}
 }

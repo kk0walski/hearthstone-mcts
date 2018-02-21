@@ -12,4 +12,10 @@ public interface Hero {
     List<Card> getBoard();
     List<Card> getDeck();
     void deadMinionNotification(Minion minion);
+	int getHealth();
+	void setHealth(int i);
+	List<Card> getHand();
+	int getMana();
+	void manaDecrease(int hm);
+	void increaseHealth(int hm);
 }
