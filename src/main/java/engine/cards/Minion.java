@@ -26,6 +26,19 @@ public class Minion implements Card {
         // blank default action for minion
     }
 
+    public void attack(Hero enemyHero) {
+        enemyHero.receiveDamage(attack);
+    }
+
+    public void attack(Minion enemyMinion) {
+        enemyMinion.receiveDamage(attack);
+    }
+
+    public void receiveDamage(int damage) {
+        health-=damage;
+        // TODO notify hero about death
+    }
+
     public int getCost() {
         return cost;
     }

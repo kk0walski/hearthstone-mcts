@@ -3,7 +3,9 @@ package engine.cards;
 import engine.Card;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class CardsHelper {
 
@@ -12,12 +14,31 @@ public class CardsHelper {
      */
     private static List<Card> registeredStandardDeck;
 
+    /**
+     * Works on copy of registeredStandardDeck. In standard deck, every card appears twice.
+     *
+     * @return shuffled copy of registeredStandardDeck
+     */
     public static List<Card> generateStandardDeck() {
         if(registeredStandardDeck == null) {
             registerStandardDeck();
         }
 
-        return deepDeckCopy(registeredStandardDeck);
+        List<Card> standardDeckCopyWithDoubledCards = deepDeckCopy(registeredStandardDeck);
+        standardDeckCopyWithDoubledCards.addAll(deepDeckCopy(registeredStandardDeck));
+
+        return shuffle(standardDeckCopyWithDoubledCards);
+    }
+
+    /**
+     * Shuffles deck. Works on original object.
+     * @param cards cards
+     * @return original shuffled cards
+     */
+    public static List<Card> shuffle(List<Card> cards) {
+        long seed = System.nanoTime();
+        Collections.shuffle(cards, new Random(seed));
+        return cards;
     }
 
     private static List<Card> deepDeckCopy(List<Card> deckToCopy) {
