@@ -4,6 +4,7 @@ import engine.Card;
 import engine.Game;
 import engine.Hero;
 import engine.Move;
+import engine.cards.Minion;
 import engine.moves.AttackHero;
 import engine.moves.AttackMinion;
 import engine.moves.PutCard;
@@ -53,12 +54,18 @@ public class DefaultHero implements Hero {
      */
     public List<Move> possibleMoves() {
         List<Move> possibleMoves = new ArrayList<>();
-        // foreach spell and minion in hand, check if this.mana lets for spell usage
+
         for(int cardInHandIndex=0; cardInHandIndex<hand.size(); cardInHandIndex++) {
             if(hand.get(cardInHandIndex).getCost() <= mana) {
                 possibleMoves.add(new PutCard(cardInHandIndex, hand, board));
             }
         }
+
+        // TODO - verify if performing attack should not use mana
+        // TODO - remember to deactivate minion after usage and activate it after round
+        // TODO - remember to remove minion after death
+        // TODO - remember to remove spell after usage
+
 
         for(int cardOnBoardIndex=0; cardOnBoardIndex<board.size(); cardOnBoardIndex++) {
             possibleMoves.add(new AttackHero(cardOnBoardIndex, board, game.getEnemyOf(this)));
@@ -66,7 +73,7 @@ public class DefaultHero implements Hero {
                 possibleMoves.add(new AttackMinion(cardOnBoardIndex, board, game.getEnemyOf(this).getBoard().get(cardOnEnemyBoardIndex)));
             }
         }
-        
+
         return possibleMoves;
     }
 
@@ -89,6 +96,10 @@ public class DefaultHero implements Hero {
         if(isDead()) {
             notifyAboutDeadHero();
         }
+    }
+
+    public void deadMinionNotification(Minion minion) {
+        board.remove(minion);
     }
 
     private void resetMovesInRound() {

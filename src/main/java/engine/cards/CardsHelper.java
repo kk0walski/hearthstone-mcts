@@ -1,6 +1,8 @@
 package engine.cards;
 
 import engine.Card;
+import engine.cards.minions.LordOfTheArena;
+import engine.cards.minions.MassiveGnoll;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,8 +57,9 @@ public class CardsHelper {
     private static void registerStandardDeck() {
         registeredStandardDeck = new ArrayList<>();
 
-        registerCard(registeredStandardDeck, new TestCardOne());
-        registerCard(registeredStandardDeck, new TestCardTwo());
+        registerCard(registeredStandardDeck, new MassiveGnoll());
+        registerCard(registeredStandardDeck, new LordOfTheArena());
+        // TODO add all cards here
     }
 
     private static void registerCard(List<Card> deck, Card card) {

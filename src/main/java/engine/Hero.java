@@ -1,5 +1,7 @@
 package engine;
 
+import engine.cards.Minion;
+
 import java.util.List;
 
 public interface Hero {
@@ -8,4 +10,6 @@ public interface Hero {
     void performMoves();
     void receiveDamage(int damage);
     List<Card> getBoard();
+    List<Card> getDeck();
+    void deadMinionNotification(Minion minion);
 }

@@ -2,7 +2,9 @@ package engine;
 
 public interface Card {
 
-    public Card deepCopy();
-    public void doAction(Hero owner, Hero enemy);
-    public int getCost();
+    Card deepCopy();
+    void doAction(Hero owner, Hero enemy);
+    int getCost();
+    Hero getOwner();
+    void setOwner(Hero owner);
 }

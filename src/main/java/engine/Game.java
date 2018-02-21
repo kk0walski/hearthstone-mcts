@@ -21,8 +21,8 @@ public class Game {
     private Hero winner;
 
     public void initializeStandardBoard() {
-        initializeFirstHero(generateStandardDeck(), 3);
-        initializeSecondHero(generateStandardDeck(), 4);
+        initializeDefaultHero(firstHero, generateStandardDeck(), 3);
+        initializeDefaultHero(secondHero, generateStandardDeck(), 4);
         setActiveHero(firstHero);
         setGameOver(false);
     }
@@ -77,8 +77,17 @@ public class Game {
         }
     }
 
+    private void initializeDefaultHero(Hero hero, List<Card> initialDeck, int initialHandSize) {
+        hero = new DefaultHero(this, initialDeck, initialHandSize);
+        assignCardsToHero(hero);
+    }
+
+    private void assignCardsToHero(Hero hero) {
+        hero.getDeck().forEach(card -> card.setOwner(hero));
+    }
     private void initializeFirstHero(List<Card> initialDeck, int initialHandSize) {
         firstHero = new DefaultHero(this, initialDeck, initialHandSize);
+        assignCardsToHero(firstHero);
     }
 
     private void initializeSecondHero(List<Card> initialDeck, int initialHandSize) {
