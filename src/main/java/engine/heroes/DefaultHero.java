@@ -57,7 +57,7 @@ public class DefaultHero implements Hero {
 
         for(int cardInHandIndex=0; cardInHandIndex<hand.size(); cardInHandIndex++) {
             if(hand.get(cardInHandIndex).getCost() <= mana) {
-                possibleMoves.add(new PutCard(cardInHandIndex, hand, board));
+                possibleMoves.add(new PutCard(cardInHandIndex, hand, board)); // TODO it adds both Spells and Minions to possibleMoves - ERROR
             }
         }
 
