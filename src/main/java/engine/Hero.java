@@ -7,7 +7,7 @@ import java.util.List;
 public interface Hero {
 
     boolean isDead();
-    void performMoves();
+    boolean performMove(Move toDo);
     void receiveDamage(int damage);
     List<Card> getBoard();
     List<Card> getDeck();
@@ -18,4 +18,5 @@ public interface Hero {
 	int getMana();
 	void manaDecrease(int hm);
 	void increaseHealth(int hm);
+	  public void startRound();
 }

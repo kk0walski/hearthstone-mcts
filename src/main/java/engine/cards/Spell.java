@@ -1,57 +1,12 @@
-package engine.cards;
-
-import engine.Card;
-import engine.Hero;
-
-public class Spell implements Card {
-
-    private String name;
-    private int cost;
-    private Hero owner;
-    
-
-    /**
-     * Does NOT copy whole owner object, only reference.
-     * @return copy of spell
-     */
-    @Override
-    public Card deepCopy() {
-        Spell copy = new Spell();
-
-        copy.setName(name);
-        copy.setCost(cost);
-        copy.setOwner(owner);
-
-        return copy;
-    }
-
-    @Override
-    public void doAction(Hero owner, Hero enemy, Hero tergetHero, Minion targetMiniony) {
-        // blank default action for spell
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    @Override
-    public Hero getOwner() {
-        return null;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-    public void setOwner(Hero owner) {
-        this.owner = owner;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-}
+ngs xmi:id="_uLPM0RlMEeiuuqjeZhIioQ" keySequence="SHIFT+DEL" command="_uLSQfxlMEeiuuqjeZhIioQ"/>
+    <bindings xmi:id="_uLPM0hlMEeiuuqjeZhIioQ" keySequence="CTRL+SHIFT+SPACE" command="_uLSQORlMEeiuuqjeZhIioQ"/>
+    <bindings xmi:id="_uLPM0xlMEeiuuqjeZhIioQ" keySequence="CTRL+SPACE" command="_uLSQSxlMEeiuuqjeZhIioQ"/>
+    <bindings xmi:id="_uLPM1BlMEeiuuqjeZhIioQ" keySequence="CTRL+A" command="_uLS3ExlMEeiuuqjeZhIioQ"/>
+    <bindings xmi:id="_uLPM1RlMEeiuuqjeZhIioQ" keySequence="CTRL+C" command="_uLRo8hlMEeiuuqjeZhIioQ"/>
+    <bindings xmi:id="_uLPM1hlMEeiuuqjeZhIioQ" keySequence="CTRL+1" command="_uLSQAxlMEeiuuqjeZhIioQ"/>
+    <bindings xmi:id="_uLPM1xlMEeiuuqjeZhIioQ" keySequence="CTRL+SHIFT+I" command="_uLSP1hlMEeiuuqjeZhIioQ"/>
+    <bindings xmi:id="_uLPM2BlMEeiuuqjeZhIioQ" keySequence="CTRL+SHIFT+L" command="_uLS21BlMEeiuuqjeZhIioQ"/>
+    <bindings xmi:id="_uLPM2RlMEeiuuqjeZhIioQ" keySequence="CTRL+SHIFT+D" command="_uLS3GBlMEeiuuqjeZhIioQ"/>
+    <bindings xmi:id="_uLPM2hlMEeiuuqjeZhIioQ" keySequence="CTRL+X" command="_uLSQfxlMEeiuuqjeZhIioQ"/>
+    <bindings xmi:id="_uLPM2xlMEeiuuqjeZhIioQ" keySequence="CTRL+Y" command="_uLS3WhlMEeiuuqjeZhIioQ"/>
+    <bindings xm
