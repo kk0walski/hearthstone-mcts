@@ -1,11 +1,26 @@
-d="_uLS3lhlMEeiuuqjeZhIioQ"/>
-    <bindings xmi:id="_uLPNGxlMEeiuuqjeZhIioQ" keySequence="ALT+SHIFT+R" command="_uLS27BlMEeiuuqjeZhIioQ"/>
-    <bindings xmi:id="_uLPNHBlMEeiuuqjeZhIioQ" keySequence="ALT+SHIFT+U" command="_uLSP2RlMEeiuuqjeZhIioQ"/>
-    <bindings xmi:id="_uLPNHRlMEeiuuqjeZhIioQ" keySequence="ALT+SHIFT+ARROW_UP" command="_uLSQMhlMEeiuuqjeZhIioQ"/>
-    <bindings xmi:id="_uLPNHhlMEeiuuqjeZhIioQ" keySequence="ALT+SHIFT+ARROW_DOWN" command="_uLS25RlMEeiuuqjeZhIioQ"/>
-  </bindingTables>
-  <bindingTables xmi:id="_uLPNHxlMEeiuuqjeZhIioQ" elementId="org.eclipse.mylyn.internal.wikitext.ui.editor.basicMarkupSourceContext" bindingContext="_uLPz9hlMEeiuuqjeZhIioQ">
-    <bindings xmi:id="_uLPNIBlMEeiuuqjeZhIioQ" keySequence="F1" command="_uLRo-hlMEeiuuqjeZhIioQ"/>
-  </bindingTables>
-  <bindingTables xmi:id="_uLPNIRlMEeiuuqjeZhIioQ" elementId="org.eclipse.ui.contexts.window" bindingContext="_uLPz7RlMEeiuuqjeZhIioQ">
-    <bindings xmi:id="_uLPNI
+package engine.cards.abilities;
+
+import engine.Hero;
+import engine.cards.Ability;
+import engine.heroes.DefaultHero;
+
+/** If a minion has Windfury, it will be able to attack twice in one turn.
+ *
+ * A minion with Windfury can attack once and then any other action can take place before the Hero choses to attack again.
+ *
+ * For example a minion with Windfury can attack once, then be healed, then attack again.
+ *
+ * If a minion has Windfury and it's Health is reduced to zero after attacking once, it will not be able to attack again.
+ *
+ * If a minion has already attacked once, and then is granted Windfury, it will not be able to attack again on the same turn, the minion must be granted Windfury, before it attacks.
+ *
+ * A minion with Windfury cannot attack on the turn it was played unless it has Charge.
+*/
+public class Windfury implements Ability {
+
+	@Override
+	public void performAbility(Hero self, Hero hero2) {
+		// TODO Auto-generated method stub
+		
+	}
+}

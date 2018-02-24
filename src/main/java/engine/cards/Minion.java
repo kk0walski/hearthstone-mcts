@@ -1,41 +1,164 @@
-MEeiuuqjeZhIioQ" elementId="org.eclipse.ui.workbench.help" visible="false">
-        <tags>Draggable</tags>
-        <children xsi:type="menu:DirectToolItem" xmi:id="_uLPMrhlMEeiuuqjeZhIioQ" elementId="group.help">
-          <tags>Opaque</tags>
-        </children>
-        <children xsi:type="menu:DirectToolItem" xmi:id="_uLPMrxlMEeiuuqjeZhIioQ" elementId="group.application" visible="false">
-          <tags>Opaque</tags>
-        </children>
-      </children>
-      <children xsi:type="menu:ToolControl" xmi:id="_uLPMsBlMEeiuuqjeZhIioQ" elementId="PerspectiveSpacer" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.LayoutModifierToolControl">
-        <tags>stretch</tags>
-        <tags>SHOW_RESTORE_MENU</tags>
-      </children>
-      <children xsi:type="menu:ToolControl" xmi:id="_uLPMtBlMEeiuuqjeZhIioQ" elementId="PerspectiveSwitcher" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.e4.ui.workbench.addons.perspectiveswitcher.PerspectiveSwitcher">
-        <tags>Draggable</tags>
-        <tags>HIDEABLE</tags>
-        <tags>SHOW_RESTORE_MENU</tags>
-      </children>
-    </trimBars>
-    <trimBars xmi:id="_uLPMuxlMEeiuuqjeZhIioQ" elementId="org.eclipse.ui.trim.status" side="Bottom">
-      <children xsi:type="menu:ToolControl" xmi:id="_uLPMvBlMEeiuuqjeZhIioQ" elementId="org.eclipse.ui.StatusLine" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.StandardTrim">
-        <tags>stretch</tags>
-      </children>
-      <children xsi:type="menu:ToolControl" xmi:id="_uLPMvRlMEeiuuqjeZhIioQ" elementId="org.eclipse.ui.HeapStatus" toBeRendered="false" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.StandardTrim">
-        <tags>Draggable</tags>
-      </children>
-      <children xsi:type="menu:ToolControl" xmi:id="_uLPMvhlMEeiuuqjeZhIioQ" elementId="org.eclipse.ui.ProgressBar" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.StandardTrim">
-        <tags>Draggable</tags>
-      </children>
-    </trimBars>
-    <trimBars xmi:id="_uLPMxxlMEeiuuqjeZhIioQ" elementId="org.eclipse.ui.trim.vertical1" toBeRendered="false" side="Left">
-      <children xsi:type="menu:ToolControl" xmi:id="_uLPMyBlMEeiuuqjeZhIioQ" elementId="org.eclipse.ui.ide.perspectivestack(minimized)" toBeRendered="false" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.TrimStack">
-        <tags>TrimStack</tags>
-        <tags>Draggable</tags>
-      </children>
-    </trimBars>
-    <trimBars xmi:id="_uLPMyRlMEeiuuqjeZhIioQ" elementId="org.eclipse.ui.trim.vertical2" side="Right"/>
-  </children>
-  <handlers xmi:id="_uLPMyhlMEeiuuqjeZhIioQ" elementId="org.eclipse.recommenders.news.rcp.handler.pollNewsFeeds" contributorURI="platform:/plugin/org.eclipse.recommenders.news.rcp" contributionURI="bundleclass://org.eclipse.recommenders.news.rcp/org.eclipse.recommenders.internal.news.rcp.poll.PollNewsFeedsHandler" command="_uLS3pBlMEeiuuqjeZhIioQ"/>
-  <handlers xmi:id="_uLPMyxlMEeiuuqjeZhIioQ" elementId="org.eclipse.recommenders.news.rcp.handler.readNewsItems" contributorURI="platform:/plugin/org.eclipse.recommenders.news.rcp" contributionURI="bundleclass://org.eclipse.recommenders.news.rcp/org.eclipse.recommenders.internal.news.rcp.read.ReadNewsItemsHandler" command="_uLS3pRlMEeiuuqjeZhIioQ"/>
-  <bindingTables xmi:id="_uLPMzBlMEeiuuqjeZhIi
+package engine.cards;
+
+import engine.Card;
+import engine.Hero;
+
+public class Minion implements Card {
+
+    private String name;
+    private int cost;
+    private int attack;
+    private int health;
+    private int baseHealth;
+    private Ability ability;
+    private Hero owner;
+    private boolean active;
+
+    /**
+     * Does NOT copy whole owner object, only reference.
+     * @return copy of minion
+     */
+    @Override
+    public Card deepCopy() {
+        Minion copy=null;
+		try {
+			copy = this.getClass().newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        copy.setName(name);
+        copy.setCost(cost);
+        copy.setAttack(attack);
+        copy.setHealth(health);
+        copy.setOwner(owner);
+        copy.setAbility(ability);
+        copy.setBaseHealth(baseHealth);
+        copy.setActive(active);
+        return copy;
+    }
+
+    @Override
+    public void doAction(Hero owner, Hero enemy, Hero tergetHero, Minion targetMinion) {
+        // blank default action for minion
+    }
+
+    public void attack(Hero enemyHero) {
+        enemyHero.receiveDamage(attack);
+    }
+
+    public void attack(Minion enemyMinion) {
+        enemyMinion.receiveDamage(attack);
+    }
+
+    public void receiveDamage(int damage) {
+        health-=damage;
+        notifyHeroIfDeadMinion();
+    }
+
+    public void increaseHealth(int hm)
+    {
+    	health+=hm;
+    	if(health>baseHealth)
+    		health=baseHealth;
+    }
+    
+    public void notifyHeroIfDeadMinion() {
+        if(isDead()) {
+            owner.deadMinionNotification(this);
+        }
+    }
+
+    public boolean isDead() {
+        return health <= 0;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public Ability getAbility() {
+        return ability;
+    }
+
+    public void setAbility(Ability ability) {
+        this.ability = ability;
+    }
+
+    @Override
+    public Hero getOwner() {
+        return owner;
+    }
+
+    @Override
+    public void setOwner(Hero owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Minion minion = (Minion) o;
+
+        if (cost != minion.cost) return false;
+        if (attack != minion.attack) return false;
+        if (health != minion.health) return false;
+        return ability != null ? ability.equals(minion.ability) : minion.ability == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = cost;
+        result = 31 * result + attack;
+        result = 31 * result + health;
+        result = 31 * result + (ability != null ? ability.hashCode() : 0);
+        return result;
+    }
+
+	public int getBaseHealth() {
+		return baseHealth;
+	}
+
+	public void setBaseHealth(int baseHealth) {
+		this.baseHealth = baseHealth;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+}

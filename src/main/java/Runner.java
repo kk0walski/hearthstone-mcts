@@ -11,11 +11,11 @@ public class Runner {
     g.initializeStandardBoard();
     Hero h=g.getActiveHero();
     h.startRound();
-    System.out.println(h.performMove(new UseSpell(0, h, g.getEnemyOf(h),null,g.getEnemyOf(h))));
-    System.out.println(h.performMove(new UseSpell(1, h, g.getEnemyOf(h),null,g.getEnemyOf(h))));
-    System.out.println(h.performMove(new UseSpell(2, h, g.getEnemyOf(h),null,g.getEnemyOf(h))));
-    g.getEnemyOf(h).setHealth(0);
-    g.checkForGameEnd();
-    System.out.println(g.getWinner());
+    System.out.println(h.performMove(new UseSpell(0, h,g.getEnemyOf(h),null,g.getEnemyOf(h))));
+    System.out.println(h.performMove(new UseSpell(1, h,g.getEnemyOf(h),null,g.getEnemyOf(h))));
+    System.out.println(h.performMove(new UseSpell(2, h,g.getEnemyOf(h),null,g.getEnemyOf(h))));
+    
+    System.out.println();
+
     }
 }

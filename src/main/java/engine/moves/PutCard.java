@@ -1,17 +1,94 @@
-"_uLPz4xlMEeiuuqjeZhIioQ" bindingContext="_uLP0MxlMEeiuuqjeZhIioQ"/>
-  <bindingTables xmi:id="_uLPz5BlMEeiuuqjeZhIioQ" bindingContext="_uLP0NBlMEeiuuqjeZhIioQ"/>
-  <bindingTables xmi:id="_uLPz5RlMEeiuuqjeZhIioQ" bindingContext="_uLP0NRlMEeiuuqjeZhIioQ"/>
-  <bindingTables xmi:id="_uLPz5hlMEeiuuqjeZhIioQ" bindingContext="_uLP0NhlMEeiuuqjeZhIioQ"/>
-  <bindingTables xmi:id="_uLPz5xlMEeiuuqjeZhIioQ" bindingContext="_uLP0NxlMEeiuuqjeZhIioQ"/>
-  <bindingTables xmi:id="_uLPz6BlMEeiuuqjeZhIioQ" bindingContext="_uLP0OBlMEeiuuqjeZhIioQ"/>
-  <bindingTables xmi:id="_uLPz6RlMEeiuuqjeZhIioQ" bindingContext="_uLP0ORlMEeiuuqjeZhIioQ"/>
-  <bindingTables xmi:id="_uLPz6hlMEeiuuqjeZhIioQ" bindingContext="_uLP0OhlMEeiuuqjeZhIioQ"/>
-  <bindingTables xmi:id="_uLPz6xlMEeiuuqjeZhIioQ" bindingContext="_uLP0OxlMEeiuuqjeZhIioQ"/>
-  <rootContext xmi:id="_uLPz7BlMEeiuuqjeZhIioQ" elementId="org.eclipse.ui.contexts.dialogAndWindow" contributorURI="platform:/plugin/org.eclipse.platform" name="In Dialogs and Windows" description="Either a dialog or a window is open">
-    <children xmi:id="_uLPz7RlMEeiuuqjeZhIioQ" elementId="org.eclipse.ui.contexts.window" contributorURI="platform:/plugin/org.eclipse.platform" name="In Windows" description="A window is open">
-      <children xmi:id="_uLPz7hlMEeiuuqjeZhIioQ" elementId="org.eclipse.e4.ui.contexts.views" contributorURI="platform:/plugin/org.eclipse.platform" name="%bindingcontext.name.bindingView"/>
-      <children xmi:id="_uLPz7xlMEeiuuqjeZhIioQ" elementId="org.eclipse.debug.ui.BreakpointView" name="In Breakpoints View" description="The breakpoints view context"/>
-      <children xmi:id="_uLPz8BlMEeiuuqjeZhIioQ" elementId="org.eclipse.ui.textEditorScope" name="Editing Text" description="Editing Text Context">
-        <children xmi:id="_uLPz8RlMEeiuuqjeZhIioQ" elementId="org.eclipse.ui.genericeditor.genericEditorContext" name="in Generic Code Editor" description="When editing in the Generic Code Editor"/>
-        <children xmi:id="_uLPz8hlMEeiuuqjeZhIioQ" elementId="org.eclipse.jdt.ui.classFileEditorScope" name="Browsing attached Java Source" description="Browsing attached Java Source Context"/>
-        <children xmi:id="_uLPz8xlM
+package engine.moves;
+
+import engine.Card;
+import engine.Hero;
+import engine.Move;
+import engine.cards.Minion;
+import engine.heroes.DefaultHero;
+
+import java.util.List;
+
+public class PutCard implements Move {
+
+    private int cardInHandIndex;
+    private Hero self;
+    private Hero enymy;
+    
+
+    public PutCard(int cardInHandIndex, Hero self, Hero enymy) {
+        this.cardInHandIndex = cardInHandIndex;
+        this.self=self;
+        this.enymy=enymy;
+    }
+
+    @Override
+    public void performMove() {
+         List<Card> hand=self.getHand();
+         List<Card> board=self.getBoard();
+        board.add(hand.get(cardInHandIndex));
+       
+        performSpecialAbility(board);
+        self.manaDecrease(self.getHand().get(cardInHandIndex).getCost());
+        hand.remove(cardInHandIndex);
+    }
+    
+    private void performSpecialAbility(List<Card> board)
+    {
+    	Minion card=(Minion) board.get(board.size()-1);
+    	if(card.getAbility()!=null)
+    	card.getAbility().performAbility(self,enymy);
+    }
+
+    public int getCardInHandIndex() {
+        return cardInHandIndex;
+    }
+
+    public void setCardInHandIndex(int cardInHandIndex) {
+        this.cardInHandIndex = cardInHandIndex;
+    }
+
+	@Override
+	public boolean isMovePossible() {
+		
+		if((self.getMana()) >= (self.getHand().get(cardInHandIndex).getCost()))
+			return true;
+		else 
+			return false;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + cardInHandIndex;
+		result = prime * result + ((enymy == null) ? 0 : enymy.hashCode());
+		result = prime * result + ((self == null) ? 0 : self.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PutCard other = (PutCard) obj;
+		if (cardInHandIndex != other.cardInHandIndex)
+			return false;
+		if (enymy == null) {
+			if (other.enymy != null)
+				return false;
+		} else if (!enymy.equals(other.enymy))
+			return false;
+		if (self == null) {
+			if (other.self != null)
+				return false;
+		} else if (!self.equals(other.self))
+			return false;
+		return true;
+	}
+
+  
+}

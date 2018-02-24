@@ -1,16 +1,67 @@
-indings xmi:id="_uLPzmxlMEeiuuqjeZhIioQ" keySequence="ALT+SHIFT+ARROW_LEFT" command="_uLS2pRlMEeiuuqjeZhIioQ"/>
-    <bindings xmi:id="_uLPznBlMEeiuuqjeZhIioQ" keySequence="ALT+SHIFT+ARROW_RIGHT" command="_uLRpkhlMEeiuuqjeZhIioQ"/>
-    <bindings xmi:id="_uLPznRlMEeiuuqjeZhIioQ" keySequence="CTRL+2 M" command="_uLS2thlMEeiuuqjeZhIioQ"/>
-    <bindings xmi:id="_uLPznhlMEeiuuqjeZhIioQ" keySequence="CTRL+2 L" command="_uLRphxlMEeiuuqjeZhIioQ"/>
-    <bindings xmi:id="_uLPznxlMEeiuuqjeZhIioQ" keySequence="CTRL+SHIFT+ARROW_UP" command="_uLS3dRlMEeiuuqjeZhIioQ"/>
-    <bindings xmi:id="_uLPzoBlMEeiuuqjeZhIioQ" keySequence="CTRL+SHIFT+ARROW_DOWN" command="_uLS3GRlMEeiuuqjeZhIioQ"/>
-    <bindings xmi:id="_uLPzoRlMEeiuuqjeZhIioQ" keySequence="CTRL+2 F" command="_uLS3HBlMEeiuuqjeZhIioQ"/>
-  </bindingTables>
-  <bindingTables xmi:id="_uLPzohlMEeiuuqjeZhIioQ" elementId="org.eclipse.jdt.ui.propertiesEditorScope" bindingContext="_uLP0BhlMEeiuuqjeZhIioQ">
-    <bindings xmi:id="_uLPzoxlMEeiuuqjeZhIioQ" keySequence="CTRL+/" command="_uLRpFBlMEeiuuqjeZhIioQ"/>
-    <bindings xmi:id="_uLPzpBlMEeiuuqjeZhIioQ" keySequence="CTRL+7" command="_uLRpFBlMEeiuuqjeZhIioQ"/>
-    <bindings xmi:id="_uLPzpRlMEeiuuqjeZhIioQ" keySequence="CTRL+SHIFT+C" command="_uLRpFBlMEeiuuqjeZhIioQ"/>
-  </bindingTables>
-  <bindingTables xmi:id="_uLPzphlMEeiuuqjeZhIioQ" elementId="org.eclipse.debug.ui.memoryview" bindingContext="_uLP0ChlMEeiuuqjeZhIioQ">
-    <bindings xmi:id="_uLPzpxlMEeiuuqjeZhIioQ" keySequence="CTRL+N" command="_uLRpuRlMEeiuuqjeZhIioQ"/>
-    <bindings xmi:id="_uLPzqBlMEeiuuqjeZhIioQ" keySequence="ALT+CTRL+M" command="_uLS3DhlMEeiuuqjeZhIioQ
+package engine.moves;
+
+import engine.Card;
+import engine.Hero;
+import engine.Move;
+import engine.cards.Minion;
+
+import java.util.List;
+
+public class AttackHero implements Move {
+
+    private int cardInBoardIndex;
+    private List<Card> board;
+    private Hero heroToGetAttacked;
+
+    public AttackHero(int cardInBoardIndex, List<Card> board, Hero heroToGetAttacked) {
+        this.cardInBoardIndex = cardInBoardIndex;
+        this.board = board;
+        this.heroToGetAttacked = heroToGetAttacked;
+    }
+
+    @Override
+    public void performMove() {
+        ((Minion) board.get(cardInBoardIndex)).attack(heroToGetAttacked);
+    }
+
+	@Override
+	public boolean isMovePossible() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((board == null) ? 0 : board.hashCode());
+		result = prime * result + cardInBoardIndex;
+		result = prime * result + ((heroToGetAttacked == null) ? 0 : heroToGetAttacked.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AttackHero other = (AttackHero) obj;
+		if (board == null) {
+			if (other.board != null)
+				return false;
+		} else if (!board.equals(other.board))
+			return false;
+		if (cardInBoardIndex != other.cardInBoardIndex)
+			return false;
+		if (heroToGetAttacked == null) {
+			if (other.heroToGetAttacked != null)
+				return false;
+		} else if (!heroToGetAttacked.equals(other.heroToGetAttacked))
+			return false;
+		return true;
+	}
+	
+}
