@@ -28,12 +28,13 @@ public class DefaultHero implements Hero {
     private List<Card> board;
     private List<Move> movesInRound;
     private Game game;
-
+    private int punishment;
     private List<Move> avaliableMoves;
     
     public DefaultHero(Game game, List<Card> initialDeck, int initialHandSize) {
         this.game = game;
         round = 0;
+        punishment=0;
         deck = initialDeck;
         initHand(initialHandSize-1);
         board = new ArrayList<>();
@@ -305,6 +306,4 @@ public class DefaultHero implements Hero {
 		this.avaliableMoves = avaliableMoves;
 	}
 
-	
-	
 }

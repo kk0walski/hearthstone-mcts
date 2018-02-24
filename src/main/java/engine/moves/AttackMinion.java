@@ -22,6 +22,7 @@ public class AttackMinion implements Move {
     @Override
     public void performMove() {
         ((Minion) board.get(cardInBoardIndex)).attack(minionToGetAttacked);
+        ((Minion) board.get(cardInBoardIndex)).desactivate();
     }
 
 	@Override

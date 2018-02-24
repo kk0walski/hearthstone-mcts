@@ -43,6 +43,10 @@ public class Minion implements Card {
     public void doAction(Hero owner, Hero enemy, Hero tergetHero, Minion targetMinion) {
         // blank default action for minion
     }
+    public void desactivate()
+    {
+    	active=false;
+    }
 
     public void attack(Hero enemyHero) {
         enemyHero.receiveDamage(attack);
