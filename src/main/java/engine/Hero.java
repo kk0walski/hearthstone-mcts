@@ -27,4 +27,16 @@ public interface Hero {
     void increaseHealth(int value);
 
     void startRound();
+
+    int getHealth();
+
+    int getPunishForEmptyDeck();
+
+    void generateAvailableMoves();
+
+    List<Move> getAvailableMoves();
+
+    List<Move> getMovesInRound();
+
+    void endRound();
 }

@@ -64,4 +64,15 @@ public class AttackHero implements Move {
         return true;
     }
 
+    public int getCardInBoardIndex() {
+        return cardInBoardIndex;
+    }
+
+    public List<Card> getBoard() {
+        return board;
+    }
+
+    public Hero getHeroToGetAttacked() {
+        return heroToGetAttacked;
+    }
 }

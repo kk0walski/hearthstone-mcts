@@ -22,6 +22,10 @@ public class DefaultHero implements Hero {
     public static final int MAXIMUM_HAND_SIZE = 7;
     public static final int MAXIMUM_HEALTH_POINTS = 20;
     public static final int MAXIMUM_MANA_POINTS = 10;
+    public static final int INITIAL_HEALTH_POINTS = 20;
+    public static final int INITIAL_MANA_POINTS = 0;
+    public static final int INITIAL_PUNISH_FOR_EMPTY_DECK = 0;
+    public static final int INITIAL_ROUND_NUMBER = 0;
 
     private int health;
     private int mana;
@@ -36,14 +40,15 @@ public class DefaultHero implements Hero {
 
     public DefaultHero(Game game, List<Card> initialDeck, int initialHandSize) {
         this.game = game;
-        round = 0;
-        punishForEmptyDeck = 0;
+        round = INITIAL_ROUND_NUMBER;
+        punishForEmptyDeck = INITIAL_PUNISH_FOR_EMPTY_DECK;
         deck = initialDeck;
         initHand(initialHandSize - 1); //TODO verify whether -1 is correct
         board = new ArrayList<>();
         movesInRound = new ArrayList<>();
-        health = 20;
-        mana = 0;
+        availableMoves = new ArrayList<>();
+        health = INITIAL_HEALTH_POINTS;
+        mana = INITIAL_MANA_POINTS;
     }
 
     public void startRound() {
@@ -65,14 +70,16 @@ public class DefaultHero implements Hero {
     public boolean performMove(Move moveToDo) {
         if (availableMoves.contains(moveToDo)) {
             moveToDo.performMove();
+            movesInRound.add(moveToDo);
             generateAvailableMoves();
+            notifyIfDeadHero();
             return true;
         } else {
             return false;
         }
     }
 
-    private void generateAvailableMoves() {
+    public void generateAvailableMoves() {
         availableMoves = possibleMoves();
     }
 
@@ -121,10 +128,7 @@ public class DefaultHero implements Hero {
                 possibleMoves.addAll(addSpellMoves(cardInHandIndex));
         }
 
-        // TODO - remember to deactivate minion after usage and activateMinionsOnBoard it after round
-        // TODO - remember to remove minion after death
         // TODO - remember to remove spell after usage
-
 
         for (int cardOnBoardIndex = 0; cardOnBoardIndex < board.size(); cardOnBoardIndex++) {
             if (((Minion) board.get(cardOnBoardIndex)).isActive()) {
@@ -142,6 +146,13 @@ public class DefaultHero implements Hero {
      * Should be invoked after round.
      */
     public void endRound() {
+        if (game.getActiveHero() == null) {
+            return;
+        }
+        if (!(game.getActiveHero().equals(this))) {
+            throw new IllegalStateException("Only active hero can end round.");
+        }
+
         resetMovesInRound();
         notifyAboutRoundEnd();
     }
@@ -152,7 +163,7 @@ public class DefaultHero implements Hero {
     }
 
     public void receiveDamage(int damage) {
-        health -= damage;
+        health = health - damage;
         notifyIfDeadHero();
     }
 
@@ -208,7 +219,7 @@ public class DefaultHero implements Hero {
     private void pickCardFromDeck() {
         if (deck.isEmpty()) {
             punishForEmptyDeck++;
-            health =- punishForEmptyDeck;
+            health = health - punishForEmptyDeck;
             return;
         }
 
