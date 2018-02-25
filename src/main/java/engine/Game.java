@@ -85,16 +85,16 @@ public class Game {
     }
 
     private void initializeStandardHeroes() {
-        firstHero = new DefaultHero(this, generateStandardDeck(), 3);
+        firstHero = new DefaultHero(this, "First Hero", generateStandardDeck(), 3);
         assignCardsToHero(firstHero);
-        secondHero = new DefaultHero(this, generateStandardDeck(), 4);
+        secondHero = new DefaultHero(this, "Second Hero", generateStandardDeck(), 4);
         assignCardsToHero(secondHero);
     }
 
     private void initializeCustomHeroes(List<Card> firstHeroDeck, int firstHeroInitialHandSize, List<Card> secondHeroDeck, int secondHeroInitialHandSize) {
-        firstHero = new DefaultHero(this, firstHeroDeck, firstHeroInitialHandSize);
+        firstHero = new DefaultHero(this, "First Custom Hero", firstHeroDeck, firstHeroInitialHandSize);
         assignCardsToHero(firstHero);
-        secondHero = new DefaultHero(this, secondHeroDeck, secondHeroInitialHandSize);
+        secondHero = new DefaultHero(this, "Second Custom Hero", secondHeroDeck, secondHeroInitialHandSize);
         assignCardsToHero(secondHero);
     }
 

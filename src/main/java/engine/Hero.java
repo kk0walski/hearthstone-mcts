@@ -39,4 +39,6 @@ public interface Hero {
     List<Move> getMovesInRound();
 
     void endRound();
+
+    String getName();
 }

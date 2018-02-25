@@ -13,6 +13,7 @@ import static org.hamcrest.Matchers.*;
 
 import engine.moves.AttackHero;
 import engine.moves.AttackMinion;
+import engine.moves.EndRound;
 import engine.moves.PutCard;
 import org.junit.Test;
 
@@ -67,6 +68,8 @@ public class TestGameRunner {
         firstHero.startRound();
 
         Move putCardMove = new PutCard(0, firstHero, secondHero);
+        Move endFirstHeroRoundMove = new EndRound(firstHero);
+        Move endSecondHeroRoundMove = new EndRound(secondHero);
         // ---
 
         // --- THEN
@@ -79,8 +82,9 @@ public class TestGameRunner {
         assertThat(firstHero.isDead(), is(false));
         assertThat(firstHero.getMovesInRound(), is(empty()));
         assertThat(firstHero.getAvailableMoves(), is(not(empty())));
-        assertThat(firstHero.getAvailableMoves(), hasSize(1));
+        assertThat(firstHero.getAvailableMoves(), hasSize(2));
         assertThat(firstHero.getAvailableMoves().get(0), is(equalTo(putCardMove)));
+        assertThat(firstHero.getAvailableMoves().get(1), is(equalTo(endFirstHeroRoundMove)));
         // ---
 
         // --- WHEN --- PUT CARD
@@ -98,15 +102,18 @@ public class TestGameRunner {
         assertThat(firstHero.getHealth(), is(DefaultHero.INITIAL_HEALTH_POINTS));
         assertThat(firstHero.isDead(), is(false));
         assertThat(firstHero.getMovesInRound(), is(not(empty())));
-        assertThat(firstHero.getAvailableMoves(), is(empty()));
-        assertThat(firstHero.getAvailableMoves(), hasSize(0));
+        assertThat(firstHero.getAvailableMoves(), hasSize(1));
+        assertThat(firstHero.getAvailableMoves().get(0), is(equalTo(endFirstHeroRoundMove)));
 
         assertThat(secondHero.getHealth(), is(DefaultHero.INITIAL_HEALTH_POINTS));
         assertThat(secondHero.isDead(), is(false));
         // ---
 
         // --- WHEN --- ACTIVE HERO = FIRST HERO
-        firstHero.endRound();
+        // we can use firstHero.endRound(); or:
+
+        firstHero.performMove(firstHero.getAvailableMoves().get(0)); // END ROUND MOVE
+
         // --- ACTIVE HERO = SECOND HERO
 
         // --- THEN
@@ -133,7 +140,8 @@ public class TestGameRunner {
         assertThat(firstHero.getHealth(), is(DefaultHero.INITIAL_HEALTH_POINTS));
         assertThat(firstHero.isDead(), is(false));
         assertThat(firstHero.getMovesInRound(), is(empty()));
-        assertThat(firstHero.getAvailableMoves(), is(empty()));
+        assertThat(firstHero.getAvailableMoves(), hasSize(1));
+        assertThat(firstHero.getAvailableMoves(), contains(endFirstHeroRoundMove));
         // ---
 
         // --- WHEN
@@ -152,8 +160,9 @@ public class TestGameRunner {
         assertThat(secondHero.isDead(), is(false));
         assertThat(secondHero.getMovesInRound(), is(empty()));
         assertThat(secondHero.getAvailableMoves(), is(not(empty())));
-        assertThat(secondHero.getAvailableMoves(), hasSize(1));
+        assertThat(secondHero.getAvailableMoves(), hasSize(2));
         assertThat(secondHero.getAvailableMoves().get(0), is(equalTo(putCardMove)));
+        assertThat(secondHero.getAvailableMoves().get(1), is(equalTo(endSecondHeroRoundMove)));
         // ---
 
         // --- WHEN --- PUT CARD
@@ -171,15 +180,16 @@ public class TestGameRunner {
         assertThat(secondHero.getHealth(), is(DefaultHero.INITIAL_HEALTH_POINTS));
         assertThat(secondHero.isDead(), is(false));
         assertThat(secondHero.getMovesInRound(), is(not(empty())));
-        assertThat(secondHero.getAvailableMoves(), is(empty()));
-        assertThat(secondHero.getAvailableMoves(), hasSize(0));
+        assertThat(secondHero.getAvailableMoves(), hasSize(1));
+        assertThat(secondHero.getAvailableMoves(),contains(endSecondHeroRoundMove));
 
         assertThat(secondHero.getHealth(), is(DefaultHero.INITIAL_HEALTH_POINTS));
         assertThat(secondHero.isDead(), is(false));
         // ---
 
         // --- WHEN --- ACTIVE HERO = SECOND HERO
-        secondHero.endRound();
+        // WE CAN USE secondHero.endRound(); OR
+        secondHero.performMove(secondHero.getAvailableMoves().get(0)); // END ROUND MOVE
         // --- ACTIVE HERO = FIRST HERO
 
         // --- THEN
@@ -205,8 +215,8 @@ public class TestGameRunner {
         assertThat(firstHero.isDead(), is(false));
         assertThat(firstHero.getMovesInRound(), is(empty()));
         assertThat(firstHero.getAvailableMoves(), is(not(empty())));
-        assertThat(firstHero.getAvailableMoves(), hasSize(3));
-        assertThat(firstHero.getAvailableMoves(), contains(putCardMove, attackHeroMove, attackMinionMove));
+        assertThat(firstHero.getAvailableMoves(), hasSize(4));
+        assertThat(firstHero.getAvailableMoves(), contains(putCardMove, attackHeroMove, attackMinionMove, endFirstHeroRoundMove));
         // ---
 
         // --- WHEN --- ATTACK HERO
@@ -223,8 +233,8 @@ public class TestGameRunner {
         assertThat(firstHero.getMovesInRound(), is(not(empty())));
         assertThat(firstHero.getMovesInRound(), contains(attackHeroMove));
         assertThat(firstHero.getAvailableMoves(), is(not(empty())));
-        assertThat(firstHero.getAvailableMoves(), hasSize(1));
-        assertThat(firstHero.getAvailableMoves(), contains(putCardMove));
+        assertThat(firstHero.getAvailableMoves(), hasSize(2));
+        assertThat(firstHero.getAvailableMoves(), contains(putCardMove, endFirstHeroRoundMove));
         int attack_value = ((Minion)
                 ((AttackHero) attackHeroMove).getBoard()
                         .get(
@@ -237,7 +247,8 @@ public class TestGameRunner {
         // ---
 
         // --- WHEN --- ACTIVE HERO = FIRST HERO
-        firstHero.endRound();
+        firstHero.performMove(firstHero.getAvailableMoves().get(1)); // END ROUND MOVE
+        // firstHero.endRound();
         // --- ACTIVE HERO = SECOND HERO
         // --- ATTACK MINION
         secondHero.startRound();
@@ -264,10 +275,10 @@ public class TestGameRunner {
         assertThat(firstHero.isDead(), is(false));
         assertThat(firstHero.getMovesInRound(), is(empty()));
         assertThat(firstHero.getAvailableMoves(), is(not(empty())));
-        assertThat(firstHero.getAvailableMoves(), hasSize(1));
+        assertThat(firstHero.getAvailableMoves(), hasSize(2));
 
         // ---
-        firstHero.endRound();
+        firstHero.performMove(endFirstHeroRoundMove);
 
 
         secondHero.startRound();
@@ -276,13 +287,13 @@ public class TestGameRunner {
 
         while (!(testGame.isGameOver())) {
             firstHero.startRound();
-            firstHero.endRound();
+            firstHero.performMove(endFirstHeroRoundMove);
             secondHero.startRound();
             secondHero.performMove(secondHero.getAvailableMoves().get(1));
-            secondHero.endRound();
+            secondHero.performMove(endSecondHeroRoundMove);
         }
 
-        System.out.println("The winner is " + testGame.getWinner());
+        System.out.println("The winner is " + testGame.getWinner().getName());
     }
 
     private List<Card> generateShuffledDeckWithSingleCard(Card card) {

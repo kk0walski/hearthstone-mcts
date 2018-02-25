@@ -9,10 +9,7 @@ import engine.cards.Spell;
 import engine.cards.spells.DeadlyShot;
 import engine.cards.spells.Fireball;
 import engine.cards.spells.HealingTouch;
-import engine.moves.AttackHero;
-import engine.moves.AttackMinion;
-import engine.moves.PutCard;
-import engine.moves.UseSpell;
+import engine.moves.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +24,7 @@ public class DefaultHero implements Hero {
     public static final int INITIAL_PUNISH_FOR_EMPTY_DECK = 0;
     public static final int INITIAL_ROUND_NUMBER = 0;
 
+    private String name;
     private int health;
     private int mana;
     private int round;
@@ -38,8 +36,9 @@ public class DefaultHero implements Hero {
     private Game game;
     private List<Move> availableMoves;
 
-    public DefaultHero(Game game, List<Card> initialDeck, int initialHandSize) {
+    public DefaultHero(Game game, String name, List<Card> initialDeck, int initialHandSize) {
         this.game = game;
+        this.name = name;
         round = INITIAL_ROUND_NUMBER;
         punishForEmptyDeck = INITIAL_PUNISH_FOR_EMPTY_DECK;
         deck = initialDeck;
@@ -69,6 +68,10 @@ public class DefaultHero implements Hero {
      */
     public boolean performMove(Move moveToDo) {
         if (availableMoves.contains(moveToDo)) {
+            if (moveToDo instanceof EndRound) {
+                endRound();
+              return true;
+            }
             moveToDo.performMove();
             movesInRound.add(moveToDo);
             generateAvailableMoves();
@@ -138,6 +141,8 @@ public class DefaultHero implements Hero {
                 }
             }
         }
+
+        possibleMoves.add(new EndRound(this));
 
         return possibleMoves;
     }
@@ -311,4 +316,11 @@ public class DefaultHero implements Hero {
         this.availableMoves = availableMoves;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
