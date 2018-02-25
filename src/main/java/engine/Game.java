@@ -28,6 +28,12 @@ public class Game {
         setGameOver(false);
     }
 
+    public void initializeAndStartCustomGame(List<Card> firstHeroDeck, int firstHeroInitialHandSize, List<Card> secondHeroDeck, int secondHeroInitialHandSize) {
+        initializeCustomHeroes(firstHeroDeck, firstHeroInitialHandSize,secondHeroDeck, secondHeroInitialHandSize);
+        setActiveHero(firstHero);
+        setGameOver(false);
+    }
+
     public void switchActiveHero() {
         if (activeHero == null) {
             return;
@@ -82,6 +88,13 @@ public class Game {
         firstHero = new DefaultHero(this, generateStandardDeck(), 3);
         assignCardsToHero(firstHero);
         secondHero = new DefaultHero(this, generateStandardDeck(), 4);
+        assignCardsToHero(secondHero);
+    }
+
+    private void initializeCustomHeroes(List<Card> firstHeroDeck, int firstHeroInitialHandSize, List<Card> secondHeroDeck, int secondHeroInitialHandSize) {
+        firstHero = new DefaultHero(this, firstHeroDeck, firstHeroInitialHandSize);
+        assignCardsToHero(firstHero);
+        secondHero = new DefaultHero(this, secondHeroDeck, secondHeroInitialHandSize);
         assignCardsToHero(secondHero);
     }
 

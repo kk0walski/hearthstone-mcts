@@ -22,6 +22,7 @@ public class DefaultHero implements Hero {
     public static final int MAXIMUM_HAND_SIZE = 7;
     public static final int MAXIMUM_HEALTH_POINTS = 20;
     public static final int MAXIMUM_MANA_POINTS = 10;
+
     private int health;
     private int mana;
     private int round;
@@ -31,13 +32,12 @@ public class DefaultHero implements Hero {
     private List<Card> board;
     private List<Move> movesInRound;
     private Game game;
-    private int punishment;
     private List<Move> availableMoves;
 
     public DefaultHero(Game game, List<Card> initialDeck, int initialHandSize) {
         this.game = game;
         round = 0;
-        punishment = 0;
+        punishForEmptyDeck = 0;
         deck = initialDeck;
         initHand(initialHandSize - 1); //TODO verify whether -1 is correct
         board = new ArrayList<>();
@@ -193,9 +193,8 @@ public class DefaultHero implements Hero {
     @Override
     public void increaseHealth(int value) {
         health += value;
-
         if (health > MAXIMUM_HEALTH_POINTS)
-            health = 20;
+            health = MAXIMUM_HEALTH_POINTS;
     }
 
 
@@ -209,7 +208,7 @@ public class DefaultHero implements Hero {
     private void pickCardFromDeck() {
         if (deck.isEmpty()) {
             punishForEmptyDeck++;
-            health = -punishForEmptyDeck;
+            health =- punishForEmptyDeck;
             return;
         }
 
