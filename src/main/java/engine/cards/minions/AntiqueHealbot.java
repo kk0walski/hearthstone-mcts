@@ -1,8 +1,6 @@
 package engine.cards.minions;
 
 import engine.cards.Minion;
-import engine.cards.abilities.Battlecry;
-import engine.cards.abilities.BattlecryDealDamageToSelfHero;
 import engine.cards.abilities.BattlecryHealSelfHero;
 
 public class AntiqueHealbot extends Minion {
@@ -11,7 +9,8 @@ public class AntiqueHealbot extends Minion {
         setAttack(2);
         setCost(2);
         setHealth(4);
-        setName("Vulgar Homunculus");
+        setBaseHealth(4);
+        setName("Antique Healbot");
         setAbility(new BattlecryHealSelfHero());
     }
 }

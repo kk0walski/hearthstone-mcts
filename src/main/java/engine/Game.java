@@ -8,11 +8,13 @@ import java.util.List;
 /**
  * We assume that when unique instance is necessary, we return deep copy
  * and we assume that in every place where copy is expected, we receive a copy, not an original object.
- *
+ * <p>
  * For example - standard deck generator should return deep copy of registered cards, so we do not make copy of
  * returned deck on our own but we use the returned collection, because we expect it to be a copy.
  */
 public class Game {
+
+    public static final int MAXIMUM_CARDS_ON_BOARD = 10;
 
     private Hero firstHero;
     private Hero secondHero;
@@ -20,19 +22,18 @@ public class Game {
     private boolean isGameOver;
     private Hero winner;
 
-    public void initializeStandardBoard() {
-    	initializeFirstHero(generateStandardDeck(), 3);
-    	initializeSecondHero(generateStandardDeck(), 4);
+    public void initializeAndStartStandardGame() {
+        initializeStandardHeroes();
         setActiveHero(firstHero);
         setGameOver(false);
     }
 
     public void switchActiveHero() {
-        if(activeHero == null) {
+        if (activeHero == null) {
             return;
         }
 
-        if(activeHero.equals(firstHero)) {
+        if (activeHero.equals(firstHero)) {
             activeHero = secondHero;
         } else {
             activeHero = firstHero;
@@ -40,9 +41,9 @@ public class Game {
     }
 
     public void checkForGameEnd() {
-        if(firstHero.isDead()) {
+        if (firstHero.isDead()) {
             endWithWinner(secondHero);
-        } else if(secondHero.isDead()) {
+        } else if (secondHero.isDead()) {
             endWithWinner(firstHero);
         }
     }
@@ -70,28 +71,22 @@ public class Game {
     }
 
     public Hero getEnemyOf(Hero hero) {
-        if(hero.equals(firstHero)) {
+        if (hero.equals(firstHero)) {
             return secondHero;
         } else {
             return firstHero;
         }
     }
 
-    private void initializeDefaultHero(Hero hero, List<Card> initialDeck, int initialHandSize) {
-        hero = new DefaultHero(this, initialDeck, initialHandSize);
-        assignCardsToHero(hero);
+    private void initializeStandardHeroes() {
+        firstHero = new DefaultHero(this, generateStandardDeck(), 3);
+        assignCardsToHero(firstHero);
+        secondHero = new DefaultHero(this, generateStandardDeck(), 4);
+        assignCardsToHero(secondHero);
     }
 
     private void assignCardsToHero(Hero hero) {
         hero.getDeck().forEach(card -> card.setOwner(hero));
-    }
-    private void initializeFirstHero(List<Card> initialDeck, int initialHandSize) {
-        firstHero = new DefaultHero(this, initialDeck, initialHandSize);
-        assignCardsToHero(firstHero);
-    }
-
-    private void initializeSecondHero(List<Card> initialDeck, int initialHandSize) {
-        secondHero = new DefaultHero(this, initialDeck, initialHandSize);
     }
 
     private List<Card> generateStandardDeck() {

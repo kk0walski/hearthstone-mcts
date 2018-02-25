@@ -1,13 +1,7 @@
 package engine.cards;
 
 import engine.Card;
-import engine.cards.minions.Alleycat;
-import engine.cards.minions.AntiqueHealbot;
-import engine.cards.minions.LordOfTheArena;
-import engine.cards.minions.MassiveGnoll;
-import engine.cards.minions.RiverCrocolisk;
-import engine.cards.minions.Tabbycat;
-import engine.cards.minions.Treant;
+import engine.cards.minions.*;
 import engine.cards.spells.DeadlyShot;
 import engine.cards.spells.Fireball;
 import engine.cards.spells.HealingTouch;
@@ -30,7 +24,7 @@ public class CardsHelper {
      * @return shuffled copy of registeredStandardDeck
      */
     public static List<Card> generateStandardDeck() {
-        if(registeredStandardDeck == null) {
+        if (registeredStandardDeck == null) {
             registerStandardDeck();
         }
 
@@ -42,6 +36,7 @@ public class CardsHelper {
 
     /**
      * Shuffles deck. Works on original object.
+     *
      * @param cards cards
      * @return original shuffled cards
      */
@@ -72,13 +67,11 @@ public class CardsHelper {
         registerCard(registeredStandardDeck, new AntiqueHealbot());
         registerCard(registeredStandardDeck, new RiverCrocolisk());
         registerCard(registeredStandardDeck, new Treant());
-        // TODO add all cards here
-        
-        
+
         registerCard(registeredStandardDeck, new HealingTouch());
         registerCard(registeredStandardDeck, new DeadlyShot());
         registerCard(registeredStandardDeck, new Fireball());
-       
+
     }
 
     private static void registerCard(List<Card> deck, Card card) {

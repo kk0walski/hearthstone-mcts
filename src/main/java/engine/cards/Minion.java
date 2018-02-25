@@ -16,17 +16,18 @@ public class Minion implements Card {
 
     /**
      * Does NOT copy whole owner object, only reference.
+     *
      * @return copy of minion
      */
     @Override
     public Card deepCopy() {
-        Minion copy=null;
-		try {
-			copy = this.getClass().newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        Minion copy = null;
+
+        try {
+            copy = this.getClass().newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
         copy.setName(name);
         copy.setCost(cost);
@@ -40,12 +41,12 @@ public class Minion implements Card {
     }
 
     @Override
-    public void doAction(Hero owner, Hero enemy, Hero tergetHero, Minion targetMinion) {
+    public void doAction(Hero owner, Hero enemy, Hero targetHero, Minion targetMinion) {
         // blank default action for minion
     }
-    public void desactivate()
-    {
-    	active=false;
+
+    public void deactivate() {
+        active = false;
     }
 
     public void attack(Hero enemyHero) {
@@ -57,19 +58,18 @@ public class Minion implements Card {
     }
 
     public void receiveDamage(int damage) {
-        health-=damage;
+        health -= damage;
         notifyHeroIfDeadMinion();
     }
 
-    public void increaseHealth(int hm)
-    {
-    	health+=hm;
-    	if(health>baseHealth)
-    		health=baseHealth;
+    public void increaseHealth(int hm) {
+        health += hm;
+        if (health > baseHealth)
+            health = baseHealth;
     }
-    
+
     public void notifyHeroIfDeadMinion() {
-        if(isDead()) {
+        if (isDead()) {
             owner.deadMinionNotification(this);
         }
     }
@@ -150,19 +150,19 @@ public class Minion implements Card {
         return result;
     }
 
-	public int getBaseHealth() {
-		return baseHealth;
-	}
+    public int getBaseHealth() {
+        return baseHealth;
+    }
 
-	public void setBaseHealth(int baseHealth) {
-		this.baseHealth = baseHealth;
-	}
+    public void setBaseHealth(int baseHealth) {
+        this.baseHealth = baseHealth;
+    }
 
-	public boolean isActive() {
-		return active;
-	}
+    public boolean isActive() {
+        return active;
+    }
 
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

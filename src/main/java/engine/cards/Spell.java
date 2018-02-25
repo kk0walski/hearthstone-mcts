@@ -8,21 +8,20 @@ public class Spell implements Card {
     private String name;
     private int cost;
     private Hero owner;
-    
 
     /**
      * Does NOT copy whole owner object, only reference.
+     *
      * @return copy of spell
      */
     @Override
     public Card deepCopy() {
-        Spell copy=null;
-		try {
-			copy = this.getClass().newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        Spell copy = null;
+        try {
+            copy = this.getClass().newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
         copy.setName(name);
         copy.setCost(cost);
@@ -32,7 +31,7 @@ public class Spell implements Card {
     }
 
     @Override
-    public void doAction(Hero owner, Hero enemy, Hero tergetHero, Minion targetMiniony) {
+    public void doAction(Hero owner, Hero enemy, Hero targetHero, Minion targetMiniony) {
         // blank default action for spell
     }
 

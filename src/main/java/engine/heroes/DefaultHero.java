@@ -19,6 +19,9 @@ import java.util.List;
 
 public class DefaultHero implements Hero {
 
+    public static final int MAXIMUM_HAND_SIZE = 7;
+    public static final int MAXIMUM_HEALTH_POINTS = 20;
+    public static final int MAXIMUM_MANA_POINTS = 10;
     private int health;
     private int mana;
     private int round;
@@ -29,121 +32,115 @@ public class DefaultHero implements Hero {
     private List<Move> movesInRound;
     private Game game;
     private int punishment;
-    private List<Move> avaliableMoves;
-    
+    private List<Move> availableMoves;
+
     public DefaultHero(Game game, List<Card> initialDeck, int initialHandSize) {
         this.game = game;
         round = 0;
-        punishment=0;
+        punishment = 0;
         deck = initialDeck;
-        initHand(initialHandSize-1);
+        initHand(initialHandSize - 1); //TODO verify whether -1 is correct
         board = new ArrayList<>();
         movesInRound = new ArrayList<>();
         health = 20;
-        mana = 40;
+        mana = 0;
     }
 
     public void startRound() {
-    	activate();
+        activateMinionsOnBoard();
         increaseMana();
         pickCardFromDeck();
         notifyIfDeadHero();
-        generateAvaliableMoves();
+        generateAvailableMoves();
     }
 
-    private void activate() {
-		for(Card c:board)
-			((Minion) c).setActive(true);
-		
-	}
+    private void activateMinionsOnBoard() {
+        for (Card c : board)
+            ((Minion) c).setActive(true);
+    }
 
-	/**
+    /**
      * Depending on implementation - this method may contain AI algorithm, user's actions or hardcoded action.
-     * Default hero does nothing. :) useless boy
      */
-    public boolean performMove(Move toDo) {
-    	if(avaliableMoves.contains(toDo))
-    	{
-    		toDo.performMove();
-    		generateAvaliableMoves();
-    		return true;
-    	}
-    	else
-    	{
-    		return false;
-    	}
+    public boolean performMove(Move moveToDo) {
+        if (availableMoves.contains(moveToDo)) {
+            moveToDo.performMove();
+            generateAvailableMoves();
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    private void generateAvaliableMoves()
-    {
-    	avaliableMoves=possibleMoves();
+    private void generateAvailableMoves() {
+        availableMoves = possibleMoves();
     }
-    
-    private  List<Move> addSpellMoves(int index)
-    {
-    	 List<Move> res= new ArrayList<>();
-    	 Spell spell=(Spell) hand.get(index);
-    	 Hero enymy=game.getEnemyOf(this);
-    	if(spell instanceof Fireball) {
-    		
-    		List<Card> cards=enymy.getBoard();
-    		for(Card card:cards)
-    		{
-    			res.add(new UseSpell(index, this, enymy, (Minion) card, null)); 
-    		}
-    		res.add(new UseSpell(index, this, enymy, null, enymy)); 
-    	}
-    	
-  	  	if(spell instanceof HealingTouch)
-  	  	{
-  	  		for(Card card:board)
-  	  		{
-  	  			res.add(new UseSpell(index, this, enymy, (Minion) card, null)); 
-  	  		}
-  	  		res.add(new UseSpell(index, this, enymy, null, this)); 
-  	  	}
-  	  	
-  	  	if(spell instanceof DeadlyShot)
-  	  	{
-  	  		if(enymy.getBoard().size()>0)
-  	  			res.add(new UseSpell(index, this, enymy, null, null)); 
-	  		
-	  	}
-  	  	return res;
+
+    private List<Move> addSpellMoves(int cardInHandIndex) {
+        List<Move> resultMovesList = new ArrayList<>();
+        Spell spell = (Spell) hand.get(cardInHandIndex);
+        Hero enemy = game.getEnemyOf(this);
+
+        if (spell instanceof Fireball) {
+            List<Card> enemyBoard = enemy.getBoard();
+
+            for (Card enemyCard : enemyBoard) {
+                resultMovesList.add(new UseSpell(cardInHandIndex, this, enemy, (Minion) enemyCard, null));
+            }
+
+            resultMovesList.add(new UseSpell(cardInHandIndex, this, enemy, null, enemy));
+        }
+
+        if (spell instanceof HealingTouch) {
+            for (Card card : board) {
+                resultMovesList.add(new UseSpell(cardInHandIndex, this, enemy, (Minion) card, null));
+            }
+            resultMovesList.add(new UseSpell(cardInHandIndex, this, enemy, null, this));
+        }
+
+        if (spell instanceof DeadlyShot) {
+            if (enemy.getBoard().size() > 0)
+                resultMovesList.add(new UseSpell(cardInHandIndex, this, enemy, null, null));
+
+        }
+        return resultMovesList;
     }
-    
+
     /**
      * Returns list of all possible moves for hero at the moment, keeping the mana constraints.
      */
     public List<Move> possibleMoves() {
         List<Move> possibleMoves = new ArrayList<>();
 
-        for(int cardInHandIndex=0; cardInHandIndex<hand.size(); cardInHandIndex++) {
-            if(hand.get(cardInHandIndex).getCost() <= mana && hand.get(cardInHandIndex) instanceof Minion) {
-                possibleMoves.add(new PutCard(cardInHandIndex, this,  game.getEnemyOf(this)));
+        for (int cardInHandIndex = 0; cardInHandIndex < hand.size(); cardInHandIndex++) {
+            if (hand.get(cardInHandIndex).getCost() <= mana && hand.get(cardInHandIndex) instanceof Minion) {
+                possibleMoves.add(new PutCard(cardInHandIndex, this, game.getEnemyOf(this)));
             }
-            if(hand.get(cardInHandIndex).getCost() <= mana && hand.get(cardInHandIndex) instanceof Spell)
-            	possibleMoves.addAll(addSpellMoves(cardInHandIndex));
+
+            if (hand.get(cardInHandIndex).getCost() <= mana && hand.get(cardInHandIndex) instanceof Spell)
+                possibleMoves.addAll(addSpellMoves(cardInHandIndex));
         }
 
-        // TODO - verify if performing attack should not use mana
-        // TODO - remember to deactivate minion after usage and activate it after round
+        // TODO - remember to deactivate minion after usage and activateMinionsOnBoard it after round
         // TODO - remember to remove minion after death
         // TODO - remember to remove spell after usage
 
 
-        for(int cardOnBoardIndex=0; cardOnBoardIndex<board.size(); cardOnBoardIndex++) {
-        	if(((Minion) board.get(cardOnBoardIndex)).isActive()) {
-        		possibleMoves.add(new AttackHero(cardOnBoardIndex, board, game.getEnemyOf(this)));
-        		for(int cardOnEnemyBoardIndex=0; cardOnEnemyBoardIndex<game.getEnemyOf(this).getBoard().size(); cardOnEnemyBoardIndex++) {
-        			possibleMoves.add(new AttackMinion(cardOnBoardIndex, board, game.getEnemyOf(this).getBoard().get(cardOnEnemyBoardIndex)));
-        		}
-        	}
+        for (int cardOnBoardIndex = 0; cardOnBoardIndex < board.size(); cardOnBoardIndex++) {
+            if (((Minion) board.get(cardOnBoardIndex)).isActive()) {
+                possibleMoves.add(new AttackHero(cardOnBoardIndex, board, game.getEnemyOf(this)));
+                for (int cardOnEnemyBoardIndex = 0; cardOnEnemyBoardIndex < game.getEnemyOf(this).getBoard().size(); cardOnEnemyBoardIndex++) {
+                    possibleMoves.add(new AttackMinion(cardOnBoardIndex, board, game.getEnemyOf(this).getBoard().get(cardOnEnemyBoardIndex)));
+                }
+            }
         }
 
         return possibleMoves;
     }
 
+    /**
+     * Should be invoked after round.
+     */
     public void endRound() {
         resetMovesInRound();
         notifyAboutRoundEnd();
@@ -155,12 +152,12 @@ public class DefaultHero implements Hero {
     }
 
     public void receiveDamage(int damage) {
-        health-=damage;
+        health -= damage;
         notifyIfDeadHero();
     }
 
     private void notifyIfDeadHero() {
-        if(isDead()) {
+        if (isDead()) {
             notifyAboutDeadHero();
         }
     }
@@ -183,42 +180,40 @@ public class DefaultHero implements Hero {
 
 
     private void increaseMana() {
-        if(mana<10) {
+        if (mana < MAXIMUM_MANA_POINTS) {
             mana++;
         }
     }
+
     @Override
-	public void manaDecrease(int hm) {
-		if(mana>=hm)
-			mana-=hm;
-		
-	}
-    
+    public void decreaseMana(int value) {
+        mana -= value;
+    }
+
     @Override
-	public void increaseHealth(int hm) {
-		health+=hm;
-		if(health>20)
-			health=20;
-		
-	}
+    public void increaseHealth(int value) {
+        health += value;
+
+        if (health > MAXIMUM_HEALTH_POINTS)
+            health = 20;
+    }
 
 
     private void initHand(int initialHandSize) {
         hand = new ArrayList<>();
-        for(int i=0; i<initialHandSize; i++) {
+        for (int i = 0; i < initialHandSize; i++) {
             pickCardFromDeck();
         }
     }
 
     private void pickCardFromDeck() {
-        // TODO verify impl
-        if(deck.isEmpty()) {
+        if (deck.isEmpty()) {
             punishForEmptyDeck++;
-            health=-punishForEmptyDeck; // TODO verify whether =- is correct
+            health = -punishForEmptyDeck;
             return;
         }
 
-        if(hand.size() == 7) {
+        if (hand.size() == MAXIMUM_HAND_SIZE) {
             return;
         }
 
@@ -298,12 +293,12 @@ public class DefaultHero implements Hero {
         this.game = game;
     }
 
-	public List<Move> getAvaliableMoves() {
-		return avaliableMoves;
-	}
+    public List<Move> getAvailableMoves() {
+        return availableMoves;
+    }
 
-	public void setAvaliableMoves(List<Move> avaliableMoves) {
-		this.avaliableMoves = avaliableMoves;
-	}
+    public void setAvailableMoves(List<Move> availableMoves) {
+        this.availableMoves = availableMoves;
+    }
 
 }

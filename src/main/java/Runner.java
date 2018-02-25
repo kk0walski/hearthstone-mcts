@@ -1,21 +1,18 @@
 import engine.Game;
 import engine.Hero;
-import engine.moves.AttackHero;
-import engine.moves.PutCard;
 import engine.moves.UseSpell;
 
 public class Runner {
 
     public static void main(String[] args) {
-    Game g=new Game();
-    g.initializeStandardBoard();
-    Hero h=g.getActiveHero();
-    h.startRound();
-    System.out.println(h.performMove(new UseSpell(0, h,g.getEnemyOf(h),null,g.getEnemyOf(h))));
-    System.out.println(h.performMove(new UseSpell(1, h,g.getEnemyOf(h),null,g.getEnemyOf(h))));
-    System.out.println(h.performMove(new UseSpell(2, h,g.getEnemyOf(h),null,g.getEnemyOf(h))));
-    
-    System.out.println();
+        Game game = new Game();
+        game.initializeAndStartStandardGame();
+        Hero hero = game.getActiveHero();
+        hero.startRound();
+        System.out.println(hero.performMove(new UseSpell(0, hero, game.getEnemyOf(hero), null, game.getEnemyOf(hero))));
+        System.out.println(hero.performMove(new UseSpell(1, hero, game.getEnemyOf(hero), null, game.getEnemyOf(hero))));
+        System.out.println(hero.performMove(new UseSpell(2, hero, game.getEnemyOf(hero), null, game.getEnemyOf(hero))));
 
+        System.out.println();
     }
 }

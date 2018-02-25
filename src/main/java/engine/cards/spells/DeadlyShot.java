@@ -17,12 +17,12 @@ public class DeadlyShot extends Spell {
         setCost(3);
         setName("Deadly Shot");
     }
-    
+
     @Override
-    public void doAction(Hero owner, Hero enemy, Hero tergetHero, Minion targetMinion) {
-        Random r =new Random();
-        Minion toDestroy=(Minion) enemy.getBoard().get(r.nextInt( enemy.getBoard().size()));
+    public void doAction(Hero owner, Hero enemy, Hero targetHero, Minion targetMinion) {
+        Random r = new Random();
+        Minion toDestroy = (Minion) enemy.getBoard().get(r.nextInt(enemy.getBoard().size()));
         toDestroy.receiveDamage(toDestroy.getHealth());
     }
-    
+
 }

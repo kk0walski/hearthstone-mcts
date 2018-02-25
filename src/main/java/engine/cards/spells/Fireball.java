@@ -5,24 +5,24 @@ import engine.cards.Minion;
 import engine.cards.Spell;
 
 /**
- * Deal 1 damage.
+ * Deal x damage.
  */
 public class Fireball extends Spell {
+
+    public static final int DAMAGE_TO_DEAL = 4;
 
     public Fireball() {
         setCost(4);
         setName("Fireball");
     }
-    
+
     @Override
-    public void doAction(Hero owner, Hero enemy, Hero tergetHero, Minion targetMinion) {
-        if(tergetHero!=null)
-        {
-        	tergetHero.receiveDamage(8);
+    public void doAction(Hero owner, Hero enemy, Hero targetHero, Minion targetMinion) {
+        if (targetHero != null) {
+            targetHero.receiveDamage(DAMAGE_TO_DEAL);
         }
-        if(targetMinion!=null)
-        {
-        	targetMinion.receiveDamage(8);
+        if (targetMinion != null) {
+            targetMinion.receiveDamage(DAMAGE_TO_DEAL);
         }
     }
 }

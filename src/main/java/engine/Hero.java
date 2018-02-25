@@ -7,16 +7,24 @@ import java.util.List;
 public interface Hero {
 
     boolean isDead();
-    boolean performMove(Move toDO);
+
+    boolean performMove(Move moveToDo);
+
     void receiveDamage(int damage);
+
     List<Card> getBoard();
+
     List<Card> getDeck();
+
     void deadMinionNotification(Minion minion);
-	int getHealth();
-	void setHealth(int i);
-	List<Card> getHand();
-	int getMana();
-	void manaDecrease(int hm);
-	void increaseHealth(int hm);
-	void startRound();
+
+    List<Card> getHand();
+
+    int getMana();
+
+    void decreaseMana(int value);
+
+    void increaseHealth(int value);
+
+    void startRound();
 }

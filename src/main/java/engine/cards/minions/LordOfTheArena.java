@@ -8,6 +8,7 @@ public class LordOfTheArena extends Minion {
         setAttack(6);
         setCost(6);
         setHealth(5);
+        setBaseHealth(5);
         setName("Lord of the Arena");
     }
 }

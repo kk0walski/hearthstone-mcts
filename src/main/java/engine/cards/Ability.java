@@ -5,6 +5,5 @@ import engine.Hero;
 import engine.heroes.DefaultHero;
 
 public interface Ability {
-	public void performAbility(Hero self,Hero enymy);
-	
+    void performAbility(Hero self, Hero enemy);
 }

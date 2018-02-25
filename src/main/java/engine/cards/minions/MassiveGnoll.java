@@ -8,6 +8,7 @@ public class MassiveGnoll extends Minion {
         setAttack(5);
         setCost(4);
         setHealth(2);
+        setBaseHealth(2);
         setName("Massive Gnoll");
     }
 

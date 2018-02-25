@@ -8,6 +8,7 @@ public class Treant extends Minion {
         setAttack(2);
         setCost(2);
         setHealth(2);
+        setBaseHealth(2);
         setName("Treant");
     }
 
