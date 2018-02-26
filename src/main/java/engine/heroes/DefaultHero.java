@@ -19,8 +19,8 @@ public class DefaultHero implements Hero {
     public static final int MAXIMUM_HAND_SIZE = 7;
     public static final int MAXIMUM_HEALTH_POINTS = 20;
     public static final int MAXIMUM_MANA_POINTS = 10;
-    public static final int INITIAL_HEALTH_POINTS = 20;
-    public static final int INITIAL_MANA_POINTS = 0;
+    public static final int INITIAL_HEALTH_POINTS = 1;
+    public static final int INITIAL_MANA_POINTS = 40;
     public static final int INITIAL_PUNISH_FOR_EMPTY_DECK = 0;
     public static final int INITIAL_ROUND_NUMBER = 0;
 
@@ -233,6 +233,7 @@ public class DefaultHero implements Hero {
         }
 
         hand.add(deck.get(0));
+        hand.get(hand.size()-1).setOwner(this);
         deck.remove(deck.get(0)); // TODO - may produce NPE on line above because i'm not sure whether after remove from deck it will change indexes
     }
 
@@ -323,4 +324,6 @@ public class DefaultHero implements Hero {
     public void setName(String name) {
         this.name = name;
     }
+
+    
 }

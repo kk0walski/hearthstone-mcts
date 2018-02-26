@@ -44,6 +44,7 @@ public class Game {
         } else {
             activeHero = firstHero;
         }
+        activeHero.startRound();
     }
 
     public void checkForGameEnd() {
@@ -77,7 +78,7 @@ public class Game {
     }
 
     public Hero getEnemyOf(Hero hero) {
-        if (hero.equals(firstHero)) {
+        if (hero==firstHero) { //celowo porownanie ref
             return secondHero;
         } else {
             return firstHero;

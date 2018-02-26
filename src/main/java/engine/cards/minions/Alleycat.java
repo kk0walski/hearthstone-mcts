@@ -1,5 +1,6 @@
 package engine.cards.minions;
 
+import engine.Hero;
 import engine.cards.Minion;
 import engine.cards.abilities.BattleCrySummonTabbycat;
 
