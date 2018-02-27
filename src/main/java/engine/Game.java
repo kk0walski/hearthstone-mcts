@@ -29,7 +29,7 @@ public class Game {
     }
 
     public void initializeAndStartCustomGame(List<Card> firstHeroDeck, int firstHeroInitialHandSize, List<Card> secondHeroDeck, int secondHeroInitialHandSize) {
-        initializeCustomHeroes(firstHeroDeck, firstHeroInitialHandSize,secondHeroDeck, secondHeroInitialHandSize);
+        initializeCustomHeroes(firstHeroDeck, firstHeroInitialHandSize, secondHeroDeck, secondHeroInitialHandSize);
         setActiveHero(firstHero);
         setGameOver(false);
     }
@@ -78,7 +78,7 @@ public class Game {
     }
 
     public Hero getEnemyOf(Hero hero) {
-        if (hero==firstHero) { //celowo porownanie ref
+        if (hero == firstHero) { //celowo porownanie ref
             return secondHero;
         } else {
             return firstHero;

@@ -17,7 +17,7 @@ public class EndRound implements Move {
 
     @Override
     public void performMove() {
-    	self.endRound();
+        self.endRound();
     }
 
     @Override

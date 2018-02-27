@@ -70,7 +70,7 @@ public class DefaultHero implements Hero {
         if (availableMoves.contains(moveToDo)) {
             if (moveToDo instanceof EndRound) {
                 endRound();
-              return true;
+                return true;
             }
             moveToDo.performMove();
             movesInRound.add(moveToDo);
@@ -183,7 +183,7 @@ public class DefaultHero implements Hero {
     }
 
     private void resetMovesInRound() {
-        movesInRound.removeAll(movesInRound); // TODO verify whether x.removeAll(x) is correct
+        movesInRound.removeAll(movesInRound);
     }
 
     private void notifyAboutDeadHero() {
@@ -233,8 +233,8 @@ public class DefaultHero implements Hero {
         }
 
         hand.add(deck.get(0));
-        hand.get(hand.size()-1).setOwner(this);
-        deck.remove(deck.get(0)); // TODO - may produce NPE on line above because i'm not sure whether after remove from deck it will change indexes
+        hand.get(hand.size() - 1).setOwner(this);
+        deck.remove(deck.get(0));
     }
 
     public int getHealth() {
@@ -325,5 +325,5 @@ public class DefaultHero implements Hero {
         this.name = name;
     }
 
-    
+
 }
