@@ -1,15 +1,18 @@
 package gui;
 
 import java.util.List;
-
+import java.util.Scanner;
 import engine.Card;
 import engine.Game;
 import engine.Move;
+import engine.cards.CardsHelper;
 import engine.cards.Minion;
 import engine.cards.Spell;
+import engine.cards.minions.Tabbycat;
 import engine.cards.spells.DeadlyShot;
 import engine.cards.spells.Fireball;
 import engine.cards.spells.HealingTouch;
+import engine.heroes.HeuristicHero;
 import engine.moves.AttackHero;
 import engine.moves.AttackMinion;
 import engine.moves.EndRound;

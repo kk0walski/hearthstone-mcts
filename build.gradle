@@ -9,6 +9,8 @@ repositories {
     mavenCentral()
 }
 dependencies {
+    runtime files(org.gradle.internal.jvm.Jvm.current().toolsJar)
+
     testCompile("junit:junit:4.12") {
         exclude group: 'org.hamcrest', module: 'hamcrest-all'
     }

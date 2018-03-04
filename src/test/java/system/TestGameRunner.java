@@ -296,7 +296,7 @@ public class TestGameRunner {
         System.out.println("The winner is " + testGame.getWinner().getName());
     }
 
-    private List<Card> generateShuffledDeckWithSingleCard(Card card) {
+    public static List<Card> generateShuffledDeckWithSingleCard(Card card) {
         return TestCardsHelper.generateShuffledDeck(TestCardsHelper.deckWithSingleCard(card));
     }
 

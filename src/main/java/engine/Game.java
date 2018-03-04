@@ -2,6 +2,7 @@ package engine;
 
 import engine.cards.CardsHelper;
 import engine.heroes.DefaultHero;
+import engine.heroes.RandomHero;
 
 import java.util.List;
 
@@ -33,8 +34,23 @@ public class Game {
         setActiveHero(firstHero);
         setGameOver(false);
     }
+    
+    public void initializeAndStartHumanWithRandomGame() {
+    	initializeStandardHeroAndRandom();
+    	setActiveHero(firstHero);
+        setGameOver(false);
+    }
+    
+    
+    private void initializeStandardHeroAndRandom() {
+        firstHero = new DefaultHero(this, "First Hero", generateStandardDeck(), 3);
+        assignCardsToHero(firstHero);
+        secondHero = new RandomHero(this, "Second Hero", generateStandardDeck(), 4);
+        assignCardsToHero(secondHero);
+    }
 
     public void switchActiveHero() {
+    	System.out.println("-----------------------------------");
         if (activeHero == null) {
             return;
         }
@@ -98,7 +114,14 @@ public class Game {
         secondHero = new DefaultHero(this, "Second Custom Hero", secondHeroDeck, secondHeroInitialHandSize);
         assignCardsToHero(secondHero);
     }
-
+    
+    private void initializeHumanWithRandomHeroes(List<Card> firstHeroDeck, int firstHeroInitialHandSize, List<Card> secondHeroDeck, int secondHeroInitialHandSize) {
+        firstHero = new DefaultHero(this, "First Human Default Hero", firstHeroDeck, firstHeroInitialHandSize);
+        assignCardsToHero(firstHero);
+        secondHero = new RandomHero(this, "Second Random Hero", secondHeroDeck, secondHeroInitialHandSize);
+        assignCardsToHero(secondHero);
+    }
+    
     private void assignCardsToHero(Hero hero) {
         hero.getDeck().forEach(card -> card.setOwner(hero));
     }
