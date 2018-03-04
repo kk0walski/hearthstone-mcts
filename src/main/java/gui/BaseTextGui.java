@@ -59,7 +59,7 @@ public class BaseTextGui {
 
     public void startGame() {
         System.out.println("Gra rozpoczeta");
-        game.initializeAndStartStandardGame();
+        game.initializeAndStartHumanWithPassiveGame();
         System.out.println();
         game.getActiveHero().startRound();
         baseInfo();
@@ -81,6 +81,10 @@ public class BaseTextGui {
     }
 
     public void makeMove() {
+        if(game.getActiveHero() instanceof HeuristicHero) {
+            ((HeuristicHero) game.getActiveHero()).chooseHeuristicMove();
+            return;
+        }
         System.out.println("1.Uzyj czaru 2.Poloz karte 3.Uzyj karty ze stolu 4.Skoncz ture ");
         int move = keyboard.nextInt();
         Move m = prepareMove(move);

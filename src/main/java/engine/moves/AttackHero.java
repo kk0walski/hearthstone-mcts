@@ -26,6 +26,11 @@ public class AttackHero implements Move {
     }
 
     @Override
+    public Card getCard() {
+        return board.get(cardInBoardIndex);
+    }
+
+    @Override
     public boolean isMovePossible() {
         return true;
     }

@@ -39,6 +39,11 @@ public class UseSpell implements Move {
     }
 
     @Override
+    public Card getCard() {
+        return self.getHand().get(cardInHandIndex);
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;

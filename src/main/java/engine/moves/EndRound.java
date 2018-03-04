@@ -1,5 +1,6 @@
 package engine.moves;
 
+import engine.Card;
 import engine.Hero;
 import engine.Move;
 
@@ -23,6 +24,11 @@ public class EndRound implements Move {
     @Override
     public boolean isMovePossible() {
         return true;
+    }
+
+    @Override
+    public Card getCard() {
+        return null;
     }
 
     public Hero getSelf() {

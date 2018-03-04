@@ -2,6 +2,7 @@ package engine;
 
 import engine.cards.CardsHelper;
 import engine.heroes.DefaultHero;
+import engine.heroes.PassiveHero;
 import engine.heroes.RandomHero;
 
 import java.util.List;
@@ -40,12 +41,37 @@ public class Game {
     	setActiveHero(firstHero);
         setGameOver(false);
     }
-    
-    
+
+    public void initializeAndStartHumanWithPassiveGame() {
+        initializeStandardHeroAndPassive();
+        setActiveHero(firstHero);
+        setGameOver(false);
+    }
+
+    public void initializeAndStartInitializeRandomHeroAndPassiveGame() {
+        initializeRandomHeroAndPassive();
+        setActiveHero(firstHero);
+        setGameOver(false);
+    }
+
     private void initializeStandardHeroAndRandom() {
         firstHero = new DefaultHero(this, "First Hero", generateStandardDeck(), 3);
         assignCardsToHero(firstHero);
         secondHero = new RandomHero(this, "Second Hero", generateStandardDeck(), 4);
+        assignCardsToHero(secondHero);
+    }
+
+    private void initializeStandardHeroAndPassive() {
+        firstHero = new DefaultHero(this, "First Hero", generateStandardDeck(), 3);
+        assignCardsToHero(firstHero);
+        secondHero = new PassiveHero(this, "Second Hero", generateStandardDeck(), 4);
+        assignCardsToHero(secondHero);
+    }
+
+    private void initializeRandomHeroAndPassive() {
+        firstHero = new RandomHero(this, "First Hero", generateStandardDeck(), 3);
+        assignCardsToHero(firstHero);
+        secondHero = new PassiveHero(this, "Second Hero", generateStandardDeck(), 4);
         assignCardsToHero(secondHero);
     }
 

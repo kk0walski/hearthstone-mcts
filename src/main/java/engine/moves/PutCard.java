@@ -31,6 +31,11 @@ public class PutCard implements Move {
         hand.remove(cardInHandIndex);
     }
 
+    @Override
+    public Card getCard() {
+        return self.getHand().get(cardInHandIndex);
+    }
+
     private void performSpecialAbility(List<Card> board) {
         Minion card = (Minion) board.get(board.size() - 1);
         if (card.getAbility() != null)
