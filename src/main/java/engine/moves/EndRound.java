@@ -53,4 +53,10 @@ public class EndRound implements Move {
     public int hashCode() {
         return self != null ? self.hashCode() : 0;
     }
+    
+    @Override
+	public int getCardIndex() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
 }

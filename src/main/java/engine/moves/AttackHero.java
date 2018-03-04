@@ -80,4 +80,10 @@ public class AttackHero implements Move {
     public Hero getHeroToGetAttacked() {
         return heroToGetAttacked;
     }
+
+	@Override
+	public int getCardIndex() {
+		// TODO Auto-generated method stub
+		return cardInBoardIndex;
+	}
 }

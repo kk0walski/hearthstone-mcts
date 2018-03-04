@@ -68,4 +68,9 @@ public class AttackMinion implements Move {
         return true;
     }
 
+    @Override
+	public int getCardIndex() {
+		// TODO Auto-generated method stub
+		return cardInBoardIndex;
+	}
 }

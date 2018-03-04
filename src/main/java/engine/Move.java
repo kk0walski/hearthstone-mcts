@@ -7,4 +7,6 @@ public interface Move {
     boolean isMovePossible();
 
     Card getCard();
+   
+    int getCardIndex();
 }

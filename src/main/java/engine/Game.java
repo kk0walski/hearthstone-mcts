@@ -1,6 +1,7 @@
 package engine;
 
 import engine.cards.CardsHelper;
+import engine.heroes.AgresiveHero;
 import engine.heroes.DefaultHero;
 import engine.heroes.PassiveHero;
 import engine.heroes.RandomHero;
@@ -58,6 +59,21 @@ public class Game {
         firstHero = new DefaultHero(this, "First Hero", generateStandardDeck(), 3);
         assignCardsToHero(firstHero);
         secondHero = new RandomHero(this, "Second Hero", generateStandardDeck(), 4);
+        assignCardsToHero(secondHero);
+    }
+    
+    
+    public void initializeAndStartHumanWithAgresiveGame() {
+    	initializeStandardHeroAndAgresive();
+    	setActiveHero(firstHero);
+        setGameOver(false);
+    }
+    
+    
+    private void initializeStandardHeroAndAgresive() {
+        firstHero = new DefaultHero(this, "First Hero", generateStandardDeck(), 3);
+        assignCardsToHero(firstHero);
+        secondHero = new AgresiveHero(this, "Second Hero", generateStandardDeck(), 4);
         assignCardsToHero(secondHero);
     }
 

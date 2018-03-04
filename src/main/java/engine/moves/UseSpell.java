@@ -55,6 +55,15 @@ public class UseSpell implements Move {
         return result;
     }
 
+    public Hero getTargetHero()
+    {
+    	return targetHero;
+    }
+    public Minion getTargetMinion()
+    {
+    	return targetMinion;
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -89,5 +98,10 @@ public class UseSpell implements Move {
         return true;
     }
 
-
+    @Override
+ 	public int getCardIndex() {
+ 		// TODO Auto-generated method stub
+ 		return cardInHandIndex;
+ 	}
+    
 }

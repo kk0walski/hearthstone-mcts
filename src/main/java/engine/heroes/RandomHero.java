@@ -5,9 +5,13 @@ import java.util.List;
 import engine.Card;
 import engine.Game;
 import engine.Move;
+import engine.heroes.*;
+import engine.moves.AttackHero;
+import engine.moves.AttackMinion;
 import engine.moves.EndRound;
 
 public class RandomHero extends AbstractHero implements HeuristicHero {
+
 	
     public RandomHero(Game game, String name, List<Card> initialDeck, int initialHandSize) {
 		super(game, name, initialDeck, initialHandSize);
@@ -33,24 +37,9 @@ public class RandomHero extends AbstractHero implements HeuristicHero {
     	}
     }
 
-	public boolean performMove(Move moveToDo) {
-        if (availableMoves.contains(moveToDo)) {
-            if (moveToDo instanceof EndRound) {
-                endRound();
-              return true;
-            }
-            moveToDo.performMove();
-            movesInRound.add(moveToDo);
-            generateAvailableMoves();
-            notifyIfDeadHero();
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 	@Override
 	public int evaluate(Move toDo) {
 		return (int) (Math.random()*100);
 	}
+	
 }

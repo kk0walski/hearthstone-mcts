@@ -92,6 +92,10 @@ public class PutCard implements Move {
             return false;
         return true;
     }
-
-
+    
+    @Override
+	public int getCardIndex() {
+		// TODO Auto-generated method stub
+		return cardInHandIndex;
+	}
 }
