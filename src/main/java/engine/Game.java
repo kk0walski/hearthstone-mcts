@@ -1,6 +1,7 @@
 package engine;
 
 import engine.cards.CardsHelper;
+import engine.heroes.AbstractHero;
 import engine.heroes.AgresiveHero;
 import engine.heroes.DefaultHero;
 import engine.heroes.PassiveHero;
@@ -210,5 +211,26 @@ public class Game {
 
     public void setWinner(Hero winner) {
         this.winner = winner;
+    }
+    
+    public Game deepCopy()
+    {
+    	Game resoult=new Game();
+    	Hero firstHero=this.firstHero.deepCopy();
+    	Hero secHero=this.secondHero.deepCopy();
+    	((AbstractHero)firstHero).setGame(resoult);
+    	((AbstractHero)secHero).setGame(resoult);
+    	
+    	resoult.firstHero=firstHero;
+    	resoult.secondHero=secHero;
+    	
+    	if(this.activeHero == firstHero)
+    		resoult.activeHero=firstHero;
+    	else
+    		resoult.activeHero=secHero;
+    	
+    	
+    	return resoult;
+    	
     }
 }

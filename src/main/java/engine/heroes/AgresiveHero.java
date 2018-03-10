@@ -1,9 +1,11 @@
 package engine.heroes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import engine.Card;
 import engine.Game;
+import engine.Hero;
 import engine.Move;
 import engine.cards.Minion;
 import engine.cards.Spell;
@@ -124,4 +126,6 @@ public class AgresiveHero extends AbstractHero implements HeuristicHero {
 		}
 		return false;
 	}
+
+	
 }

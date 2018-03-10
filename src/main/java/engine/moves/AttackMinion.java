@@ -9,7 +9,7 @@ import java.util.List;
 public class AttackMinion implements Move {
 
     private int cardInBoardIndex;
-    private List<Card> board;
+	private List<Card> board;
     private Minion minionToGetAttacked;
 
     public AttackMinion(int cardInBoardIndex, List<Card> board, Card minionToGetAttacked) {
@@ -72,5 +72,29 @@ public class AttackMinion implements Move {
 	public int getCardIndex() {
 		// TODO Auto-generated method stub
 		return cardInBoardIndex;
+	}
+    
+    public int getCardInBoardIndex() {
+		return cardInBoardIndex;
+	}
+
+	public void setCardInBoardIndex(int cardInBoardIndex) {
+		this.cardInBoardIndex = cardInBoardIndex;
+	}
+
+	public List<Card> getBoard() {
+		return board;
+	}
+
+	public void setBoard(List<Card> board) {
+		this.board = board;
+	}
+
+	public Minion getMinionToGetAttacked() {
+		return minionToGetAttacked;
+	}
+
+	public void setMinionToGetAttacked(Minion minionToGetAttacked) {
+		this.minionToGetAttacked = minionToGetAttacked;
 	}
 }

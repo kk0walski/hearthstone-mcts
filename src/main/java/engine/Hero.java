@@ -41,5 +41,7 @@ public interface Hero {
     void endRound();
 
     String getName();
+    
+    Hero deepCopy();
    
 }

@@ -9,4 +9,5 @@ public interface Move {
     Card getCard();
    
     int getCardIndex();
+    
 }

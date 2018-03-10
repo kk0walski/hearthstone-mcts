@@ -59,7 +59,7 @@ public class BaseTextGui {
 
     public void startGame() {
         System.out.println("Gra rozpoczeta");
-        game.initializeAndStartHumanWithAgresiveGame();
+        game.initializeAndStartHumanWithPassiveGame();
         System.out.println();
         game.getActiveHero().startRound();
         baseInfo();

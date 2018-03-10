@@ -327,4 +327,71 @@ public abstract class AbstractHero implements Hero {
         this.name = name;
     }
 
+
+//    protected List<Move> movesInRound;
+//    protected Game game;
+//    protected List<Move> availableMoves;
+    
+    @Override
+	public Hero deepCopy() {
+    	AbstractHero hero=null;
+		try {
+			 hero=this.getClass().newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		hero.setName(new String(name));
+		hero.setHealth(getHealth());
+		hero.setMana(getMana());
+		hero.setRound(getRound());
+		hero.setPunishForEmptyDeck(getPunishForEmptyDeck());
+		ArrayList<Card> deck=new ArrayList<>();
+		for(Card c: getDeck())
+		{
+			deck.add(c.deepCopy());
+		}
+		hero.setDeck(deck);
+		ArrayList<Card> hand=new ArrayList<>();
+		for(Card c: getHand())
+		{
+			hand.add(c.deepCopy());
+		}
+		hero.setHand(hand);
+		ArrayList<Card> board=new ArrayList<>();
+		for(Card c: getBoard())
+		{
+			board.add(c.deepCopy());
+		}
+		hero.setBoard(board);
+		
+		return hero;
+	}
+    
+    
+    public List<Move> copyMovesTo(AbstractHero target, List<Move> toCopy)
+    {
+    	ArrayList<Move> copy=new ArrayList<>();
+    	for(Move m:toCopy)
+    	{
+    		if( m instanceof AttackHero)
+    		{
+    			((AttackHero)m).setBoard(target.board);
+    			((AttackHero)m).setCardInBoardIndex(m.getCardIndex());
+    			((AttackHero)m).setHeroToGetAttacked(target.game.getEnemyOf(target));
+    		}
+    		if(m instanceof AttackMinion)
+    		{
+    			((AttackMinion)m).setBoard(target.board);
+    			((AttackMinion)m).setCardInBoardIndex(m.getCardIndex());
+    			((AttackMinion)m).setMinionToGetAttacked(minionToGetAttacked);
+    		}
+    	}
+    }
+    
+    public static void main(String[] args)
+    {
+    	AgresiveHero x=new AgresiveHero(null, "xx", null, 0);
+    	System.out.println(x.deepCopy());
+    }
 }
