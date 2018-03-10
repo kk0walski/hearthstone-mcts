@@ -15,7 +15,7 @@ public class UseSpell implements Move {
     private Hero enemy;
     private Spell thisSpell;
 
-    private Minion targetMinion;//only one is not null, i don't have better idea
+    private Minion targetMinion; //only one is not null, i don't have better idea
     private Hero targetHero;
 
     public UseSpell(int cardInHandIndex, Hero self, Hero enemy, Minion targetMinion, Hero targetHero) {
@@ -39,11 +39,9 @@ public class UseSpell implements Move {
     @Override
     public void rollback() {
         thisSpell.revertSpell(self, enemy, targetHero, targetMinion);
-        // todo ponizej nie ma sensu ----------------
+        self.increaseMana(thisSpell.getCost());
         List<Card> hand = self.getHand();
-        hand.get(cardInHandIndex).doAction(self, enemy, targetHero, targetMinion);
-        self.decreaseMana(self.getHand().get(cardInHandIndex).getCost());
-        hand.remove(cardInHandIndex);
+        hand.add(thisSpell);
     }
 
     @Override

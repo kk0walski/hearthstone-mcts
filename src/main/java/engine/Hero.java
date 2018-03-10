@@ -18,6 +18,8 @@ public interface Hero {
 
     void deadMinionNotification(Minion minion);
 
+    Game getGame();
+
     List<Card> getHand();
 
     int getMana();
@@ -47,4 +49,10 @@ public interface Hero {
     void revertDeadMinionNotification(Minion minion);
 
     void decreaseHealth(int value);
+
+    void increaseMana(int value);
+
+    void restoreMovesInRound();
+
+    void revertStartRound();
 }

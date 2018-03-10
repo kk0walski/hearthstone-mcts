@@ -25,4 +25,15 @@ public class Fireball extends Spell {
             targetMinion.receiveDamage(DAMAGE_TO_DEAL);
         }
     }
+
+    @Override
+    public void revertSpell(Hero owner, Hero enemy, Hero targetHero, Minion targetMinion) {
+        if (targetHero != null) {
+            targetHero.revertDamage(DAMAGE_TO_DEAL);
+        }
+        if (targetMinion != null) {
+            targetMinion.revertDamage(DAMAGE_TO_DEAL);
+        }
+    }
+
 }

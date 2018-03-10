@@ -25,4 +25,9 @@ public class DeadlyShot extends Spell {
         toDestroy.receiveDamage(toDestroy.getHealth());
     }
 
+    @Override
+    public void revertSpell(Hero owner, Hero enemy, Hero targetHero, Minion targetMinion) {
+        // blank default action for spell
+    }
+
 }

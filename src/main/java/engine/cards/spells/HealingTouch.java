@@ -11,6 +11,7 @@ import engine.cards.Spell;
 public class HealingTouch extends Spell {
 
     public static final int HERO_HEAL_VALUE = 8;
+    private int increasedHealth = 0;
 	
     public HealingTouch() {
         setCost(3);
@@ -20,10 +21,21 @@ public class HealingTouch extends Spell {
     @Override
     public void doAction(Hero owner, Hero enemy, Hero targetHero, Minion targetMinion) {
         if (targetHero != null) {
-            targetHero.increaseHealth(HERO_HEAL_VALUE);
+            increasedHealth = targetHero.increaseHealth(HERO_HEAL_VALUE);
         }
         if (targetMinion != null) {
-            targetMinion.increaseHealth(HERO_HEAL_VALUE);
+            increasedHealth = targetMinion.increaseHealth(HERO_HEAL_VALUE);
         }
     }
+
+    @Override
+    public void revertSpell(Hero owner, Hero enemy, Hero targetHero, Minion targetMinion) {
+        if (targetHero != null) {
+            targetHero.decreaseHealth(HERO_HEAL_VALUE);
+        }
+        if (targetMinion != null) {
+            targetMinion.decreaseHealth(HERO_HEAL_VALUE);
+        }
+    }
+
 }

@@ -79,10 +79,17 @@ public class Minion implements Card {
         health += damage;
     }
 
-    public void increaseHealth(int hm) {
+    public int increaseHealth(int hm) {
+        int originalHealth = health;
         health += hm;
         if (health > baseHealth)
             health = baseHealth;
+
+        return health - originalHealth;
+    }
+
+    public void decreaseHealth(int value) {
+        health -= value;
     }
 
     public void notifyHeroIfDeadMinion() {
