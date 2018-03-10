@@ -24,7 +24,7 @@ public interface Hero {
 
     void decreaseMana(int value);
 
-    void increaseHealth(int value);
+    int increaseHealth(int value);
 
     void startRound();
 
@@ -41,5 +41,10 @@ public interface Hero {
     void endRound();
 
     String getName();
-   
+
+    void revertDamage(int damage);
+
+    void revertDeadMinionNotification(Minion minion);
+
+    void decreaseHealth(int value);
 }

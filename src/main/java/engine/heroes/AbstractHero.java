@@ -174,6 +174,11 @@ public abstract class AbstractHero implements Hero {
         notifyIfDeadHero();
     }
 
+    public void revertDamage(int damage) {
+        // revertIfDeadHero();
+        health = health + damage;
+    }
+
     protected void notifyIfDeadHero() {
         if (isDead()) {
             notifyAboutDeadHero();
@@ -182,6 +187,10 @@ public abstract class AbstractHero implements Hero {
 
     public void deadMinionNotification(Minion minion) {
         board.remove(minion);
+    }
+
+    public void revertDeadMinionNotification(Minion minion) {
+        board.add(minion);
     }
 
     private void resetMovesInRound() {
@@ -209,12 +218,20 @@ public abstract class AbstractHero implements Hero {
     }
 
     @Override
-    public void increaseHealth(int value) {
+    public int increaseHealth(int value) {
+        int oldHealth = health;
+
         health += value;
         if (health > MAXIMUM_HEALTH_POINTS)
             health = MAXIMUM_HEALTH_POINTS;
+
+        return health-oldHealth;
     }
 
+    @Override
+    public void decreaseHealth(int value) {
+        health -= value;
+    }
 
     private void initHand(int initialHandSize) {
         hand = new ArrayList<>();

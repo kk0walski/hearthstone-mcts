@@ -32,6 +32,19 @@ public class PutCard implements Move {
     }
 
     @Override
+    public void rollback() {
+        List<Card> hand = self.getHand();
+        List<Card> board = self.getBoard();
+        Card cardToRevert = board.get(board.size()-1); // get last putted card on board
+        board.remove(cardToRevert);
+
+        revertSpecialAbility(cardToRevert);
+
+        self.increaseHealth(cardToRevert.getCost());
+        hand.add(cardToRevert);
+    }
+
+    @Override
     public Card getCard() {
         return self.getHand().get(cardInHandIndex);
     }
@@ -40,6 +53,12 @@ public class PutCard implements Move {
         Minion card = (Minion) board.get(board.size() - 1);
         if (card.getAbility() != null)
             card.getAbility().performAbility(self, enemy);
+    }
+
+    private void revertSpecialAbility(Card card) {
+        if (((Minion) card).getAbility() != null) {
+            ((Minion) card).getAbility().revertAbility(self, enemy);
+        }
     }
 
     public int getCardInHandIndex() {

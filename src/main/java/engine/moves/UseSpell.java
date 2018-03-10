@@ -6,12 +6,14 @@ import engine.Card;
 import engine.Hero;
 import engine.Move;
 import engine.cards.Minion;
+import engine.cards.Spell;
 
 public class UseSpell implements Move {
 
     private int cardInHandIndex;
     private Hero self;
     private Hero enemy;
+    private Spell thisSpell;
 
     private Minion targetMinion;//only one is not null, i don't have better idea
     private Hero targetHero;
@@ -27,6 +29,17 @@ public class UseSpell implements Move {
 
     @Override
     public void performMove() {
+        List<Card> hand = self.getHand();
+        hand.get(cardInHandIndex).doAction(self, enemy, targetHero, targetMinion);
+        self.decreaseMana(self.getHand().get(cardInHandIndex).getCost());
+        thisSpell = (Spell) hand.get(cardInHandIndex);
+        hand.remove(cardInHandIndex);
+    }
+
+    @Override
+    public void rollback() {
+        thisSpell.revertSpell(self, enemy, targetHero, targetMinion);
+        // todo ponizej nie ma sensu ----------------
         List<Card> hand = self.getHand();
         hand.get(cardInHandIndex).doAction(self, enemy, targetHero, targetMinion);
         self.decreaseMana(self.getHand().get(cardInHandIndex).getCost());

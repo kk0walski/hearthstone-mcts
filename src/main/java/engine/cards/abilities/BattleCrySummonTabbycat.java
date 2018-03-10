@@ -11,11 +11,25 @@ import engine.heroes.DefaultHero;
 
 public class BattleCrySummonTabbycat implements Ability {
 
+    private boolean wasTabbycatSummoned = false;
+    private Tabbycat summonedTabbycat;
+
     @Override
     public void performAbility(Hero self, Hero enemy) {
         List<Card> cardsOnBoardOfGivenHero = self.getBoard();
         if (cardsOnBoardOfGivenHero.size() < Game.MAXIMUM_CARDS_ON_BOARD) {
-            cardsOnBoardOfGivenHero.add(new Tabbycat());
+            summonedTabbycat = new Tabbycat();
+            cardsOnBoardOfGivenHero.add(summonedTabbycat);
+            wasTabbycatSummoned = true;
         }
     }
+
+    @Override
+    public void revertAbility(Hero self, Hero enemy) {
+        List<Card> cardsOnBoardOfGivenHero = self.getBoard();
+        if(wasTabbycatSummoned) {
+            self.getBoard().remove(summonedTabbycat);
+        }
+    }
+
 }

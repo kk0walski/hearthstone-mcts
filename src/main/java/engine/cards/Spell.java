@@ -35,6 +35,10 @@ public class Spell implements Card {
         // blank default action for spell
     }
 
+    public void revertSpell(Hero owner, Hero enemy, Hero targetHero, Minion targetMinion) {
+        // blank default action for spell
+    }
+
     public int getCost() {
         return cost;
     }

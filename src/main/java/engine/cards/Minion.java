@@ -49,17 +49,34 @@ public class Minion implements Card {
         active = false;
     }
 
+    public void activate() {
+        active = true;
+    }
+
     public void attack(Hero enemyHero) {
         enemyHero.receiveDamage(attack);
+    }
+
+    public void revertAttack(Hero enemyHero) {
+        enemyHero.revertDamage(attack);
     }
 
     public void attack(Minion enemyMinion) {
         enemyMinion.receiveDamage(attack);
     }
 
+    public void revertAttack(Minion enemyMinion) {
+        enemyMinion.revertDamage(attack);
+    }
+
     public void receiveDamage(int damage) {
         health -= damage;
         notifyHeroIfDeadMinion();
+    }
+
+    public void revertDamage(int damage) {
+        revertHeroNotificationIfDeadMinion();
+        health += damage;
     }
 
     public void increaseHealth(int hm) {
@@ -71,6 +88,12 @@ public class Minion implements Card {
     public void notifyHeroIfDeadMinion() {
         if (isDead()) {
             owner.deadMinionNotification(this);
+        }
+    }
+
+    public void revertHeroNotificationIfDeadMinion() {
+        if (isDead()) {
+            owner.revertDeadMinionNotification(this);
         }
     }
 
