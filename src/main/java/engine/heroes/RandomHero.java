@@ -12,7 +12,6 @@ import engine.moves.EndRound;
 
 public class RandomHero extends AbstractHero implements HeuristicHero {
 
-	
     public RandomHero(Game game, String name, List<Card> initialDeck, int initialHandSize) {
 		super(game, name, initialDeck, initialHandSize);
 		// TODO Auto-generated constructor stub

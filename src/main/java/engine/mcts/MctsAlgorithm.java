@@ -3,6 +3,7 @@ package engine.mcts;
 import engine.Game;
 import engine.Move;
 import engine.cards.spells.Fireball;
+import engine.heroes.RandomHero;
 
 public class MctsAlgorithm {
 
@@ -17,7 +18,7 @@ public class MctsAlgorithm {
         long start = System.currentTimeMillis();
         long end = start;
         Move bestFound = null;
-        while (end - start >= 10 * 1000) {
+        while (end - start <= 10 * 1000) {
             Node child = treePolicy(root);
             int delta = defaultPolicy(child);
             backup(child, delta);
@@ -80,10 +81,9 @@ public class MctsAlgorithm {
 
     int defaultPolicy(Node root) {
 
-        Game copy = new Game();
-        while (nodeIsNonTerminal(root)) {
-            // TODO - kopiujemy ca�� gr� (deep copy trzeba naklepa� do ca�ego obiektu gry i w ogole wszystkiego
-            // TODO - i rozgrywamy gierke do konca i zwracamy 0 lub 1 w zaleznosci od tego czy wygrana
+        Game copy = root.getGame().deepCopy();
+        while (!(copy.isGameOver())) {
+            copy.getActiveHero().chooseRandomSimulationalMove();
         }
         if(root.getGame().getActiveHero().equals(copy.getWinner())) {
             return 1;

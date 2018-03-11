@@ -66,4 +66,6 @@ public interface Hero {
     void restoreMovesInRound();
 
     void revertStartRound();
+
+    void chooseRandomSimulationalMove();
 }

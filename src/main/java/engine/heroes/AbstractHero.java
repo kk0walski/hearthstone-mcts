@@ -460,7 +460,8 @@ public abstract class AbstractHero implements Hero {
             res = new PassiveHero();
         if (this instanceof RandomHero)
             res = new RandomHero();
-
+        if (this instanceof MctsHero)
+            res = new MctsHero();
         return res;
     }
 
@@ -518,5 +519,28 @@ public abstract class AbstractHero implements Hero {
 
     public void setMovesInRoundBackup(List<Move> movesInRoundBackup) {
         this.movesInRoundBackup = movesInRoundBackup;
+    }
+
+    public void chooseRandomSimulationalMove() {
+        Move toDo=null;
+        while (!(toDo instanceof EndRound))
+        {
+            int bestFound = -1;
+            int bestFoundValue = Integer.MIN_VALUE;
+            for(int index=0; index<availableMoves.size(); index++)
+            {
+                int currentValue = evaluate(availableMoves.get(index));
+                if(currentValue > bestFoundValue) {
+                    bestFound = index;
+                    bestFoundValue = currentValue;
+                }
+            }
+            toDo = availableMoves.get(bestFound);
+            performMove(toDo);
+        }
+    }
+
+    private int evaluate(Move toDo) {
+        return (int) (Math.random()*100);
     }
 }

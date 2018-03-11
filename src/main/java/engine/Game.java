@@ -1,11 +1,7 @@
 package engine;
 
 import engine.cards.CardsHelper;
-import engine.heroes.AbstractHero;
-import engine.heroes.AgresiveHero;
-import engine.heroes.DefaultHero;
-import engine.heroes.PassiveHero;
-import engine.heroes.RandomHero;
+import engine.heroes.*;
 
 import java.util.List;
 
@@ -50,6 +46,12 @@ public class Game {
         setGameOver(false);
     }
 
+    public void initializeAndStartHumanWithMctsGame() {
+        initializeStandardHeroAndMcts();
+        setActiveHero(firstHero);
+        setGameOver(false);
+    }
+
     public void initializeAndStartInitializeRandomHeroAndPassiveGame() {
         initializeRandomHeroAndPassive();
         setActiveHero(firstHero);
@@ -82,6 +84,13 @@ public class Game {
         firstHero = new DefaultHero(this, "First Hero", generateStandardDeck(), 3);
         assignCardsToHero(firstHero);
         secondHero = new PassiveHero(this, "Second Hero", generateStandardDeck(), 4);
+        assignCardsToHero(secondHero);
+    }
+
+    private void initializeStandardHeroAndMcts() {
+        firstHero = new DefaultHero(this, "First Hero", generateStandardDeck(), 3);
+        assignCardsToHero(firstHero);
+        secondHero = new MctsHero(this, "Mcts Hero", generateStandardDeck(), 4);
         assignCardsToHero(secondHero);
     }
 
