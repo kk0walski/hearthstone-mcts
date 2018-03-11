@@ -8,10 +8,6 @@ public class EndRound implements Move {
 
     private Hero self;
 
-    public EndRound() {
-
-    }
-
     public EndRound(Hero self) {
         this.self = self;
     }
@@ -22,6 +18,12 @@ public class EndRound implements Move {
     }
 
     @Override
+    public void rollback() {
+        self.getGame().revertSwitchActiveHero();
+        self.restoreMovesInRound();
+    }
+
+    @Override
     public boolean isMovePossible() {
         return true;
     }
@@ -29,14 +31,6 @@ public class EndRound implements Move {
     @Override
     public Card getCard() {
         return null;
-    }
-
-    public Hero getSelf() {
-        return self;
-    }
-
-    public void setSelf(Hero self) {
-        this.self = self;
     }
 
     @Override
@@ -53,10 +47,10 @@ public class EndRound implements Move {
     public int hashCode() {
         return self != null ? self.hashCode() : 0;
     }
-    
+
     @Override
-	public int getCardIndex() {
-		// TODO Auto-generated method stub
-		return -1;
-	}
+    public int getCardIndex() {
+        // TODO Auto-generated method stub
+        return -1;
+    }
 }

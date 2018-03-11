@@ -31,14 +31,17 @@ public abstract class AbstractHero implements Hero {
     protected String name;
     protected int health;
     protected int mana;
+    private int increasedMana;
     protected int round;
     protected int punishForEmptyDeck;
     protected List<Card> deck;
     protected List<Card> hand;
     protected List<Card> board;
     protected List<Move> movesInRound;
+    protected List<Move> movesInRoundBackup;
     protected Game game;
     protected List<Move> availableMoves;
+    protected List<Card> activatedMinions;
 
     public AbstractHero(Game game, String name, List<Card> initialDeck, int initialHandSize) {
         this.game = game;
@@ -62,9 +65,29 @@ public abstract class AbstractHero implements Hero {
         generateAvailableMoves();
     }
 
+    @Override
+    public void revertStartRound() {
+        deactivateMinionsOnBoard();
+        decreaseMana(increasedMana);
+        revertPreviousPickCardFromDeck();
+        revertDeadHeroNotification();
+        revertAvailableMovesGeneration();
+    }
+
     private void activateMinionsOnBoard() {
-        for (Card c : board)
-            ((Minion) c).setActive(true);
+        activatedMinions = new ArrayList<>();
+        for (Card c : board) {
+            if (!((Minion) c).isActive()) {
+                activatedMinions.add(c);
+                ((Minion) c).setActive(true);
+            }
+        }
+    }
+
+    private void deactivateMinionsOnBoard() {
+        for (Card c : activatedMinions) {
+            ((Minion) activatedMinions).setActive(false);
+        }
     }
 
     /**
@@ -167,14 +190,26 @@ public abstract class AbstractHero implements Hero {
         notifyAboutRoundEnd();
     }
 
+
+
     @Override
     public boolean isDead() {
         return health <= 0;
     }
 
+    @Override
+    public void restoreMovesInRound() {
+        this.movesInRound = movesInRoundBackup;
+    }
+
     public void receiveDamage(int damage) {
         health = health - damage;
         notifyIfDeadHero();
+    }
+
+    public void revertDamage(int damage) {
+        // revertIfDeadHero();
+        health = health + damage;
     }
 
     protected void notifyIfDeadHero() {
@@ -187,7 +222,12 @@ public abstract class AbstractHero implements Hero {
         board.remove(minion);
     }
 
+    public void revertDeadMinionNotification(Minion minion) {
+        board.add(minion);
+    }
+
     private void resetMovesInRound() {
+        movesInRoundBackup = new ArrayList<>(movesInRound);
         movesInRound.removeAll(movesInRound); // TODO verify whether x.removeAll(x) is correct
     }
 
@@ -203,6 +243,9 @@ public abstract class AbstractHero implements Hero {
     private void increaseMana() {
         if (mana < MAXIMUM_MANA_POINTS) {
             mana++;
+            increasedMana=1;
+        } else {
+            increasedMana=0;
         }
     }
 
@@ -212,12 +255,28 @@ public abstract class AbstractHero implements Hero {
     }
 
     @Override
-    public void increaseHealth(int value) {
+    public void increaseMana(int value) {
+        mana += value;
+        if (mana > MAXIMUM_MANA_POINTS) {
+            mana = MAXIMUM_MANA_POINTS;
+        }
+    }
+
+    @Override
+    public int increaseHealth(int value) {
+        int oldHealth = health;
+
         health += value;
         if (health > MAXIMUM_HEALTH_POINTS)
             health = MAXIMUM_HEALTH_POINTS;
+
+        return health-oldHealth;
     }
 
+    @Override
+    public void decreaseHealth(int value) {
+        health -= value;
+    }
 
     private void initHand(int initialHandSize) {
         hand = new ArrayList<>();
@@ -240,6 +299,10 @@ public abstract class AbstractHero implements Hero {
         hand.add(deck.get(0));
         hand.get(hand.size()-1).setOwner(this);
         deck.remove(deck.get(0)); // TODO - may produce NPE on line above because i'm not sure whether after remove from deck it will change indexes
+    }
+
+    private void revertPreviousPickCardFromDeck() {
+        if()
     }
 
     public int getHealth() {
@@ -306,6 +369,7 @@ public abstract class AbstractHero implements Hero {
         this.movesInRound = movesInRound;
     }
 
+    @Override
     public Game getGame() {
         return game;
     }
@@ -329,9 +393,6 @@ public abstract class AbstractHero implements Hero {
     public void setName(String name) {
         this.name = name;
     }
-
-
-
     
     @Override
 	public Hero deepCopy() {
@@ -442,5 +503,12 @@ public abstract class AbstractHero implements Hero {
     			
     	}
     	return copy;
+    }
+    public List<Move> getMovesInRoundBackup() {
+        return movesInRoundBackup;
+    }
+
+    public void setMovesInRoundBackup(List<Move> movesInRoundBackup) {
+        this.movesInRoundBackup = movesInRoundBackup;
     }
 }

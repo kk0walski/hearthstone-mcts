@@ -6,14 +6,16 @@ import engine.Card;
 import engine.Hero;
 import engine.Move;
 import engine.cards.Minion;
+import engine.cards.Spell;
 
 public class UseSpell implements Move {
 
     private int cardInHandIndex;
     private Hero self;
     private Hero enemy;
+    private Spell thisSpell;
 
-    private Minion targetMinion;//only one is not null, i don't have better idea
+    private Minion targetMinion; //only one is not null, i don't have better idea
     private Hero targetHero;
 
     private int minionIndex; //if minion is not target =-1 (helpful in copy)
@@ -39,7 +41,16 @@ public class UseSpell implements Move {
         List<Card> hand = self.getHand();
         hand.get(cardInHandIndex).doAction(self, enemy, targetHero, targetMinion);
         self.decreaseMana(self.getHand().get(cardInHandIndex).getCost());
+        thisSpell = (Spell) hand.get(cardInHandIndex);
         hand.remove(cardInHandIndex);
+    }
+
+    @Override
+    public void rollback() {
+        thisSpell.revertSpell(self, enemy, targetHero, targetMinion);
+        self.increaseMana(thisSpell.getCost());
+        List<Card> hand = self.getHand();
+        hand.add(thisSpell);
     }
 
     @Override

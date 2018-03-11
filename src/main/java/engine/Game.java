@@ -106,6 +106,16 @@ public class Game {
         activeHero.startRound();
     }
 
+    public void revertSwitchActiveHero() {
+        activeHero.revertStartRound();
+
+        if (activeHero.equals(firstHero)) {
+            activeHero = secondHero;
+        } else {
+            activeHero = firstHero;
+        }
+    }
+
     public void checkForGameEnd() {
         if (firstHero.isDead()) {
             endWithWinner(secondHero);

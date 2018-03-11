@@ -33,6 +33,12 @@ public class AttackMinion implements Move {
     }
 
     @Override
+    public void rollback() {
+        ((Minion) board.get(cardInBoardIndex)).revertAttack(minionToGetAttacked);
+        ((Minion) board.get(cardInBoardIndex)).activate();
+    }
+
+    @Override
     public boolean isMovePossible() {
         return true;
     }

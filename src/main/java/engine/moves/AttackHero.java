@@ -26,6 +26,12 @@ public class AttackHero implements Move {
     }
 
     @Override
+    public void rollback() {
+        ((Minion) board.get(cardInBoardIndex)).revertAttack(heroToGetAttacked);
+        ((Minion) board.get(cardInBoardIndex)).activate();
+    }
+
+    @Override
     public Card getCard() {
         return board.get(cardInBoardIndex);
     }
