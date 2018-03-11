@@ -113,8 +113,8 @@ public class MctsAlgorithm {
             } else {
                 nodeToBackup.addSecondHeroWin();
             }
-
-            root.getGame().getActiveHero().rollback(nodeToBackup.getMoveInNode());
+            if(nodeToBackup.getParent() != null)
+            	nodeToBackup.getGame().getActiveHero().rollback(nodeToBackup.getMoveInNode());
             // nodeToBackup.getMoveInNode().rollback();
 
             nodeToBackup = nodeToBackup.getParent();

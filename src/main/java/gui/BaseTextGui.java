@@ -1,5 +1,6 @@
 package gui;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import engine.Card;
@@ -12,6 +13,7 @@ import engine.cards.minions.Tabbycat;
 import engine.cards.spells.DeadlyShot;
 import engine.cards.spells.Fireball;
 import engine.cards.spells.HealingTouch;
+import engine.heroes.AbstractHero;
 import engine.heroes.HeuristicHero;
 import engine.moves.AttackHero;
 import engine.moves.AttackMinion;
@@ -60,9 +62,45 @@ public class BaseTextGui {
     public void startGame() {
         System.out.println("Gra rozpoczeta");
         game.initializeAndStartHumanWithMctsGame();
+        prepareCards();
         System.out.println();
         game.getActiveHero().startRound();
         baseInfo();
+    }
+    
+    private void prepareCards()
+    {
+    	game.getActiveHero().getHand().clear();
+    	game.getActiveHero().getBoard().clear();
+    	game.getActiveHero().getDeck().clear();
+    	AbstractHero enemy=(AbstractHero) game.getEnemyOf(game.getActiveHero());
+    	enemy.getHand().clear();
+    	enemy.getBoard().clear();
+    	enemy.getDeck().clear();
+    	
+    	ArrayList<Card> deck1=new ArrayList<>();
+    	deck1.add(new Tabbycat(game.getActiveHero()));
+    	deck1.add(new HealingTouch(game.getActiveHero()));
+    	deck1.add(new Fireball(game.getActiveHero()));
+    	ArrayList<Card> deck11=new ArrayList<>();
+    	deck11.add(new Tabbycat(game.getActiveHero()));
+    	deck11.add(new HealingTouch(game.getActiveHero()));
+    	deck11.add(new Fireball(game.getActiveHero()));
+    	ArrayList<Card> deck2=new ArrayList<>();
+    	deck2.add(new Tabbycat(enemy));
+    	deck2.add(new HealingTouch(enemy));
+    	deck2.add(new Fireball(enemy));
+    	ArrayList<Card> deck22=new ArrayList<>();
+    	deck22.add(new Tabbycat(enemy));
+    	deck22.add(new HealingTouch(enemy));
+    	deck22.add(new Fireball(enemy));
+    	
+    	
+    	((AbstractHero) game.getActiveHero()).setHand(deck1);
+    	((AbstractHero) game.getActiveHero()).setDeck(deck11);
+    	enemy.setHand(deck2);
+    	enemy.setDeck(deck22);
+    	
     }
 
     public void play() {

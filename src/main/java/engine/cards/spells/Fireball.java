@@ -16,7 +16,12 @@ public class Fireball extends Spell {
         setName("Fireball");
     }
 
-    @Override
+    public Fireball(Hero activeHero) {
+		this();
+		setOwner(activeHero);
+	}
+
+	@Override
     public void doAction(Hero owner, Hero enemy, Hero targetHero, Minion targetMinion) {
         if (targetHero != null) {
             targetHero.receiveDamage(DAMAGE_TO_DEAL);

@@ -18,7 +18,12 @@ public class HealingTouch extends Spell {
         setName("Healing Touch");
     }
 
-    @Override
+    public HealingTouch(Hero activeHero) {
+		this();
+		setOwner(activeHero);
+	}
+
+	@Override
     public void doAction(Hero owner, Hero enemy, Hero targetHero, Minion targetMinion) {
         if (targetHero != null) {
             increasedHealth = targetHero.increaseHealth(HERO_HEAL_VALUE);
