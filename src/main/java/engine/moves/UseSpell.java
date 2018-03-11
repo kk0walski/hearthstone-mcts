@@ -13,7 +13,7 @@ public class UseSpell implements Move {
     private int cardInHandIndex;
     private Hero self;
     private Hero enemy;
-    private Spell thisSpell;
+    private Spell spellBackup;
 
     private Minion targetMinion; //only one is not null, i don't have better idea
     private Hero targetHero;
@@ -41,16 +41,16 @@ public class UseSpell implements Move {
         List<Card> hand = self.getHand();
         hand.get(cardInHandIndex).doAction(self, enemy, targetHero, targetMinion);
         self.decreaseMana(self.getHand().get(cardInHandIndex).getCost());
-        thisSpell = (Spell) hand.get(cardInHandIndex);
+        spellBackup = (Spell) hand.get(cardInHandIndex);
         hand.remove(cardInHandIndex);
     }
 
     @Override
     public void rollback() {
-        thisSpell.revertSpell(self, enemy, targetHero, targetMinion);
-        self.increaseMana(thisSpell.getCost());
+        spellBackup.revertSpell(self, enemy, targetHero, targetMinion);
+        self.increaseMana(spellBackup.getCost());
         List<Card> hand = self.getHand();
-        hand.add(thisSpell);
+        hand.add(cardInHandIndex, spellBackup);
     }
 
     @Override

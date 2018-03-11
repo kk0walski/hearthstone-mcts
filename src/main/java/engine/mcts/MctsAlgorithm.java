@@ -34,7 +34,8 @@ public class MctsAlgorithm {
                 return expand(root);
             } else {
                 root = bestChild(root, CP_FACTOR); // tu sie moze cos wykrzaczac z refkami
-                root.getMoveInNode().performMove();
+                // root.getMoveInNode().performMove(); // też perform move na activehero powinno być
+                root.getGame().getActiveHero().performMove(root.getMoveInNode());
             }
         }
         return root;
@@ -44,7 +45,9 @@ public class MctsAlgorithm {
         Move move = root.getUntriedMoves().pop();
         Node child = new Node(root, move);
         root.addChild(child);
-        child.getMoveInNode().performMove();
+        // TODO - wywołać performMove na activeHero z parametrem child.getMoveInNode()
+        root.getGame().getActiveHero().performMove(child.getMoveInNode());
+        // child.getMoveInNode().performMove(); // czyli to niepotrzebne
         return child;
     }
 
@@ -111,7 +114,8 @@ public class MctsAlgorithm {
                 nodeToBackup.addSecondHeroWin();
             }
 
-            nodeToBackup.getMoveInNode().rollback();
+            root.getGame().getActiveHero().rollback(nodeToBackup.getMoveInNode());
+            // nodeToBackup.getMoveInNode().rollback();
 
             nodeToBackup = nodeToBackup.getParent();
         }

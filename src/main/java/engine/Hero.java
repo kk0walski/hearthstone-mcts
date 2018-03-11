@@ -68,4 +68,6 @@ public interface Hero {
     void revertStartRound();
 
     void chooseRandomSimulationalMove();
+
+    void rollback(Move moveToRevert);
 }

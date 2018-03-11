@@ -111,6 +111,14 @@ public abstract class AbstractHero implements Hero {
         }
     }
 
+    @Override
+    public void rollback(Move moveToRevert) {
+        moveToRevert.rollback();
+        revertAvailableMovesGeneration();
+        movesInRound.remove(moveToRevert);
+        revertDeadHeroNotification();
+    }
+
     public void generateAvailableMoves() {
         availableMovesBackup = new ArrayList<>(availableMoves);
         availableMoves = possibleMoves();
@@ -213,11 +221,16 @@ public abstract class AbstractHero implements Hero {
     }
 
     public void revertDamage(int damage) {
-        // revertIfDeadHero();
         health = health + damage;
     }
 
     protected void notifyIfDeadHero() {
+        if (isDead()) {
+            notifyAboutDeadHero();
+        }
+    }
+
+    protected void notifyIfAliveHero() {
         if (isDead()) {
             notifyAboutDeadHero();
         }

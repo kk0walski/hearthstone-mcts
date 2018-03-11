@@ -13,7 +13,6 @@ public class PutCard implements Move {
     private Hero self;
     private Hero enemy;
 
-
     public PutCard(int cardInHandIndex, Hero self, Hero enemy) {
         this.cardInHandIndex = cardInHandIndex;
         this.self = self;
@@ -40,8 +39,8 @@ public class PutCard implements Move {
 
         revertSpecialAbility(cardToRevert);
 
-        self.increaseHealth(cardToRevert.getCost());
-        hand.add(cardToRevert);
+        self.increaseMana(cardToRevert.getCost());
+        hand.add(cardInHandIndex, cardToRevert);
     }
 
     @Override
