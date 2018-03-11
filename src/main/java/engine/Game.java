@@ -138,8 +138,12 @@ public class Game {
         switchActiveHero();
     }
 
-    public void deadHeroNotification() {
-        checkForGameEnd();
+    public void deadHeroNotification(Hero hero) {
+        if(hero.equals(firstHero)) {
+            endWithWinner(secondHero);
+        } else if (hero.equals(secondHero)) {
+            endWithWinner(firstHero);
+        }
     }
 
     public void gameEndNotification() {

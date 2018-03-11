@@ -34,13 +34,15 @@ public abstract class AbstractHero implements Hero {
     private int increasedMana;
     protected int round;
     protected int punishForEmptyDeck;
+    private Card lastPickedCardBackup;
     protected List<Card> deck;
     protected List<Card> hand;
     protected List<Card> board;
     protected List<Move> movesInRound;
-    protected List<Move> movesInRoundBackup;
+    private List<Move> movesInRoundBackup;
     protected Game game;
     protected List<Move> availableMoves;
+    private List<Move> availableMovesBackup;
     protected List<Card> activatedMinions;
 
     public AbstractHero(Game game, String name, List<Card> initialDeck, int initialHandSize) {
@@ -97,7 +99,7 @@ public abstract class AbstractHero implements Hero {
         if (availableMoves.contains(moveToDo)) {
             if (moveToDo instanceof EndRound) {
                 endRound();
-              return true;
+                return true;
             }
             moveToDo.performMove();
             movesInRound.add(moveToDo);
@@ -110,7 +112,12 @@ public abstract class AbstractHero implements Hero {
     }
 
     public void generateAvailableMoves() {
+        availableMovesBackup = new ArrayList<>(availableMoves);
         availableMoves = possibleMoves();
+    }
+
+    private void revertAvailableMovesGeneration() {
+        availableMoves = availableMovesBackup;
     }
 
     private List<Move> addSpellMoves(int cardInHandIndex) {
@@ -121,9 +128,8 @@ public abstract class AbstractHero implements Hero {
         if (spell instanceof Fireball) {
             List<Card> enemyBoard = enemy.getBoard();
 
-            for(int i=0;i<enemyBoard.size(); i++)
-            {
-            	Card enemyCard=enemyBoard.get(i);
+            for (int i = 0; i < enemyBoard.size(); i++) {
+                Card enemyCard = enemyBoard.get(i);
                 resultMovesList.add(new UseSpell(cardInHandIndex, this, enemy, (Minion) enemyCard, i));
             }
 
@@ -164,8 +170,8 @@ public abstract class AbstractHero implements Hero {
             if (((Minion) board.get(cardOnBoardIndex)).isActive()) {
                 possibleMoves.add(new AttackHero(cardOnBoardIndex, board, game.getEnemyOf(this)));
                 for (int cardOnEnemyBoardIndex = 0; cardOnEnemyBoardIndex < game.getEnemyOf(this).getBoard().size(); cardOnEnemyBoardIndex++) {
-                    possibleMoves.add(new AttackMinion(cardOnBoardIndex, board, game.getEnemyOf(this).getBoard().get(cardOnEnemyBoardIndex),cardOnEnemyBoardIndex));
-                    
+                    possibleMoves.add(new AttackMinion(cardOnBoardIndex, board, game.getEnemyOf(this).getBoard().get(cardOnEnemyBoardIndex), cardOnEnemyBoardIndex));
+
                 }
             }
         }
@@ -189,7 +195,6 @@ public abstract class AbstractHero implements Hero {
         resetMovesInRound();
         notifyAboutRoundEnd();
     }
-
 
 
     @Override
@@ -218,6 +223,13 @@ public abstract class AbstractHero implements Hero {
         }
     }
 
+    protected void revertDeadHeroNotification() {
+        if (game.isGameOver()) {
+            game.setGameOver(false);
+            game.setWinner(null);
+        }
+    }
+
     public void deadMinionNotification(Minion minion) {
         board.remove(minion);
     }
@@ -232,7 +244,7 @@ public abstract class AbstractHero implements Hero {
     }
 
     private void notifyAboutDeadHero() {
-        game.deadHeroNotification();
+        game.deadHeroNotification(this);
     }
 
     private void notifyAboutRoundEnd() {
@@ -243,9 +255,9 @@ public abstract class AbstractHero implements Hero {
     private void increaseMana() {
         if (mana < MAXIMUM_MANA_POINTS) {
             mana++;
-            increasedMana=1;
+            increasedMana = 1;
         } else {
-            increasedMana=0;
+            increasedMana = 0;
         }
     }
 
@@ -270,7 +282,7 @@ public abstract class AbstractHero implements Hero {
         if (health > MAXIMUM_HEALTH_POINTS)
             health = MAXIMUM_HEALTH_POINTS;
 
-        return health-oldHealth;
+        return health - oldHealth;
     }
 
     @Override
@@ -289,20 +301,30 @@ public abstract class AbstractHero implements Hero {
         if (deck.isEmpty()) {
             punishForEmptyDeck++;
             health = health - punishForEmptyDeck;
+            lastPickedCardBackup = null;
             return;
         }
 
         if (hand.size() == MAXIMUM_HAND_SIZE) {
+            lastPickedCardBackup = null;
             return;
         }
 
+        lastPickedCardBackup = deck.get(0);
         hand.add(deck.get(0));
-        hand.get(hand.size()-1).setOwner(this);
+        hand.get(hand.size() - 1).setOwner(this);
         deck.remove(deck.get(0)); // TODO - may produce NPE on line above because i'm not sure whether after remove from deck it will change indexes
     }
 
     private void revertPreviousPickCardFromDeck() {
-        if()
+        if (lastPickedCardBackup == null) {
+            if (punishForEmptyDeck > 1) {
+                health = health + punishForEmptyDeck - 1;
+            }
+        } else {
+            deck.add(hand.get(hand.size()-1)); //get last card in hand - it should be lastPickedCardBackup
+            hand.remove(hand.get(hand.size()-1));
+        }
     }
 
     public int getHealth() {
@@ -393,117 +415,103 @@ public abstract class AbstractHero implements Hero {
     public void setName(String name) {
         this.name = name;
     }
-    
-    @Override
-	public Hero deepCopy() {
-    	AbstractHero hero= copyHeroInstance();
-		
-		hero.setName(new String(name));
-		hero.setHealth(getHealth());
-		hero.setMana(getMana());
-		hero.setRound(getRound());
-		hero.setPunishForEmptyDeck(getPunishForEmptyDeck());
-		ArrayList<Card> deck=new ArrayList<>();
-		for(Card c: getDeck())
-		{
-			Card temp=c.deepCopy();
-			temp.setOwner(hero);
-			deck.add(temp);
-		}
-		hero.setDeck(deck);
-		ArrayList<Card> hand=new ArrayList<>();
-		for(Card c: getHand())
-		{
-			Card temp=c.deepCopy();
-			temp.setOwner(hero);
-			hand.add(temp);
-		}
-		hero.setHand(hand);
-		ArrayList<Card> board=new ArrayList<>();
-		for(Card c: getBoard())
-		{
-			Card temp=c.deepCopy();
-			temp.setOwner(hero);
-			board.add(temp);
-		}
-		hero.setBoard(board);
-		
-		return hero;
-	}
-    
-    private AbstractHero copyHeroInstance()
-    {
-    	AbstractHero res=null;
-    	if(this instanceof DefaultHero)
-    		res=new DefaultHero();
-    	if(this instanceof AgresiveHero)
-    		res=new AgresiveHero();
-    	if(this instanceof PassiveHero)
-    		res=new PassiveHero();
-    	if(this instanceof RandomHero)
-    		res=new RandomHero();
-    	
-    	return res;
-    }
-    
-    public List<Move> copyMovesTo(AbstractHero target, List<Move> toCopy)
-    {
-    	ArrayList<Move> copy=new ArrayList<>();
-    	for(Move m:toCopy)
-    	{
-    		Move newMove=null;
-    		Hero enemy=target.game.getEnemyOf(target);
-    		if( m instanceof AttackHero)
-    		{
-    			newMove=new AttackHero(m.getCardIndex(), target.board, enemy);
-    		}
-    		if(m instanceof AttackMinion)
-    		{
-    			AttackMinion source=(AttackMinion) m;
-    			newMove=new AttackMinion(m.getCardIndex(), target.board,
-    					enemy.getBoard().get(source.getMinionIndex()), source.getMinionIndex());
 
-    		}
-    		if(m instanceof EndRound)
-    		{
-    			newMove=new EndRound();
-    		}
-    		if(m instanceof PutCard)
-    		{
-    			newMove=new PutCard(m.getCardIndex(), target, enemy);
-    		}
-    		if(m instanceof UseSpell)
-    		{
-    			UseSpell source=(UseSpell) m;
-    			
-    			if(source.getTargetMinion()!=null)
-    			{
-    				if(source.getSelf().getHand().get(source.getCardIndex()) instanceof HealingTouch)
-    					newMove = new UseSpell(m.getCardIndex(), target, enemy,(Minion) target.getBoard().get(source.getMinionIndex()), source.getMinionIndex());
-    				else
-    					newMove = new UseSpell(m.getCardIndex(), target, enemy,
-    							(Minion) enemy.getBoard().get(source.getMinionIndex()), source.getMinionIndex());
-    				
-    			}
-    			else
-    			{
-    				Hero targetOfSpell=null;
-    				if(source.getTargetHero()!= null) 
-    				{
-    					if(source.getTargetHero() == source.getEnemy())
-    						targetOfSpell=enemy;
-    					else
-    						targetOfSpell=target;
-    				}
-    				newMove = new UseSpell(m.getCardIndex(), target, enemy, null, targetOfSpell);
-    			}
-    		}
-    		
-    		copy.add(newMove);
-    			
-    	}
-    	return copy;
+    @Override
+    public Hero deepCopy() {
+        AbstractHero hero = copyHeroInstance();
+
+        hero.setName(new String(name));
+        hero.setHealth(getHealth());
+        hero.setMana(getMana());
+        hero.setRound(getRound());
+        hero.setPunishForEmptyDeck(getPunishForEmptyDeck());
+        ArrayList<Card> deck = new ArrayList<>();
+        for (Card c : getDeck()) {
+            Card temp = c.deepCopy();
+            temp.setOwner(hero);
+            deck.add(temp);
+        }
+        hero.setDeck(deck);
+        ArrayList<Card> hand = new ArrayList<>();
+        for (Card c : getHand()) {
+            Card temp = c.deepCopy();
+            temp.setOwner(hero);
+            hand.add(temp);
+        }
+        hero.setHand(hand);
+        ArrayList<Card> board = new ArrayList<>();
+        for (Card c : getBoard()) {
+            Card temp = c.deepCopy();
+            temp.setOwner(hero);
+            board.add(temp);
+        }
+        hero.setBoard(board);
+
+        return hero;
     }
+
+    private AbstractHero copyHeroInstance() {
+        AbstractHero res = null;
+        if (this instanceof DefaultHero)
+            res = new DefaultHero();
+        if (this instanceof AgresiveHero)
+            res = new AgresiveHero();
+        if (this instanceof PassiveHero)
+            res = new PassiveHero();
+        if (this instanceof RandomHero)
+            res = new RandomHero();
+
+        return res;
+    }
+
+    public List<Move> copyMovesTo(AbstractHero target, List<Move> toCopy) {
+        ArrayList<Move> copy = new ArrayList<>();
+        for (Move m : toCopy) {
+            Move newMove = null;
+            Hero enemy = target.game.getEnemyOf(target);
+            if (m instanceof AttackHero) {
+                newMove = new AttackHero(m.getCardIndex(), target.board, enemy);
+            }
+            if (m instanceof AttackMinion) {
+                AttackMinion source = (AttackMinion) m;
+                newMove = new AttackMinion(m.getCardIndex(), target.board,
+                        enemy.getBoard().get(source.getMinionIndex()), source.getMinionIndex());
+
+            }
+            if (m instanceof EndRound) {
+                newMove = new EndRound();
+            }
+            if (m instanceof PutCard) {
+                newMove = new PutCard(m.getCardIndex(), target, enemy);
+            }
+            if (m instanceof UseSpell) {
+                UseSpell source = (UseSpell) m;
+
+                if (source.getTargetMinion() != null) {
+                    if (source.getSelf().getHand().get(source.getCardIndex()) instanceof HealingTouch)
+                        newMove = new UseSpell(m.getCardIndex(), target, enemy, (Minion) target.getBoard().get(source.getMinionIndex()), source.getMinionIndex());
+                    else
+                        newMove = new UseSpell(m.getCardIndex(), target, enemy,
+                                (Minion) enemy.getBoard().get(source.getMinionIndex()), source.getMinionIndex());
+
+                } else {
+                    Hero targetOfSpell = null;
+                    if (source.getTargetHero() != null) {
+                        if (source.getTargetHero() == source.getEnemy())
+                            targetOfSpell = enemy;
+                        else
+                            targetOfSpell = target;
+                    }
+                    newMove = new UseSpell(m.getCardIndex(), target, enemy, null, targetOfSpell);
+                }
+            }
+
+            copy.add(newMove);
+
+        }
+        return copy;
+    }
+
     public List<Move> getMovesInRoundBackup() {
         return movesInRoundBackup;
     }

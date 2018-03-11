@@ -8,6 +8,10 @@ public class EndRound implements Move {
 
     private Hero self;
 
+    public EndRound() {
+
+    }
+
     public EndRound(Hero self) {
         this.self = self;
     }
