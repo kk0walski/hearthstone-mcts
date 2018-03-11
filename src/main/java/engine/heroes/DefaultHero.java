@@ -20,4 +20,9 @@ public class DefaultHero extends AbstractHero {
 		super(game, name, initialDeck, initialHandSize);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public DefaultHero() //helpful in copying
+	{
+		super(null,null,null,-1);
+	}
 }

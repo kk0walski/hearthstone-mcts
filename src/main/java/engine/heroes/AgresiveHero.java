@@ -36,7 +36,11 @@ public class AgresiveHero extends AbstractHero implements HeuristicHero {
 		// TODO Auto-generated constructor stub
 	}
     
-    public void chooseHeuristicMove() {
+    public AgresiveHero() {
+		super(null,null,null,-1);
+	}
+
+	public void chooseHeuristicMove() {
     	Move toDo=null;
     	while (!(toDo instanceof EndRound))
     	{

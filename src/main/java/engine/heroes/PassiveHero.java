@@ -16,7 +16,11 @@ public class PassiveHero extends AbstractHero implements HeuristicHero {
         super(game, name, initialDeck, initialHandSize);
     }
 
-    @Override
+    public PassiveHero() {
+    	super(null,null,null,-1);
+	}
+
+	@Override
     public void chooseHeuristicMove() {
         Move toDo = null;
         while (!(toDo instanceof EndRound)) {

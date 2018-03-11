@@ -16,6 +16,7 @@ public class UseSpell implements Move {
     private Minion targetMinion;//only one is not null, i don't have better idea
     private Hero targetHero;
 
+    private int minionIndex; //if minion is not target =-1 (helpful in copy)
     public UseSpell(int cardInHandIndex, Hero self, Hero enemy, Minion targetMinion, Hero targetHero) {
         super();
         this.cardInHandIndex = cardInHandIndex;
@@ -23,6 +24,14 @@ public class UseSpell implements Move {
         this.enemy = enemy;
         this.targetMinion = targetMinion;
         this.targetHero = targetHero;
+    }
+    public UseSpell(int cardInHandIndex, Hero self, Hero enemy, Minion targetMinion, int minionIndex) {
+        super();
+        this.cardInHandIndex = cardInHandIndex;
+        this.self = self;
+        this.enemy = enemy;
+        this.targetMinion = targetMinion;
+        this.minionIndex = minionIndex;
     }
 
     @Override
@@ -103,5 +112,23 @@ public class UseSpell implements Move {
  		// TODO Auto-generated method stub
  		return cardInHandIndex;
  	}
+
+	public Hero getSelf() {
+		return self;
+	}
+
+	public Hero getEnemy() {
+		return enemy;
+	}
+
+	public int getMinionIndex() {
+		return minionIndex;
+	}
+
+	public void setMinionIndex(int minionIndex) {
+		this.minionIndex = minionIndex;
+	}
+	
+	
     
 }

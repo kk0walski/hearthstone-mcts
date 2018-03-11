@@ -135,7 +135,7 @@ public class BaseTextGui {
                     System.out.println("Wybierz miniona");
                     int enymyMinion = keyboard.nextInt();
                     if (minion < game.getEnemyOf(game.getActiveHero()).getBoard().size())
-                        return new AttackMinion(minion, game.getActiveHero().getBoard(), game.getEnemyOf(game.getActiveHero()).getBoard().get(enymyMinion));
+                        return new AttackMinion(minion, game.getActiveHero().getBoard(), game.getEnemyOf(game.getActiveHero()).getBoard().get(enymyMinion),enymyMinion);
                     else
                         return null;
             }
@@ -176,7 +176,7 @@ public class BaseTextGui {
                             System.out.println("Wybierz miniona");
                             int minion = keyboard.nextInt();
                             if (minion < game.getActiveHero().getBoard().size())
-                                return new UseSpell(spell, game.getActiveHero(), game.getEnemyOf(game.getActiveHero()), (Minion) game.getActiveHero().getBoard().get(minion), null);
+                                return new UseSpell(spell, game.getActiveHero(), game.getEnemyOf(game.getActiveHero()), (Minion) game.getActiveHero().getBoard().get(minion), minion);
                             else
                                 return null;
                     }

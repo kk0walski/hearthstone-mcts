@@ -11,11 +11,19 @@ public class AttackMinion implements Move {
     private int cardInBoardIndex;
 	private List<Card> board;
     private Minion minionToGetAttacked;
+    private int minionIndex;
 
     public AttackMinion(int cardInBoardIndex, List<Card> board, Card minionToGetAttacked) {
         this.cardInBoardIndex = cardInBoardIndex;
         this.board = board;
         this.minionToGetAttacked = (Minion) minionToGetAttacked;
+    }
+    
+    public AttackMinion(int cardInBoardIndex, List<Card> board, Card minionToGetAttacked, int minionIndex) {
+        this.cardInBoardIndex = cardInBoardIndex;
+        this.board = board;
+        this.minionToGetAttacked = (Minion) minionToGetAttacked;
+        this.minionIndex=minionIndex;
     }
 
     @Override
@@ -96,5 +104,13 @@ public class AttackMinion implements Move {
 
 	public void setMinionToGetAttacked(Minion minionToGetAttacked) {
 		this.minionToGetAttacked = minionToGetAttacked;
+	}
+
+	public int getMinionIndex() {
+		return minionIndex;
+	}
+
+	public void setMinionIndex(int minionIndex) {
+		this.minionIndex = minionIndex;
 	}
 }

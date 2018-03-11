@@ -213,6 +213,10 @@ public class Game {
         this.winner = winner;
     }
     
+
+//  protected Game game;
+//  protected List<Move> availableMoves;
+    
     public Game deepCopy()
     {
     	Game resoult=new Game();
@@ -224,11 +228,19 @@ public class Game {
     	resoult.firstHero=firstHero;
     	resoult.secondHero=secHero;
     	
-    	if(this.activeHero == firstHero)
+    	if(this.activeHero == this.firstHero)
     		resoult.activeHero=firstHero;
     	else
     		resoult.activeHero=secHero;
     	
+    	resoult.firstHero.setMovesInRound(this.firstHero.copyMovesTo((AbstractHero) resoult.firstHero, this.firstHero.getMovesInRound()));
+    	resoult.secondHero.setMovesInRound(this.secondHero.copyMovesTo((AbstractHero) resoult.secondHero, this.secondHero.getMovesInRound()));
+
+    	resoult.firstHero.setAvailableMoves(this.firstHero.copyMovesTo((AbstractHero) resoult.firstHero, this.firstHero.getAvailableMoves()));
+    	resoult.secondHero.setAvailableMoves(this.secondHero.copyMovesTo((AbstractHero) resoult.secondHero, this.secondHero.getAvailableMoves()));
+    	
+    	resoult.firstHero.setGame(resoult);
+    	resoult.secondHero.setGame(resoult);
     	
     	return resoult;
     	

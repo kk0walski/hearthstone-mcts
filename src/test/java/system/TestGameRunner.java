@@ -203,7 +203,7 @@ public class TestGameRunner {
 
         putCardMove = new PutCard(0, firstHero, secondHero);
         Move attackHeroMove = new AttackHero(0, firstHero.getBoard(), secondHero);
-        Move attackMinionMove = new AttackMinion(0, firstHero.getBoard(), secondHero.getBoard().get(0));
+        Move attackMinionMove = new AttackMinion(0, firstHero.getBoard(), secondHero.getBoard().get(0),0);
         // ---
 
         // --- THEN

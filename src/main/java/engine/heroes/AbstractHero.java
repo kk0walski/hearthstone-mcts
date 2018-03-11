@@ -24,7 +24,7 @@ public abstract class AbstractHero implements Hero {
     public static final int MAXIMUM_HEALTH_POINTS = 20;
     public static final int MAXIMUM_MANA_POINTS = 10;
     public static final int INITIAL_HEALTH_POINTS = 10;
-    public static final int INITIAL_MANA_POINTS = 0;
+    public static final int INITIAL_MANA_POINTS = 40;
     public static final int INITIAL_PUNISH_FOR_EMPTY_DECK = 0;
     public static final int INITIAL_ROUND_NUMBER = 0;
 
@@ -98,8 +98,10 @@ public abstract class AbstractHero implements Hero {
         if (spell instanceof Fireball) {
             List<Card> enemyBoard = enemy.getBoard();
 
-            for (Card enemyCard : enemyBoard) {
-                resultMovesList.add(new UseSpell(cardInHandIndex, this, enemy, (Minion) enemyCard, null));
+            for(int i=0;i<enemyBoard.size(); i++)
+            {
+            	Card enemyCard=enemyBoard.get(i);
+                resultMovesList.add(new UseSpell(cardInHandIndex, this, enemy, (Minion) enemyCard, i));
             }
 
             resultMovesList.add(new UseSpell(cardInHandIndex, this, enemy, null, enemy));
@@ -139,7 +141,8 @@ public abstract class AbstractHero implements Hero {
             if (((Minion) board.get(cardOnBoardIndex)).isActive()) {
                 possibleMoves.add(new AttackHero(cardOnBoardIndex, board, game.getEnemyOf(this)));
                 for (int cardOnEnemyBoardIndex = 0; cardOnEnemyBoardIndex < game.getEnemyOf(this).getBoard().size(); cardOnEnemyBoardIndex++) {
-                    possibleMoves.add(new AttackMinion(cardOnBoardIndex, board, game.getEnemyOf(this).getBoard().get(cardOnEnemyBoardIndex)));
+                    possibleMoves.add(new AttackMinion(cardOnBoardIndex, board, game.getEnemyOf(this).getBoard().get(cardOnEnemyBoardIndex),cardOnEnemyBoardIndex));
+                    
                 }
             }
         }
@@ -328,19 +331,12 @@ public abstract class AbstractHero implements Hero {
     }
 
 
-//    protected List<Move> movesInRound;
-//    protected Game game;
-//    protected List<Move> availableMoves;
+
     
     @Override
 	public Hero deepCopy() {
-    	AbstractHero hero=null;
-		try {
-			 hero=this.getClass().newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	AbstractHero hero= copyHeroInstance();
+		
 		hero.setName(new String(name));
 		hero.setHealth(getHealth());
 		hero.setMana(getMana());
@@ -349,49 +345,102 @@ public abstract class AbstractHero implements Hero {
 		ArrayList<Card> deck=new ArrayList<>();
 		for(Card c: getDeck())
 		{
-			deck.add(c.deepCopy());
+			Card temp=c.deepCopy();
+			temp.setOwner(hero);
+			deck.add(temp);
 		}
 		hero.setDeck(deck);
 		ArrayList<Card> hand=new ArrayList<>();
 		for(Card c: getHand())
 		{
-			hand.add(c.deepCopy());
+			Card temp=c.deepCopy();
+			temp.setOwner(hero);
+			hand.add(temp);
 		}
 		hero.setHand(hand);
 		ArrayList<Card> board=new ArrayList<>();
 		for(Card c: getBoard())
 		{
-			board.add(c.deepCopy());
+			Card temp=c.deepCopy();
+			temp.setOwner(hero);
+			board.add(temp);
 		}
 		hero.setBoard(board);
 		
 		return hero;
 	}
     
+    private AbstractHero copyHeroInstance()
+    {
+    	AbstractHero res=null;
+    	if(this instanceof DefaultHero)
+    		res=new DefaultHero();
+    	if(this instanceof AgresiveHero)
+    		res=new AgresiveHero();
+    	if(this instanceof PassiveHero)
+    		res=new PassiveHero();
+    	if(this instanceof RandomHero)
+    		res=new RandomHero();
+    	
+    	return res;
+    }
     
     public List<Move> copyMovesTo(AbstractHero target, List<Move> toCopy)
     {
     	ArrayList<Move> copy=new ArrayList<>();
     	for(Move m:toCopy)
     	{
+    		Move newMove=null;
+    		Hero enemy=target.game.getEnemyOf(target);
     		if( m instanceof AttackHero)
     		{
-    			((AttackHero)m).setBoard(target.board);
-    			((AttackHero)m).setCardInBoardIndex(m.getCardIndex());
-    			((AttackHero)m).setHeroToGetAttacked(target.game.getEnemyOf(target));
+    			newMove=new AttackHero(m.getCardIndex(), target.board, enemy);
     		}
     		if(m instanceof AttackMinion)
     		{
-    			((AttackMinion)m).setBoard(target.board);
-    			((AttackMinion)m).setCardInBoardIndex(m.getCardIndex());
-    			((AttackMinion)m).setMinionToGetAttacked(minionToGetAttacked);
+    			AttackMinion source=(AttackMinion) m;
+    			newMove=new AttackMinion(m.getCardIndex(), target.board,
+    					enemy.getBoard().get(source.getMinionIndex()), source.getMinionIndex());
+
     		}
+    		if(m instanceof EndRound)
+    		{
+    			newMove=new EndRound();
+    		}
+    		if(m instanceof PutCard)
+    		{
+    			newMove=new PutCard(m.getCardIndex(), target, enemy);
+    		}
+    		if(m instanceof UseSpell)
+    		{
+    			UseSpell source=(UseSpell) m;
+    			
+    			if(source.getTargetMinion()!=null)
+    			{
+    				if(source.getSelf().getHand().get(source.getCardIndex()) instanceof HealingTouch)
+    					newMove = new UseSpell(m.getCardIndex(), target, enemy,(Minion) target.getBoard().get(source.getMinionIndex()), source.getMinionIndex());
+    				else
+    					newMove = new UseSpell(m.getCardIndex(), target, enemy,
+    							(Minion) enemy.getBoard().get(source.getMinionIndex()), source.getMinionIndex());
+    				
+    			}
+    			else
+    			{
+    				Hero targetOfSpell=null;
+    				if(source.getTargetHero()!= null) 
+    				{
+    					if(source.getTargetHero() == source.getEnemy())
+    						targetOfSpell=enemy;
+    					else
+    						targetOfSpell=target;
+    				}
+    				newMove = new UseSpell(m.getCardIndex(), target, enemy, null, targetOfSpell);
+    			}
+    		}
+    		
+    		copy.add(newMove);
+    			
     	}
-    }
-    
-    public static void main(String[] args)
-    {
-    	AgresiveHero x=new AgresiveHero(null, "xx", null, 0);
-    	System.out.println(x.deepCopy());
+    	return copy;
     }
 }

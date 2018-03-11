@@ -23,7 +23,7 @@ public class Spell implements Card {
             e.printStackTrace();
         }
 
-        copy.setName(name);
+        copy.setName(new String(name));
         copy.setCost(cost);
         copy.setOwner(owner);
 

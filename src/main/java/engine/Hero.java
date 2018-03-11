@@ -1,6 +1,7 @@
 package engine;
 
 import engine.cards.Minion;
+import engine.heroes.AbstractHero;
 
 import java.util.List;
 
@@ -43,5 +44,14 @@ public interface Hero {
     String getName();
     
     Hero deepCopy();
+    
+    List<Move> copyMovesTo(AbstractHero target, List<Move> toCopy);
+
+	void setMovesInRound(List<Move> copyMovesTo);
+
+	void setAvailableMoves(List<Move> copyMovesTo);
+
+	void setGame(Game resoult);
+
    
 }
