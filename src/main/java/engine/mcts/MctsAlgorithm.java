@@ -45,18 +45,19 @@ public class MctsAlgorithm {
                 root = bestChild(root, CP_FACTOR); // tu sie moze cos wykrzaczac z refkami
                 // root.getMoveInNode().performMove(); // też perform move na activehero powinno być
                 root.getGame().getActiveHero().performMove(root.getMoveInNode());
+                root.setUntriedMoves( new ArrayDeque<Move>(root.getGame().getActiveHero().getAvailableMoves())); // zdaje sie ze tutaj tez brakowalo
             }
         }
         return root;
     }
 
     Node expand(Node root) {
-        Move move = root.getUntriedMoves().pop(); //tutaj jest zle
+        Move move = root.getUntriedMoves().pop(); 
         Node child = new Node(root, move);
         root.addChild(child);
         // TODO - wywołać performMove na activeHero z parametrem child.getMoveInNode()
         root.getGame().getActiveHero().performMove(child.getMoveInNode());
-        child.setUntriedMoves( new ArrayDeque<Move>(root.getGame().getActiveHero().getAvailableMoves()));
+        child.setUntriedMoves( new ArrayDeque<Move>(root.getGame().getActiveHero().getAvailableMoves())); // tego brakowalo
         // child.getMoveInNode().performMove(); // czyli to niepotrzebne
         return child;
     }

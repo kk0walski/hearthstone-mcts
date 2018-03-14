@@ -505,8 +505,11 @@ public abstract class AbstractHero implements Hero {
                     if (source.getSelf().getHand().get(source.getCardIndex()) instanceof HealingTouch)
                         newMove = new UseSpell(m.getCardIndex(), target, enemy, (Minion) target.getBoard().get(source.getMinionIndex()), source.getMinionIndex());
                     else
+                    	
                         newMove = new UseSpell(m.getCardIndex(), target, enemy,
                                 (Minion) enemy.getBoard().get(source.getMinionIndex()), source.getMinionIndex());
+                    	
+                    
 
                 } else {
                     Hero targetOfSpell = null;
