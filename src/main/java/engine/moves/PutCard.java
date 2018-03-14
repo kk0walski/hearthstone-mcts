@@ -35,15 +35,11 @@ public class PutCard implements Move {
         List<Card> hand = self.getHand();
         List<Card> board = self.getBoard();
         Card cardToRevert=null;
-        try {
-         cardToRevert = board.get(board.size()-1); // get last putted card on board
-        }
-        catch(Exception e)
-        {
-        	System.out.println();
-        }
-        board.remove(cardToRevert);
 
+        cardToRevert = board.get(board.size()-1); // get last putted card on board
+       
+        board.remove(cardToRevert);
+        
         revertSpecialAbility(cardToRevert);
 
         self.increaseMana(cardToRevert.getCost());

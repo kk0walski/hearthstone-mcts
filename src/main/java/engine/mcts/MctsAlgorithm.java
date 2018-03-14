@@ -1,9 +1,18 @@
 package engine.mcts;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Deque;
+import java.util.Iterator;
+import java.util.List;
+
+import engine.Card;
 import engine.Game;
 import engine.Move;
 import engine.cards.spells.Fireball;
 import engine.heroes.RandomHero;
+import engine.moves.PutCard;
 
 public class MctsAlgorithm {
 
@@ -42,11 +51,12 @@ public class MctsAlgorithm {
     }
 
     Node expand(Node root) {
-        Move move = root.getUntriedMoves().pop();
+        Move move = root.getUntriedMoves().pop(); //tutaj jest zle
         Node child = new Node(root, move);
         root.addChild(child);
         // TODO - wywołać performMove na activeHero z parametrem child.getMoveInNode()
         root.getGame().getActiveHero().performMove(child.getMoveInNode());
+        child.setUntriedMoves( new ArrayDeque<Move>(root.getGame().getActiveHero().getAvailableMoves()));
         // child.getMoveInNode().performMove(); // czyli to niepotrzebne
         return child;
     }
@@ -58,6 +68,7 @@ public class MctsAlgorithm {
             double current = evaluateBestChildFormula(child, cFactor);
             if(current > bestFoundChildFormulaValue) {
                 bestChild = child;
+                bestFoundChildFormulaValue=current; //tego brakowalo 
             }
         }
         return bestChild;
@@ -113,10 +124,15 @@ public class MctsAlgorithm {
             } else {
                 nodeToBackup.addSecondHeroWin();
             }
-            if(nodeToBackup.getParent() != null)
+            if(nodeToBackup.getGame().getActiveHero().getBoard().size()==2)
+            	System.out.println("X");
+            if(nodeToBackup.getParent() != null) {
+            	List<Card> xx=nodeToBackup.getGame().getActiveHero().getBoard();
+            	Move e=nodeToBackup.getMoveInNode();
             	nodeToBackup.getGame().getActiveHero().rollback(nodeToBackup.getMoveInNode());
+            }
             // nodeToBackup.getMoveInNode().rollback();
-
+            List<Card> xx=nodeToBackup.getGame().getActiveHero().getBoard();
             nodeToBackup = nodeToBackup.getParent();
         }
 
