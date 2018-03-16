@@ -44,16 +44,16 @@ public interface Hero {
     void endRound();
 
     String getName();
-    
+
     Hero deepCopy();
-    
+
     List<Move> copyMovesTo(AbstractHero target, List<Move> toCopy);
 
-	void setMovesInRound(List<Move> copyMovesTo);
+    void setMovesInRound(List<Move> copyMovesTo);
 
-	void setAvailableMoves(List<Move> copyMovesTo);
+    void setAvailableMoves(List<Move> copyMovesTo);
 
-	void setGame(Game resoult);
+    void setGame(Game resoult);
 
     void revertDamage(int damage);
 

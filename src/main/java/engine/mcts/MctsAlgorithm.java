@@ -45,19 +45,19 @@ public class MctsAlgorithm {
                 root = bestChild(root, CP_FACTOR); // tu sie moze cos wykrzaczac z refkami
                 // root.getMoveInNode().performMove(); // też perform move na activehero powinno być
                 root.getGame().getActiveHero().performMove(root.getMoveInNode());
-                root.setUntriedMoves( new ArrayDeque<Move>(root.getGame().getActiveHero().getAvailableMoves())); // zdaje sie ze tutaj tez brakowalo
+                root.setUntriedMoves(new ArrayDeque<Move>(root.getGame().getActiveHero().getAvailableMoves())); // zdaje sie ze tutaj tez brakowalo
             }
         }
         return root;
     }
 
     Node expand(Node root) {
-        Move move = root.getUntriedMoves().pop(); 
+        Move move = root.getUntriedMoves().pop();
         Node child = new Node(root, move);
         root.addChild(child);
         // TODO - wywołać performMove na activeHero z parametrem child.getMoveInNode()
         root.getGame().getActiveHero().performMove(child.getMoveInNode());
-        child.setUntriedMoves( new ArrayDeque<Move>(root.getGame().getActiveHero().getAvailableMoves())); // tego brakowalo
+        child.setUntriedMoves(new ArrayDeque<Move>(root.getGame().getActiveHero().getAvailableMoves())); // tego brakowalo
         // child.getMoveInNode().performMove(); // czyli to niepotrzebne
         return child;
     }
@@ -65,11 +65,11 @@ public class MctsAlgorithm {
     Node bestChild(Node root, int cFactor) {
         Node bestChild = null;
         double bestFoundChildFormulaValue = Integer.MIN_VALUE;
-        for(Node child: root.getChilds()) {
+        for (Node child : root.getChilds()) {
             double current = evaluateBestChildFormula(child, cFactor);
-            if(current > bestFoundChildFormulaValue) {
+            if (current > bestFoundChildFormulaValue) {
                 bestChild = child;
-                bestFoundChildFormulaValue=current; //tego brakowalo 
+                bestFoundChildFormulaValue = current; //tego brakowalo
             }
         }
         return bestChild;
@@ -89,8 +89,8 @@ public class MctsAlgorithm {
         }
 
         return q / child.getTotalGames() + cFactor * Math.sqrt(
-                        (2 * Math.log(child.getParent().getTotalGames()))
-                                / child.getTotalGames()
+                (2 * Math.log(child.getParent().getTotalGames()))
+                        / child.getTotalGames()
         );
     }
 
@@ -100,7 +100,7 @@ public class MctsAlgorithm {
         while (!(copy.isGameOver())) {
             copy.getActiveHero().chooseRandomSimulationalMove();
         }
-        if(root.getGame().getActiveHero().equals(copy.getWinner())) {
+        if (root.getGame().getActiveHero().equals(copy.getWinner())) {
             return 1;
         } else {
             return -1;
@@ -112,10 +112,10 @@ public class MctsAlgorithm {
      * If delta == -1, then activeHero in input node has lose.
      *
      * @param nodeToBackup input node
-     * @param delta binary value of simulation (defaultPolicy) result
+     * @param delta        binary value of simulation (defaultPolicy) result
      */
     void backup(Node nodeToBackup, int delta) {
-        if(nodeToBackup.getGame().isGameOver()) {
+        if (nodeToBackup.getGame().isGameOver()) {
             nodeToBackup.getGame().setGameOver(false);
             nodeToBackup.getGame().setWinner(null);
         }
@@ -125,15 +125,15 @@ public class MctsAlgorithm {
             } else {
                 nodeToBackup.addSecondHeroWin();
             }
-            if(nodeToBackup.getGame().getActiveHero().getBoard().size()==2)
-            	System.out.println("X");
-            if(nodeToBackup.getParent() != null) {
-            	List<Card> xx=nodeToBackup.getGame().getActiveHero().getBoard();
-            	Move e=nodeToBackup.getMoveInNode();
-            	nodeToBackup.getGame().getActiveHero().rollback(nodeToBackup.getMoveInNode());
+            if (nodeToBackup.getGame().getActiveHero().getBoard().size() == 2)
+                System.out.println("X");
+            if (nodeToBackup.getParent() != null) {
+                List<Card> xx = nodeToBackup.getGame().getActiveHero().getBoard();
+                Move e = nodeToBackup.getMoveInNode();
+                nodeToBackup.getGame().getActiveHero().rollback(nodeToBackup.getMoveInNode());
             }
             // nodeToBackup.getMoveInNode().rollback();
-            List<Card> xx=nodeToBackup.getGame().getActiveHero().getBoard();
+            List<Card> xx = nodeToBackup.getGame().getActiveHero().getBoard();
             nodeToBackup = nodeToBackup.getParent();
         }
 

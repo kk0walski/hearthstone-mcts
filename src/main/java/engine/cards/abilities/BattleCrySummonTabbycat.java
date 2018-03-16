@@ -26,7 +26,7 @@ public class BattleCrySummonTabbycat implements Ability {
 
     @Override
     public void revertAbility(Hero self, Hero enemy) {
-        if(wasTabbycatSummoned) {
+        if (wasTabbycatSummoned) {
             self.getBoard().remove(summonedTabbycat);
         }
     }

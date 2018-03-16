@@ -33,10 +33,10 @@ public class Game {
         setActiveHero(firstHero);
         setGameOver(false);
     }
-    
+
     public void initializeAndStartHumanWithRandomGame() {
-    	initializeStandardHeroAndRandom();
-    	setActiveHero(firstHero);
+        initializeStandardHeroAndRandom();
+        setActiveHero(firstHero);
         setGameOver(false);
     }
 
@@ -64,15 +64,15 @@ public class Game {
         secondHero = new RandomHero(this, "Second Hero", generateStandardDeck(), 4);
         assignCardsToHero(secondHero);
     }
-    
-    
+
+
     public void initializeAndStartHumanWithAgresiveGame() {
-    	initializeStandardHeroAndAgresive();
-    	setActiveHero(firstHero);
+        initializeStandardHeroAndAgresive();
+        setActiveHero(firstHero);
         setGameOver(false);
     }
-    
-    
+
+
     private void initializeStandardHeroAndAgresive() {
         firstHero = new DefaultHero(this, "First Hero", generateStandardDeck(), 3);
         assignCardsToHero(firstHero);
@@ -102,7 +102,7 @@ public class Game {
     }
 
     public void switchActiveHero() {
-    	System.out.println("-----------------------------------");
+        System.out.println("-----------------------------------");
         if (activeHero == null) {
             return;
         }
@@ -148,7 +148,7 @@ public class Game {
     }
 
     public void deadHeroNotification(Hero hero) {
-        if(hero.equals(firstHero)) {
+        if (hero.equals(firstHero)) {
             endWithWinner(secondHero);
         } else if (hero.equals(secondHero)) {
             endWithWinner(firstHero);
@@ -180,14 +180,14 @@ public class Game {
         secondHero = new DefaultHero(this, "Second Custom Hero", secondHeroDeck, secondHeroInitialHandSize);
         assignCardsToHero(secondHero);
     }
-    
+
     private void initializeHumanWithRandomHeroes(List<Card> firstHeroDeck, int firstHeroInitialHandSize, List<Card> secondHeroDeck, int secondHeroInitialHandSize) {
         firstHero = new DefaultHero(this, "First Human Default Hero", firstHeroDeck, firstHeroInitialHandSize);
         assignCardsToHero(firstHero);
         secondHero = new RandomHero(this, "Second Random Hero", secondHeroDeck, secondHeroInitialHandSize);
         assignCardsToHero(secondHero);
     }
-    
+
     private void assignCardsToHero(Hero hero) {
         hero.getDeck().forEach(card -> card.setOwner(hero));
     }
@@ -235,37 +235,36 @@ public class Game {
     public void setWinner(Hero winner) {
         this.winner = winner;
     }
-    
+
 
 //  protected Game game;
 //  protected List<Move> availableMoves;
-    
-    public Game deepCopy()
-    {
-    	Game resoult=new Game();
-    	Hero firstHero=this.firstHero.deepCopy();
-    	Hero secHero=this.secondHero.deepCopy();
-    	((AbstractHero)firstHero).setGame(resoult);
-    	((AbstractHero)secHero).setGame(resoult);
-    	
-    	resoult.firstHero=firstHero;
-    	resoult.secondHero=secHero;
-    	
-    	if(this.activeHero == this.firstHero)
-    		resoult.activeHero=firstHero;
-    	else
-    		resoult.activeHero=secHero;
-    	
-    	resoult.firstHero.setMovesInRound(this.firstHero.copyMovesTo((AbstractHero) resoult.firstHero, this.firstHero.getMovesInRound()));
-    	resoult.secondHero.setMovesInRound(this.secondHero.copyMovesTo((AbstractHero) resoult.secondHero, this.secondHero.getMovesInRound()));
 
-    	resoult.firstHero.setAvailableMoves(this.firstHero.copyMovesTo((AbstractHero) resoult.firstHero, this.firstHero.getAvailableMoves()));
-    	resoult.secondHero.setAvailableMoves(this.secondHero.copyMovesTo((AbstractHero) resoult.secondHero, this.secondHero.getAvailableMoves()));
-    	
-    	resoult.firstHero.setGame(resoult);
-    	resoult.secondHero.setGame(resoult);
-    	
-    	return resoult;
-    	
+    public Game deepCopy() {
+        Game resoult = new Game();
+        Hero firstHero = this.firstHero.deepCopy();
+        Hero secHero = this.secondHero.deepCopy();
+        ((AbstractHero) firstHero).setGame(resoult);
+        ((AbstractHero) secHero).setGame(resoult);
+
+        resoult.firstHero = firstHero;
+        resoult.secondHero = secHero;
+
+        if (this.activeHero == this.firstHero)
+            resoult.activeHero = firstHero;
+        else
+            resoult.activeHero = secHero;
+
+        resoult.firstHero.setMovesInRound(this.firstHero.copyMovesTo((AbstractHero) resoult.firstHero, this.firstHero.getMovesInRound()));
+        resoult.secondHero.setMovesInRound(this.secondHero.copyMovesTo((AbstractHero) resoult.secondHero, this.secondHero.getMovesInRound()));
+
+        resoult.firstHero.setAvailableMoves(this.firstHero.copyMovesTo((AbstractHero) resoult.firstHero, this.firstHero.getAvailableMoves()));
+        resoult.secondHero.setAvailableMoves(this.secondHero.copyMovesTo((AbstractHero) resoult.secondHero, this.secondHero.getAvailableMoves()));
+
+        resoult.firstHero.setGame(resoult);
+        resoult.secondHero.setGame(resoult);
+
+        return resoult;
+
     }
 }

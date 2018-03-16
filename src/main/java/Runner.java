@@ -17,9 +17,9 @@ public class Runner {
         game.getActiveHero().getHand().add(new Fireball());
         hero.startRound();
         System.out.println(hero.performMove(new UseSpell(0, hero, game.getEnemyOf(hero), null, game.getEnemyOf(hero))));
-       
 
-       Game g= game.deepCopy();
+
+        Game g = game.deepCopy();
         System.out.println();
     }
 }

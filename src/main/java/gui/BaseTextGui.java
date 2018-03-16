@@ -3,6 +3,7 @@ package gui;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 import engine.Card;
 import engine.Game;
 import engine.Move;
@@ -67,40 +68,39 @@ public class BaseTextGui {
         game.getActiveHero().startRound();
         baseInfo();
     }
-    
-    private void prepareCards()
-    {
-    	game.getActiveHero().getHand().clear();
-    	game.getActiveHero().getBoard().clear();
-    	game.getActiveHero().getDeck().clear();
-    	AbstractHero enemy=(AbstractHero) game.getEnemyOf(game.getActiveHero());
-    	enemy.getHand().clear();
-    	enemy.getBoard().clear();
-    	enemy.getDeck().clear();
-    	
-    	ArrayList<Card> deck1=new ArrayList<>();
-    	deck1.add(new Tabbycat(game.getActiveHero()));
-    	deck1.add(new HealingTouch(game.getActiveHero()));
-    	deck1.add(new Fireball(game.getActiveHero()));
-    	ArrayList<Card> deck11=new ArrayList<>();
-    	deck11.add(new Tabbycat(game.getActiveHero()));
-    	deck11.add(new HealingTouch(game.getActiveHero()));
-    	deck11.add(new Fireball(game.getActiveHero()));
-    	ArrayList<Card> deck2=new ArrayList<>();
-    	deck2.add(new Tabbycat(enemy));
-    	deck2.add(new HealingTouch(enemy));
-    	deck2.add(new Fireball(enemy));
-    	ArrayList<Card> deck22=new ArrayList<>();
-    	deck22.add(new Tabbycat(enemy));
-    	deck22.add(new HealingTouch(enemy));
-    	deck22.add(new Fireball(enemy));
-    	
-    	
-    	((AbstractHero) game.getActiveHero()).setHand(deck1);
-    	((AbstractHero) game.getActiveHero()).setDeck(deck11);
-    	enemy.setHand(deck2);
-    	enemy.setDeck(deck22);
-    	
+
+    private void prepareCards() {
+        game.getActiveHero().getHand().clear();
+        game.getActiveHero().getBoard().clear();
+        game.getActiveHero().getDeck().clear();
+        AbstractHero enemy = (AbstractHero) game.getEnemyOf(game.getActiveHero());
+        enemy.getHand().clear();
+        enemy.getBoard().clear();
+        enemy.getDeck().clear();
+
+        ArrayList<Card> deck1 = new ArrayList<>();
+        deck1.add(new Tabbycat(game.getActiveHero()));
+        deck1.add(new HealingTouch(game.getActiveHero()));
+        deck1.add(new Fireball(game.getActiveHero()));
+        ArrayList<Card> deck11 = new ArrayList<>();
+        deck11.add(new Tabbycat(game.getActiveHero()));
+        deck11.add(new HealingTouch(game.getActiveHero()));
+        deck11.add(new Fireball(game.getActiveHero()));
+        ArrayList<Card> deck2 = new ArrayList<>();
+        deck2.add(new Tabbycat(enemy));
+        deck2.add(new HealingTouch(enemy));
+        deck2.add(new Fireball(enemy));
+        ArrayList<Card> deck22 = new ArrayList<>();
+        deck22.add(new Tabbycat(enemy));
+        deck22.add(new HealingTouch(enemy));
+        deck22.add(new Fireball(enemy));
+
+
+        ((AbstractHero) game.getActiveHero()).setHand(deck1);
+        ((AbstractHero) game.getActiveHero()).setDeck(deck11);
+        enemy.setHand(deck2);
+        enemy.setDeck(deck22);
+
     }
 
     public void play() {
@@ -119,11 +119,10 @@ public class BaseTextGui {
     }
 
     public void makeMove() {
-    	if(game.getActiveHero() instanceof HeuristicHero)
-    	{
-    		((HeuristicHero)game.getActiveHero()).chooseHeuristicMove();
-    		return;
-    	}
+        if (game.getActiveHero() instanceof HeuristicHero) {
+            ((HeuristicHero) game.getActiveHero()).chooseHeuristicMove();
+            return;
+        }
         System.out.println("1.Uzyj czaru 2.Poloz karte 3.Uzyj karty ze stolu 4.Skoncz ture ");
         int move = keyboard.nextInt();
         Move m = prepareMove(move);
@@ -173,7 +172,7 @@ public class BaseTextGui {
                     System.out.println("Wybierz miniona");
                     int enymyMinion = keyboard.nextInt();
                     if (minion < game.getEnemyOf(game.getActiveHero()).getBoard().size())
-                        return new AttackMinion(minion, game.getActiveHero().getBoard(), game.getEnemyOf(game.getActiveHero()).getBoard().get(enymyMinion),enymyMinion);
+                        return new AttackMinion(minion, game.getActiveHero().getBoard(), game.getEnemyOf(game.getActiveHero()).getBoard().get(enymyMinion), enymyMinion);
                     else
                         return null;
             }

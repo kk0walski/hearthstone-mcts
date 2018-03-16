@@ -335,8 +335,8 @@ public abstract class AbstractHero implements Hero {
                 health = health + punishForEmptyDeck - 1;
             }
         } else {
-            deck.add(hand.get(hand.size()-1)); //get last card in hand - it should be lastPickedCardBackup
-            hand.remove(hand.get(hand.size()-1));
+            deck.add(hand.get(hand.size() - 1)); //get last card in hand - it should be lastPickedCardBackup
+            hand.remove(hand.get(hand.size() - 1));
         }
     }
 
@@ -505,11 +505,10 @@ public abstract class AbstractHero implements Hero {
                     if (source.getSelf().getHand().get(source.getCardIndex()) instanceof HealingTouch)
                         newMove = new UseSpell(m.getCardIndex(), target, enemy, (Minion) target.getBoard().get(source.getMinionIndex()), source.getMinionIndex());
                     else
-                    	
+
                         newMove = new UseSpell(m.getCardIndex(), target, enemy,
                                 (Minion) enemy.getBoard().get(source.getMinionIndex()), source.getMinionIndex());
-                    	
-                    
+
 
                 } else {
                     Hero targetOfSpell = null;
@@ -538,15 +537,13 @@ public abstract class AbstractHero implements Hero {
     }
 
     public void chooseRandomSimulationalMove() {
-        Move toDo=null;
-        while (!(toDo instanceof EndRound))
-        {
+        Move toDo = null;
+        while (!(toDo instanceof EndRound)) {
             int bestFound = -1;
             int bestFoundValue = Integer.MIN_VALUE;
-            for(int index=0; index<availableMoves.size(); index++)
-            {
+            for (int index = 0; index < availableMoves.size(); index++) {
                 int currentValue = evaluate(availableMoves.get(index));
-                if(currentValue > bestFoundValue) {
+                if (currentValue > bestFoundValue) {
                     bestFound = index;
                     bestFoundValue = currentValue;
                 }
@@ -557,6 +554,6 @@ public abstract class AbstractHero implements Hero {
     }
 
     private int evaluate(Move toDo) {
-        return (int) (Math.random()*100);
+        return (int) (Math.random() * 100);
     }
 }
