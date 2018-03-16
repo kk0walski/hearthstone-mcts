@@ -27,7 +27,7 @@ public class MctsAlgorithm {
         long start = System.currentTimeMillis();
         long end = start;
         Move bestFound = null;
-        while (end - start <= 10 * 1000) { // originally end - start <= 10 * 1000, temporary true end - start <= 10 * (Integer.MAX_VALUE/11)
+        while (end - start <= 10 * 100000000) { // originally end - start <= 10 * 1000, temporary true end - start <= 10 * (Integer.MAX_VALUE/11)
             Node child = treePolicy(root);
             int delta = defaultPolicy(child);
             backup(child, delta);
@@ -54,7 +54,7 @@ public class MctsAlgorithm {
     Node expand(Node root) {
         Move move = root.getUntriedMoves().pop();
         Node child = new Node(root, move);
-        System.out.println("[EXPAND] root move: " + root.getMoveInNode() + " | child move: " + child.getMoveInNode());
+        System.out.println("[EXPAND] root move: " + root.getMoveInNode() + " | child move: " + child.getMoveInNode() + " | child move cost: " + child.getMoveInNode().getCard());
         root.addChild(child);
         // TODO - wywołać performMove na activeHero z parametrem child.getMoveInNode()
         root.getGame().getActiveHero().performMove(child.getMoveInNode());
