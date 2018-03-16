@@ -48,7 +48,7 @@ public class Node {
         this.game = parent.game;
         this.parent = parent;
         this.moveInNode = moveInNode;
-        untriedMoves = new ArrayDeque<Move>(parent.getAvailableMoves());
+        untriedMoves = new ArrayDeque<Move>(parent.untriedMoves);
     }
 
     public void addChild(Node child) {

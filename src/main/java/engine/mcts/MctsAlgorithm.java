@@ -27,13 +27,13 @@ public class MctsAlgorithm {
         long start = System.currentTimeMillis();
         long end = start;
         Move bestFound = null;
-        while (end - start <= 10 * 1000) {
+        while (end - start <= 10 * (Integer.MAX_VALUE/11)) { // originally end - start <= 10 * 1000, temporary true
             Node child = treePolicy(root);
             int delta = defaultPolicy(child);
             backup(child, delta);
             end = System.currentTimeMillis();
         }
-
+        bestFound = bestChild(root, 0).getMoveInNode();
         return bestFound;
     }
 
@@ -99,8 +99,8 @@ public class MctsAlgorithm {
         Game copy = root.getGame().deepCopy();
         while (!(copy.isGameOver())) {
             copy.getActiveHero().chooseRandomSimulationalMove();
-        }
-        if (root.getGame().getActiveHero().equals(copy.getWinner())) {
+        } // todo - ogolnie mozemy na sztywno zakladac ze 1 jak wygrywa gracz pierwszy, -1 jak wygrywa gracz drugi, a nie activeHero
+        if (root.getGame().getActiveHero().equals(copy.getWinner())) { // todo - sprawdzic czy to dobrze dziala bo chyba niekoniecznie - stan gry jest inny i przez to zawsze bedzie zwracal -1. wiec trzeba porownywac np. po nazwie
             return 1;
         } else {
             return -1;

@@ -241,30 +241,30 @@ public class Game {
 //  protected List<Move> availableMoves;
 
     public Game deepCopy() {
-        Game resoult = new Game();
+        Game result = new Game();
         Hero firstHero = this.firstHero.deepCopy();
         Hero secHero = this.secondHero.deepCopy();
-        ((AbstractHero) firstHero).setGame(resoult);
-        ((AbstractHero) secHero).setGame(resoult);
+        ((AbstractHero) firstHero).setGame(result);
+        ((AbstractHero) secHero).setGame(result);
 
-        resoult.firstHero = firstHero;
-        resoult.secondHero = secHero;
+        result.firstHero = firstHero;
+        result.secondHero = secHero;
 
         if (this.activeHero == this.firstHero)
-            resoult.activeHero = firstHero;
+            result.activeHero = firstHero;
         else
-            resoult.activeHero = secHero;
+            result.activeHero = secHero;
 
-        resoult.firstHero.setMovesInRound(this.firstHero.copyMovesTo((AbstractHero) resoult.firstHero, this.firstHero.getMovesInRound()));
-        resoult.secondHero.setMovesInRound(this.secondHero.copyMovesTo((AbstractHero) resoult.secondHero, this.secondHero.getMovesInRound()));
+        result.firstHero.setMovesInRound(this.firstHero.copyMovesTo((AbstractHero) result.firstHero, this.firstHero.getMovesInRound()));
+        result.secondHero.setMovesInRound(this.secondHero.copyMovesTo((AbstractHero) result.secondHero, this.secondHero.getMovesInRound()));
 
-        resoult.firstHero.setAvailableMoves(this.firstHero.copyMovesTo((AbstractHero) resoult.firstHero, this.firstHero.getAvailableMoves()));
-        resoult.secondHero.setAvailableMoves(this.secondHero.copyMovesTo((AbstractHero) resoult.secondHero, this.secondHero.getAvailableMoves()));
+        result.firstHero.setAvailableMoves(this.firstHero.copyMovesTo((AbstractHero) result.firstHero, this.firstHero.getAvailableMoves()));
+        result.secondHero.setAvailableMoves(this.secondHero.copyMovesTo((AbstractHero) result.secondHero, this.secondHero.getAvailableMoves()));
 
-        resoult.firstHero.setGame(resoult);
-        resoult.secondHero.setGame(resoult);
+        result.firstHero.setGame(result);
+        result.secondHero.setGame(result);
 
-        return resoult;
+        return result;
 
     }
 }
