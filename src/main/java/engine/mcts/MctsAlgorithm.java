@@ -11,6 +11,7 @@ import engine.Card;
 import engine.Game;
 import engine.Move;
 import engine.cards.spells.Fireball;
+import engine.heroes.AbstractHero;
 import engine.heroes.RandomHero;
 import engine.moves.PutCard;
 
@@ -27,7 +28,7 @@ public class MctsAlgorithm {
         long start = System.currentTimeMillis();
         long end = start;
         Move bestFound = null;
-        while (end - start <= 10 * 100000000) { // originally end - start <= 10 * 1000, temporary true end - start <= 10 * (Integer.MAX_VALUE/11)
+        while (end - start <= 10 * 1000) { // originally end - start <= 10 * 1000, temporary true end - start <= 10 * (Integer.MAX_VALUE/11)
             Node child = treePolicy(root);
             int delta = defaultPolicy(child);
             backup(child, delta);
@@ -55,6 +56,8 @@ public class MctsAlgorithm {
         Move move = root.getUntriedMoves().pop();
         Node child = new Node(root, move);
         System.out.println("[EXPAND] root move: " + root.getMoveInNode() + " | child move: " + child.getMoveInNode() + " | child move cost: " + child.getMoveInNode().getCard());
+        if(root.getMoveInNode()!=null)
+     	   System.out.println();
         root.addChild(child);
         // TODO - wywołać performMove na activeHero z parametrem child.getMoveInNode()
         root.getGame().getActiveHero().performMove(child.getMoveInNode());
@@ -126,12 +129,12 @@ public class MctsAlgorithm {
             } else {
                 nodeToBackup.addSecondHeroWin();
             }
-            if (nodeToBackup.getGame().getActiveHero().getBoard().size() == 2)
-                System.out.println("X");
+
             if (nodeToBackup.getParent() != null) {
                 List<Card> xx = nodeToBackup.getGame().getActiveHero().getBoard();
                 Move e = nodeToBackup.getMoveInNode();
                 nodeToBackup.getGame().getActiveHero().rollback(nodeToBackup.getMoveInNode());
+                nodeToBackup.getGame().getActiveHero().setAvailableMoves( ((AbstractHero) nodeToBackup.getGame().getActiveHero()).possibleMoves()); /// tutaj luju
             }
             // nodeToBackup.getMoveInNode().rollback();
             List<Card> xx = nodeToBackup.getGame().getActiveHero().getBoard();

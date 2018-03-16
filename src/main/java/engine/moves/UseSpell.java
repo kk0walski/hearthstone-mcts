@@ -44,7 +44,13 @@ public class UseSpell implements Move {
         if(hand.get(cardInHandIndex) instanceof Minion) {
             int breakpoint=0;
         }
+        try {
         spellBackup = (Spell) hand.get(cardInHandIndex);
+        }
+        catch (Exception e)
+        {
+        	System.out.println();
+        }
         hand.remove(cardInHandIndex);
     }
 
