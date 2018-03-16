@@ -39,8 +39,6 @@ public interface Hero {
 
     List<Move> getAvailableMoves();
 
-    List<Move> getMovesInRound();
-
     void endRound();
 
     String getName();
@@ -48,8 +46,6 @@ public interface Hero {
     Hero deepCopy();
 
     List<Move> copyMovesTo(AbstractHero target, List<Move> toCopy);
-
-    void setMovesInRound(List<Move> copyMovesTo);
 
     void setAvailableMoves(List<Move> copyMovesTo);
 
@@ -62,8 +58,6 @@ public interface Hero {
     void decreaseHealth(int value);
 
     void increaseMana(int value);
-
-    void restoreMovesInRound();
 
     void revertStartRound();
 

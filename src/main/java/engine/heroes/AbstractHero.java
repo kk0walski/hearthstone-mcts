@@ -22,7 +22,7 @@ public abstract class AbstractHero implements Hero {
 
     public static final int MAXIMUM_HAND_SIZE = 7;
     public static final int MAXIMUM_HEALTH_POINTS = 20;
-    public static final int MAXIMUM_MANA_POINTS = 10;
+    public static final int MAXIMUM_MANA_POINTS = 40; // todo defaultowo powinno byc 10
     public static final int INITIAL_HEALTH_POINTS = 10;
     public static final int INITIAL_MANA_POINTS = 40;
     public static final int INITIAL_PUNISH_FOR_EMPTY_DECK = 0;
@@ -38,7 +38,6 @@ public abstract class AbstractHero implements Hero {
     protected List<Card> deck;
     protected List<Card> hand;
     protected List<Card> board;
-    protected List<Move> movesInRound;
     private List<Move> movesInRoundBackup;
     protected Game game;
     protected List<Move> availableMoves;
@@ -53,7 +52,6 @@ public abstract class AbstractHero implements Hero {
         deck = initialDeck;
         initHand(initialHandSize - 1); //TODO verify whether -1 is correct
         board = new ArrayList<>();
-        movesInRound = new ArrayList<>();
         availableMoves = new ArrayList<>();
         health = INITIAL_HEALTH_POINTS;
         mana = INITIAL_MANA_POINTS;
@@ -102,7 +100,6 @@ public abstract class AbstractHero implements Hero {
                 return true;
             }
             moveToDo.performMove();
-            movesInRound.add(moveToDo);
             generateAvailableMoves();
             notifyIfDeadHero();
             return true;
@@ -115,7 +112,6 @@ public abstract class AbstractHero implements Hero {
     public void rollback(Move moveToRevert) {
         moveToRevert.rollback();
         revertAvailableMovesGeneration();
-        movesInRound.remove(moveToRevert); //todo - a moze po prostu usuwajmy ostatni?
         revertDeadHeroNotification();
     }
 
@@ -200,7 +196,6 @@ public abstract class AbstractHero implements Hero {
             throw new IllegalStateException("Only active hero can end round.");
         }
 
-        resetMovesInRound();
         notifyAboutRoundEnd();
     }
 
@@ -208,11 +203,6 @@ public abstract class AbstractHero implements Hero {
     @Override
     public boolean isDead() {
         return health <= 0;
-    }
-
-    @Override
-    public void restoreMovesInRound() {
-        this.movesInRound = movesInRoundBackup;
     }
 
     public void receiveDamage(int damage) {
@@ -249,11 +239,6 @@ public abstract class AbstractHero implements Hero {
 
     public void revertDeadMinionNotification(Minion minion) {
         board.add(minion);
-    }
-
-    private void resetMovesInRound() {
-        movesInRoundBackup = new ArrayList<>(movesInRound);
-        movesInRound.removeAll(movesInRound); // TODO verify whether x.removeAll(x) is correct
     }
 
     private void notifyAboutDeadHero() {
@@ -394,14 +379,6 @@ public abstract class AbstractHero implements Hero {
 
     public void setBoard(List<Card> board) {
         this.board = board;
-    }
-
-    public List<Move> getMovesInRound() {
-        return movesInRound;
-    }
-
-    public void setMovesInRound(List<Move> movesInRound) {
-        this.movesInRound = movesInRound;
     }
 
     @Override

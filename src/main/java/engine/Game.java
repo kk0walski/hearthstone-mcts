@@ -255,9 +255,6 @@ public class Game {
         else
             result.activeHero = secHero;
 
-        result.firstHero.setMovesInRound(this.firstHero.copyMovesTo((AbstractHero) result.firstHero, this.firstHero.getMovesInRound()));
-        result.secondHero.setMovesInRound(this.secondHero.copyMovesTo((AbstractHero) result.secondHero, this.secondHero.getMovesInRound()));
-
         result.firstHero.setAvailableMoves(this.firstHero.copyMovesTo((AbstractHero) result.firstHero, this.firstHero.getAvailableMoves()));
         result.secondHero.setAvailableMoves(this.secondHero.copyMovesTo((AbstractHero) result.secondHero, this.secondHero.getAvailableMoves()));
 

@@ -41,6 +41,9 @@ public class UseSpell implements Move {
         List<Card> hand = self.getHand();
         hand.get(cardInHandIndex).doAction(self, enemy, targetHero, targetMinion);
         self.decreaseMana(self.getHand().get(cardInHandIndex).getCost());
+        if(hand.get(cardInHandIndex) instanceof Minion) {
+            int breakpoint=0;
+        }
         spellBackup = (Spell) hand.get(cardInHandIndex);
         hand.remove(cardInHandIndex);
     }

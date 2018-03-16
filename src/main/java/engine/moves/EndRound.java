@@ -24,7 +24,6 @@ public class EndRound implements Move {
     @Override
     public void rollback() {
         self.getGame().revertSwitchActiveHero();
-        self.restoreMovesInRound();
     }
 
     @Override
