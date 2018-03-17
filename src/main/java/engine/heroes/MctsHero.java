@@ -25,17 +25,19 @@ public class MctsHero extends AbstractHero implements HeuristicHero {
         // MctsAlgorithm mctsAlgorithm = new MctsAlgorithm(new Node(game));
         long start = System.currentTimeMillis();
         long end = start;
-        while(end - start <= 40 * 1000) { //game.getActiveHero() == this
+        while(true) { //game.getActiveHero() == this
             MctsAlgorithm mctsAlgorithm = new MctsAlgorithm(new Node(game));
             Move bestMove = mctsAlgorithm.run();
             performMove(bestMove);
             end = System.currentTimeMillis();
         }
-        performMove(new EndRound(this));
+       // performMove(new EndRound(this));
     }
 
     @Override
     public int evaluate(Move toDo) {
         return 0;
     }
+
+
 }

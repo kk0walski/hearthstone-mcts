@@ -2,6 +2,7 @@ package engine;
 
 import engine.cards.CardsHelper;
 import engine.heroes.*;
+import engine.mcts.Node;
 
 import java.util.List;
 
@@ -240,10 +241,21 @@ public class Game {
 //  protected Game game;
 //  protected List<Move> availableMoves;
 
-    public Game deepCopy() {
+    public Game deepCopy(Node root) {
         Game result = new Game();
-        Hero firstHero = this.firstHero.deepCopy();
-        Hero secHero = this.secondHero.deepCopy();
+        Hero firstHero=null;
+        Hero secHero=null;
+        if(this.firstHero==activeHero) {
+        	 firstHero = this.firstHero.deepCopy(root);
+        	 secondHero.generateAvailableMoves();
+        	 secHero = this.secondHero.deepCopy(root);
+        }
+        if(this.secondHero==activeHero)
+        {
+        	 this.firstHero.generateAvailableMoves();
+        	firstHero = this.firstHero.deepCopy(root);
+       	 	secHero = this.secondHero.deepCopy(root);
+        }
         ((AbstractHero) firstHero).setGame(result);
         ((AbstractHero) secHero).setGame(result);
 
@@ -255,8 +267,8 @@ public class Game {
         else
             result.activeHero = secHero;
 
-        result.firstHero.setAvailableMoves(this.firstHero.copyMovesTo((AbstractHero) result.firstHero, this.firstHero.getAvailableMoves()));
-        result.secondHero.setAvailableMoves(this.secondHero.copyMovesTo((AbstractHero) result.secondHero, this.secondHero.getAvailableMoves()));
+        result.firstHero.setAvailableMoves(this.firstHero.copyMovesTo(root,(AbstractHero) result.firstHero, this.firstHero.getAvailableMoves()));
+        result.secondHero.setAvailableMoves(this.secondHero.copyMovesTo(root,(AbstractHero) result.secondHero, this.secondHero.getAvailableMoves()));
 
         result.firstHero.setGame(result);
         result.secondHero.setGame(result);

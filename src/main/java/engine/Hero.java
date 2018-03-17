@@ -2,6 +2,7 @@ package engine;
 
 import engine.cards.Minion;
 import engine.heroes.AbstractHero;
+import engine.mcts.Node;
 
 import java.util.List;
 
@@ -43,9 +44,9 @@ public interface Hero {
 
     String getName();
 
-    Hero deepCopy();
+    Hero deepCopy(Node root);
 
-    List<Move> copyMovesTo(AbstractHero target, List<Move> toCopy);
+    List<Move> copyMovesTo(Node root,AbstractHero target, List<Move> toCopy);
 
     void setAvailableMoves(List<Move> copyMovesTo);
 

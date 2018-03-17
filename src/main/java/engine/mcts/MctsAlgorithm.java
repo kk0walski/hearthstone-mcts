@@ -104,8 +104,7 @@ public class MctsAlgorithm {
      * @return 1 if firstHero wins, -1 if secondHero wins.
      */
     int defaultPolicy(Node root) {
-
-        Game copy = root.getGame().deepCopy();
+        Game copy = root.getGame().deepCopy( root);
         while (!(copy.isGameOver())) {
             copy.getActiveHero().chooseRandomSimulationalMove();
         }

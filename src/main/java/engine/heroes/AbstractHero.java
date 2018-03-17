@@ -12,6 +12,7 @@ import engine.cards.Spell;
 import engine.cards.spells.DeadlyShot;
 import engine.cards.spells.Fireball;
 import engine.cards.spells.HealingTouch;
+import engine.mcts.Node;
 import engine.moves.AttackHero;
 import engine.moves.AttackMinion;
 import engine.moves.EndRound;
@@ -86,7 +87,7 @@ public abstract class AbstractHero implements Hero {
 
     private void deactivateMinionsOnBoard() {
         for (Card c : activatedMinions) {
-            ((Minion) activatedMinions).setActive(false);
+            ((Minion) c).setActive(false);
         }
     }
 
@@ -405,7 +406,7 @@ public abstract class AbstractHero implements Hero {
     }
 
     @Override
-    public Hero deepCopy() {
+    public Hero deepCopy(Node root) {
         AbstractHero hero = copyHeroInstance();
 
         hero.setName(new String(name));
@@ -453,7 +454,7 @@ public abstract class AbstractHero implements Hero {
         return res;
     }
 
-    public List<Move> copyMovesTo(AbstractHero target, List<Move> toCopy) {
+    public List<Move> copyMovesTo(Node root,AbstractHero target, List<Move> toCopy) {
         ArrayList<Move> copy = new ArrayList<>();
         for (Move m : toCopy) {
             Move newMove = null;
@@ -477,6 +478,7 @@ public abstract class AbstractHero implements Hero {
                 UseSpell source = (UseSpell) m;
 
                 if (source.getTargetMinion() != null) {
+
                     if (source.getSelf().getHand().get(source.getCardIndex()) instanceof HealingTouch)
                         newMove = new UseSpell(m.getCardIndex(), target, enemy, (Minion) target.getBoard().get(source.getMinionIndex()), source.getMinionIndex());
                     else
