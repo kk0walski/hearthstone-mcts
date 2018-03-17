@@ -80,12 +80,8 @@ public class Minion implements Card {
     }
 
     public int increaseHealth(int hm) {
-        int originalHealth = health;
         health += hm;
-        if (health > baseHealth)
-            health = baseHealth;
-
-        return health - originalHealth;
+        return hm;
     }
 
     public void decreaseHealth(int value) {

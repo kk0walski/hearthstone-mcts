@@ -2,6 +2,7 @@ package engine.heroes;
 
 import engine.Card;
 import engine.Game;
+import engine.Hero;
 import engine.Move;
 import engine.mcts.MctsAlgorithm;
 import engine.mcts.Node;
@@ -21,10 +22,11 @@ public class MctsHero extends AbstractHero implements HeuristicHero {
 
     @Override
     public void chooseHeuristicMove() {
-        MctsAlgorithm mctsAlgorithm = new MctsAlgorithm(new Node(game));
+        // MctsAlgorithm mctsAlgorithm = new MctsAlgorithm(new Node(game));
         long start = System.currentTimeMillis();
         long end = start;
         while(end - start <= 40 * 1000) { //game.getActiveHero() == this
+            MctsAlgorithm mctsAlgorithm = new MctsAlgorithm(new Node(game));
             Move bestMove = mctsAlgorithm.run();
             performMove(bestMove);
             end = System.currentTimeMillis();

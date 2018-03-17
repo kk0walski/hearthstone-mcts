@@ -102,7 +102,7 @@ public class Game {
     }
 
     public void switchActiveHero() {
-        System.out.println("-----------------------------------");
+        // System.out.println("-----------------------------------");
         if (activeHero == null) {
             return;
         }

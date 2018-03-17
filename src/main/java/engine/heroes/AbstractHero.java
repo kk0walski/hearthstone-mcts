@@ -277,10 +277,8 @@ public abstract class AbstractHero implements Hero {
         int oldHealth = health;
 
         health += value;
-        if (health > MAXIMUM_HEALTH_POINTS)
-            health = MAXIMUM_HEALTH_POINTS;
 
-        return health - oldHealth;
+        return value;
     }
 
     @Override

@@ -55,7 +55,7 @@ public class MctsAlgorithm {
     Node expand(Node root) {
         Move move = root.getUntriedMoves().pop();
         Node child = new Node(root, move);
-        System.out.println("[EXPAND] root move: " + root.getMoveInNode() + " | child move: " + child.getMoveInNode() + " | child move cost: " + child.getMoveInNode().getCard());
+        // System.out.println("[EXPAND] root move: " + root.getMoveInNode() + " | child move: " + child.getMoveInNode() + " | child move cost: " + child.getMoveInNode().getCard());
         if(root.getMoveInNode()!=null)
      	   System.out.println();
         root.addChild(child);
@@ -98,22 +98,29 @@ public class MctsAlgorithm {
         );
     }
 
+    /**
+     *
+     * @param root
+     * @return 1 if firstHero wins, -1 if secondHero wins.
+     */
     int defaultPolicy(Node root) {
 
         Game copy = root.getGame().deepCopy();
         while (!(copy.isGameOver())) {
             copy.getActiveHero().chooseRandomSimulationalMove();
-        } // todo - ogolnie mozemy na sztywno zakladac ze 1 jak wygrywa gracz pierwszy, -1 jak wygrywa gracz drugi, a nie activeHero
-        if (root.getGame().getActiveHero().equals(copy.getWinner())) { // todo - sprawdzic czy to dobrze dziala bo chyba niekoniecznie - stan gry jest inny i przez to zawsze bedzie zwracal -1. wiec trzeba porownywac np. po nazwie
+        }
+        if (copy.getWinner().getName().equals(root.getGame().getFirstHero().getName())) {
             return 1;
-        } else {
+        } else if (copy.getWinner().getName().equals(root.getGame().getSecondHero().getName())){
             return -1;
+        } else {
+            throw new IllegalStateException("Invalid winner.");
         }
     }
 
     /**
-     * If detla == 1, then activeHero in input node has won.
-     * If delta == -1, then activeHero in input node has lose.
+     * If detla == 1, then firstHero has won.
+     * If delta == -1, then secondHero has won.
      *
      * @param nodeToBackup input node
      * @param delta        binary value of simulation (defaultPolicy) result
