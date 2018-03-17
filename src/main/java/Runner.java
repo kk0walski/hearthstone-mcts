@@ -19,7 +19,7 @@ public class Runner {
         System.out.println(hero.performMove(new UseSpell(0, hero, game.getEnemyOf(hero), null, game.getEnemyOf(hero))));
 
 
-        Game g = game.deepCopy();
+        //Game g = game.deepCopy();
         System.out.println();
     }
 }

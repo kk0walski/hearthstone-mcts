@@ -136,7 +136,7 @@ public class Game {
 
     public void end() {
         setGameOver(true);
-        activeHero = null;
+        // activeHero = null;
     }
 
     public void endWithWinner(Hero winner) {
