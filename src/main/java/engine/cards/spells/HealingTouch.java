@@ -6,7 +6,7 @@ import engine.cards.Minion;
 import engine.cards.Spell;
 
 /**
- * Restore n Health.
+ * Restore n Health for every type of minions.
  */
 public class HealingTouch extends Spell {
 

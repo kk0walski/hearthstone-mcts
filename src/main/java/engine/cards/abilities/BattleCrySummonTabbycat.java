@@ -19,6 +19,7 @@ public class BattleCrySummonTabbycat implements Ability {
         List<Card> cardsOnBoardOfGivenHero = self.getBoard();
         if (cardsOnBoardOfGivenHero.size() < Game.MAXIMUM_CARDS_ON_BOARD) {
             summonedTabbycat = new Tabbycat();
+            summonedTabbycat.setOwner(self);
             cardsOnBoardOfGivenHero.add(summonedTabbycat);
             wasTabbycatSummoned = true;
         }

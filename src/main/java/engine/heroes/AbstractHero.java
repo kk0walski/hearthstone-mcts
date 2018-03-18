@@ -22,7 +22,7 @@ import engine.moves.UseSpell;
 public abstract class AbstractHero implements Hero {
 
     public static final int MAXIMUM_HAND_SIZE = 7;
-    public static final int MAXIMUM_HEALTH_POINTS = 20;
+    public static final int MAXIMUM_HEALTH_POINTS = 10;
     public static final int MAXIMUM_MANA_POINTS = 40; // todo defaultowo powinno byc 10
     public static final int INITIAL_HEALTH_POINTS = 10;
     public static final int INITIAL_MANA_POINTS = 0;
@@ -213,6 +213,9 @@ public abstract class AbstractHero implements Hero {
 
     public void revertDamage(int damage) {
         health = health + damage;
+        if(health > MAXIMUM_HEALTH_POINTS) {
+            health = MAXIMUM_HEALTH_POINTS;
+        }
     }
 
     protected void notifyIfDeadHero() {

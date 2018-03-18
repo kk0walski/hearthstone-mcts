@@ -46,7 +46,6 @@ public class MctsHero extends AbstractHero implements HeuristicHero {
             System.out.println("Gierka skonczona");
             return;
         }
-
     }
 
     @Override

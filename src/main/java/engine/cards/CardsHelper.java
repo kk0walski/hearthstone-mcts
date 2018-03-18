@@ -69,7 +69,7 @@ public class CardsHelper {
         registerCard(registeredStandardDeck, new Treant());
 
         registerCard(registeredStandardDeck, new HealingTouch());
-        registerCard(registeredStandardDeck, new DeadlyShot());
+        // registerCard(registeredStandardDeck, new DeadlyShot());
         registerCard(registeredStandardDeck, new Fireball());
 
     }
