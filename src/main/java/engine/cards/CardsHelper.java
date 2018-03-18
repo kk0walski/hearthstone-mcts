@@ -2,7 +2,7 @@ package engine.cards;
 
 import engine.Card;
 import engine.cards.minions.*;
-import engine.cards.spells.DeadlyShot;
+import engine.cards.spells.ArcaneShot;
 import engine.cards.spells.Fireball;
 import engine.cards.spells.HealingTouch;
 
@@ -69,7 +69,7 @@ public class CardsHelper {
         registerCard(registeredStandardDeck, new Treant());
 
         registerCard(registeredStandardDeck, new HealingTouch());
-        // registerCard(registeredStandardDeck, new DeadlyShot());
+         registerCard(registeredStandardDeck, new ArcaneShot());
         registerCard(registeredStandardDeck, new Fireball());
 
     }

@@ -9,7 +9,7 @@ import engine.Hero;
 import engine.Move;
 import engine.cards.Minion;
 import engine.cards.Spell;
-import engine.cards.spells.DeadlyShot;
+import engine.cards.spells.ArcaneShot;
 import engine.cards.spells.Fireball;
 import engine.cards.spells.HealingTouch;
 import engine.mcts.Node;
@@ -148,7 +148,7 @@ public abstract class AbstractHero implements Hero {
             resultMovesList.add(new UseSpell(cardInHandIndex, this, enemy, null, this));
         }
 
-        if (spell instanceof DeadlyShot) {
+        if (spell instanceof ArcaneShot) {
             if (enemy.getBoard().size() > 0)
                 resultMovesList.add(new UseSpell(cardInHandIndex, this, enemy, null, null));
 

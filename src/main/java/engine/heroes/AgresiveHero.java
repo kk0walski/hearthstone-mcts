@@ -11,7 +11,7 @@ import engine.cards.Minion;
 import engine.cards.Spell;
 import engine.cards.abilities.BattlecryHealSelfHero;
 import engine.cards.minions.AntiqueHealbot;
-import engine.cards.spells.DeadlyShot;
+import engine.cards.spells.ArcaneShot;
 import engine.cards.spells.Fireball;
 import engine.cards.spells.HealingTouch;
 import engine.mcts.Node;
@@ -106,7 +106,7 @@ public class AgresiveHero extends AbstractHero implements HeuristicHero {
 					else
 						return attackMinionMul*((Fireball) card).DAMAGE_TO_DEAL - card.getCost() -  (1/boardSize)*cardsMul;
 				}
-				if(card instanceof DeadlyShot)
+				if(card instanceof ArcaneShot)
 				{
 					return attackMinionMul*deadlyShotMul - card.getCost() - (1/boardSize)*cardsMul;
 				}

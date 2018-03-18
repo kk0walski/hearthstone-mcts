@@ -6,7 +6,7 @@ import engine.Hero;
 import engine.Move;
 import engine.cards.Minion;
 import engine.cards.Spell;
-import engine.cards.spells.DeadlyShot;
+import engine.cards.spells.ArcaneShot;
 import engine.cards.spells.Fireball;
 import engine.cards.spells.HealingTouch;
 import engine.moves.*;

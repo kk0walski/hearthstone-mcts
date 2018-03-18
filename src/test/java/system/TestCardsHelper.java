@@ -4,7 +4,7 @@ import engine.Card;
 import engine.cards.Minion;
 import engine.cards.Spell;
 import engine.cards.minions.*;
-import engine.cards.spells.DeadlyShot;
+import engine.cards.spells.ArcaneShot;
 import engine.cards.spells.Fireball;
 import engine.cards.spells.HealingTouch;
 
@@ -62,7 +62,7 @@ public class TestCardsHelper {
         registerCard(cardsList, new Treant());
 
         registerCard(cardsList, new HealingTouch());
-        registerCard(cardsList, new DeadlyShot());
+        registerCard(cardsList, new ArcaneShot());
         registerCard(cardsList, new Fireball());
 
         return cardsList;
@@ -91,7 +91,7 @@ public class TestCardsHelper {
 
         registerCard(cardsList, new Treant());
 
-        registerCard(cardsList, new DeadlyShot());
+        registerCard(cardsList, new ArcaneShot());
 
         return cardsList;
     }

@@ -11,7 +11,7 @@ import engine.cards.CardsHelper;
 import engine.cards.Minion;
 import engine.cards.Spell;
 import engine.cards.minions.Tabbycat;
-import engine.cards.spells.DeadlyShot;
+import engine.cards.spells.ArcaneShot;
 import engine.cards.spells.Fireball;
 import engine.cards.spells.HealingTouch;
 import engine.heroes.AbstractHero;
@@ -209,7 +209,7 @@ public class BaseTextGui {
         if (spell >= game.getActiveHero().getHand().size())
             return null;
         if (game.getActiveHero().getHand().get(spell) instanceof Spell) {
-            if (game.getActiveHero().getHand().get(spell) instanceof DeadlyShot) {
+            if (game.getActiveHero().getHand().get(spell) instanceof ArcaneShot) {
                 return new UseSpell(spell, game.getActiveHero(), game.getEnemyOf(game.getActiveHero()), null, null);
             } else {
                 System.out.println("Wybierz cel");
@@ -265,7 +265,7 @@ public class BaseTextGui {
                 if (c instanceof Spell) {
                     String clazz = c.getClass().getSimpleName();
                     int cost = c.getCost();
-                    if (c instanceof DeadlyShot)
+                    if (c instanceof ArcaneShot)
                         allCards += "[" + clazz + ": koszt " + cost;
                     if (c instanceof Fireball)
                         allCards += "[" +clazz + ": atak 4 " + "koszt " + cost;
