@@ -20,19 +20,20 @@ public class MctsHero extends AbstractHero implements HeuristicHero {
     public MctsHero(Game game, String name, List<Card> initialDeck, int initialHandSize) {
         super(game, name, initialDeck, initialHandSize);
     }
-
     @Override
     public void chooseHeuristicMove() {
         // MctsAlgorithm mctsAlgorithm = new MctsAlgorithm(new Node(game));
         long start = System.currentTimeMillis();
         long end = start;
+        Move bestMove =null;
         while(end - start <= 10 * 1000) { //game.getActiveHero() == this
             game.checkForGameEnd();
-            if(game.isGameOver()) {
+            if(game.isGameOver() || bestMove instanceof EndRound) {
                 return;
             }
             MctsAlgorithm mctsAlgorithm = new MctsAlgorithm(new Node(game));
-            Move bestMove = mctsAlgorithm.run();
+            bestMove = mctsAlgorithm.run();
+            // System.out.println(bestMove);
             printMoveInfo(bestMove);
             performMove(bestMove);
             end = System.currentTimeMillis();
@@ -41,11 +42,9 @@ public class MctsHero extends AbstractHero implements HeuristicHero {
         if(game.isGameOver()) {
             System.out.println("Gierka skonczona");
             return;
-        } else {
-            if(game.getActiveHero().getName().equals(this.name)) {
-                performMove(new EndRound(this));
-            }
         }
+
+
     }
 
     @Override
