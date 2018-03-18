@@ -50,6 +50,8 @@ public class BaseTextGui {
         System.out.println("Pierwszy gracz: "  + game.getFirstHero().getName());
         System.out.println("HP: " + game.getFirstHero().getHealth());
         System.out.println("Mana: " + game.getFirstHero().getMana());
+        System.out.println("Liczba kart w decku: " + game.getFirstHero().getDeck().size());
+        System.out.println("Kara za pusty deck: " + game.getFirstHero().getPunishForEmptyDeck());
         System.out.println("Karty w ręce: ");
         printCards(game.getFirstHero().getHand());
         System.out.println("Karty na stole: ");
@@ -59,6 +61,8 @@ public class BaseTextGui {
         System.out.println("Drugi gracz: "  + game.getSecondHero().getName());
         System.out.println("HP: " + game.getSecondHero().getHealth());
         System.out.println("Mana: " + game.getSecondHero().getMana());
+        System.out.println("Liczba kart w decku: " + game.getSecondHero().getDeck().size());
+        System.out.println("Kara za pusty deck: " + game.getSecondHero().getPunishForEmptyDeck());
         System.out.println("Karty w ręce: ");
         printCards(game.getSecondHero().getHand());
         System.out.println("Karty na stole: ");

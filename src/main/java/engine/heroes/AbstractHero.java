@@ -208,7 +208,7 @@ public abstract class AbstractHero implements Hero {
 
     public void receiveDamage(int damage) {
         health = health - damage;
-        notifyIfDeadHero();
+        // notifyIfDeadHero();
     }
 
     public void revertDamage(int damage) {
@@ -299,12 +299,11 @@ public abstract class AbstractHero implements Hero {
         if (deck.isEmpty()) {
             punishForEmptyDeck++;
             health = health - punishForEmptyDeck;
-            lastPickedCardBackup = null;
+            // System.out.println("Kara za pusty deck dla gracza " + this.name);
             return;
         }
 
         if (hand.size() == MAXIMUM_HAND_SIZE) {
-            lastPickedCardBackup = null;
             return;
         }
 
@@ -315,11 +314,10 @@ public abstract class AbstractHero implements Hero {
     }
 
     private void revertPreviousPickCardFromDeck() {
-        if (lastPickedCardBackup == null) {
-            if (punishForEmptyDeck > 1) {
-                health = health + punishForEmptyDeck - 1;
-                punishForEmptyDeck--; // todo dodane swiezo
-            }
+        if (punishForEmptyDeck > 0) {
+            health = health + punishForEmptyDeck;
+            punishForEmptyDeck--; // todo dodane swiezo
+            // System.out.println("Revert kary za pusty deck dla gracza " + this.name);
         } else {
             deck.add(hand.get(hand.size() - 1)); //get last card in hand - it should be lastPickedCardBackup
             hand.remove(hand.get(hand.size() - 1));

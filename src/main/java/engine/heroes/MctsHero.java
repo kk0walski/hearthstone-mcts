@@ -35,7 +35,10 @@ public class MctsHero extends AbstractHero implements HeuristicHero {
             bestMove = mctsAlgorithm.run();
             // System.out.println(bestMove);
             printMoveInfo(bestMove);
-            performMove(bestMove);
+            boolean performed = performMove(bestMove);
+            if(!performed) {
+                System.out.println("Nie wykonany bo był błędny! LOL");
+            }
             end = System.currentTimeMillis();
         }
         game.checkForGameEnd();
@@ -43,7 +46,6 @@ public class MctsHero extends AbstractHero implements HeuristicHero {
             System.out.println("Gierka skonczona");
             return;
         }
-
 
     }
 
@@ -56,7 +58,7 @@ public class MctsHero extends AbstractHero implements HeuristicHero {
         if(move instanceof PutCard) {
             System.out.println("[Ruch MCTS] PutCard " + ((Minion) move.getCard()).getName());
         } else if (move instanceof UseSpell) {
-            System.out.println("[Ruch MCTS] UseSpell " + ((UseSpell) move.getCard()).getClass().getName());
+            System.out.println("[Ruch MCTS] UseSpell " + move.getCard());
         } else if (move instanceof AttackHero) {
             System.out.println("[Ruch MCTS] AttackHero - cel " + ((AttackHero) move).getHeroToGetAttacked().getName());
         } else if (move instanceof AttackMinion) {
@@ -64,6 +66,5 @@ public class MctsHero extends AbstractHero implements HeuristicHero {
         } else {
             System.out.println("[Ruch MCTS] EndRound");
         }
-
     }
 }
