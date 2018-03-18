@@ -48,7 +48,7 @@ public class MctsAlgorithm {
                 root.getGame().getActiveHero().performMove(root.getMoveInNode());
                 // todo root.getGame().checkForGameEnd(); // todo - cofniety
                 // todo if(!(root.getGame().isGameOver())) {
-                    root.setUntriedMoves(new ArrayDeque<Move>(root.getGame().getActiveHero().getAvailableMoves())); // tego brakowalo
+                root.setUntriedMoves(new ArrayDeque<Move>(root.getGame().getActiveHero().getAvailableMoves())); // tego brakowalo
                 // todo }
                 // root.setUntriedMoves(new ArrayDeque<Move>(root.getGame().getActiveHero().getAvailableMoves())); // zdaje sie ze tutaj tez brakowalo
             }

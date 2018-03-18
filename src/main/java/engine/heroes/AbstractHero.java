@@ -228,6 +228,7 @@ public abstract class AbstractHero implements Hero {
     }
 
     protected void revertDeadHeroNotification() {
+        game.checkForGameEnd(); // todo - dodane swiezo
         if (game.isGameOver()) {
             game.setGameOver(false);
             game.setWinner(null);
@@ -317,6 +318,7 @@ public abstract class AbstractHero implements Hero {
         if (lastPickedCardBackup == null) {
             if (punishForEmptyDeck > 1) {
                 health = health + punishForEmptyDeck - 1;
+                punishForEmptyDeck--; // todo dodane swiezo
             }
         } else {
             deck.add(hand.get(hand.size() - 1)); //get last card in hand - it should be lastPickedCardBackup
