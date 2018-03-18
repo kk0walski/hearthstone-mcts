@@ -46,18 +46,24 @@ public class BaseTextGui {
     }
 
     public void baseInfo() {
-        System.out.println("Zycie przeciwnika " + game.getEnemyOf(game.getActiveHero()).getHealth() + " mana przeciwnika " + game.getEnemyOf(game.getActiveHero()).getMana());
-        System.out.println("Karty w rece przeciwnika");
-        printCards(game.getEnemyOf(game.getActiveHero()).getHand());
-        System.out.println("Karty na stole przeciwnika");
-        printCards(game.getEnemyOf(game.getActiveHero()).getBoard());
-        System.out.println();
+        System.out.println("\nAktywny gracz: " + game.getActiveHero().getName() + "\n");
+        System.out.println("Pierwszy gracz: "  + game.getFirstHero().getName());
+        System.out.println("HP: " + game.getFirstHero().getHealth());
+        System.out.println("Mana: " + game.getFirstHero().getMana());
+        System.out.println("Karty w ręce: ");
+        printCards(game.getFirstHero().getHand());
+        System.out.println("Karty na stole: ");
+        printCards(game.getFirstHero().getBoard());
+        System.out.println("------------------------------");
 
-        System.out.println("Twoje zycie " + game.getActiveHero().getHealth() + " twoja mana  " + game.getActiveHero().getMana());
-        System.out.println("Karty w rece");
-        printCards(game.getActiveHero().getHand());
-        System.out.println("Karty na stole");
-        printCards(game.getActiveHero().getBoard());
+        System.out.println("Drugi gracz: "  + game.getSecondHero().getName());
+        System.out.println("HP: " + game.getSecondHero().getHealth());
+        System.out.println("Mana: " + game.getSecondHero().getMana());
+        System.out.println("Karty w ręce: ");
+        printCards(game.getSecondHero().getHand());
+        System.out.println("Karty na stole: ");
+        printCards(game.getSecondHero().getBoard());
+        System.out.println("------------------------------");
     }
 
     public void startGame() {
@@ -250,18 +256,18 @@ public class BaseTextGui {
                 int health = ((Minion) c).getHealth();
                 int cost = c.getCost();
                 int attack = ((Minion) c).getAttack();
-                allCards += clazz + " zycie " + health + " atak " + attack + " koszt " + cost + " | ";
+                allCards += "[" + clazz + ": zycie " + health + " atak " + attack + " koszt " + cost + "] \n";
             } else {
                 if (c instanceof Spell) {
                     String clazz = c.getClass().getSimpleName();
                     int cost = c.getCost();
                     if (c instanceof DeadlyShot)
-                        allCards += clazz + " koszt " + cost;
+                        allCards += "[" + clazz + ": koszt " + cost;
                     if (c instanceof Fireball)
-                        allCards += clazz + " atak 4 " + " koszt " + cost;
+                        allCards += "[" +clazz + ": atak 4 " + "koszt " + cost;
                     if (c instanceof HealingTouch)
-                        allCards += clazz + " uzdrowienie 8 " + " koszt" + cost;
-                    allCards += " | ";
+                        allCards += "[" +clazz + ": uzdrowienie 8 " + "koszt " + cost;
+                    allCards += "] \n";
                 }
             }
         }
