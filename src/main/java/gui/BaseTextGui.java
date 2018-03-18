@@ -72,7 +72,8 @@ public class BaseTextGui {
 
     public void startGame() {
         System.out.println("Gra rozpoczeta");
-        game.initializeAndStartHumanWithMctsGame();
+        // game.initializeAndStartHumanWithMctsGame();
+        game.initializeAndStartRandomWithMctsGame();
         // prepareCards();
         // System.out.println();
         game.getActiveHero().startRound();

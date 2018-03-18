@@ -26,7 +26,7 @@ public class MctsHero extends AbstractHero implements HeuristicHero {
         long start = System.currentTimeMillis();
         long end = start;
         Move bestMove =null;
-        while(end - start <= 10 * 1000) { //game.getActiveHero() == this
+        while(end - start <= 30 * 1000) { //game.getActiveHero() == this
             game.checkForGameEnd();
             if(game.isGameOver() || bestMove instanceof EndRound) {
                 return;

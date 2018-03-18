@@ -53,6 +53,12 @@ public class Game {
         setGameOver(false);
     }
 
+    public void initializeAndStartRandomWithMctsGame() {
+        initializeRandomHeroAndMcts();
+        setActiveHero(firstHero);
+        setGameOver(false);
+    }
+
     public void initializeAndStartInitializeRandomHeroAndPassiveGame() {
         initializeRandomHeroAndPassive();
         setActiveHero(firstHero);
@@ -99,6 +105,13 @@ public class Game {
         firstHero = new RandomHero(this, "First Hero", generateStandardDeck(), 3);
         assignCardsToHero(firstHero);
         secondHero = new PassiveHero(this, "Second Hero", generateStandardDeck(), 4);
+        assignCardsToHero(secondHero);
+    }
+
+    private void initializeRandomHeroAndMcts() {
+        firstHero = new MctsHero(this, "Mcts Hero", generateStandardDeck(), 3);
+        assignCardsToHero(firstHero);
+        secondHero = new RandomHero(this, "Random Hero", generateStandardDeck(), 4);
         assignCardsToHero(secondHero);
     }
 

@@ -31,7 +31,8 @@ public class CardsHelper {
         List<Card> standardDeckCopyWithDoubledCards = deepDeckCopy(registeredStandardDeck);
         standardDeckCopyWithDoubledCards.addAll(deepDeckCopy(registeredStandardDeck));
 
-        return shuffle(standardDeckCopyWithDoubledCards);
+        return standardDeckCopyWithDoubledCards;
+        // return shuffle(standardDeckCopyWithDoubledCards);
     }
 
     /**

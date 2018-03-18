@@ -28,7 +28,7 @@ public class MctsAlgorithm {
         long start = System.currentTimeMillis();
         long end = start;
         Move bestFound = null;
-        while (end - start <= 3 * 1000) { // originally end - start <= 10 * 1000, temporary true end - start <= 10 * (Integer.MAX_VALUE/11)
+        while (end - start <= 4 * 1000) { // originally end - start <= 10 * 1000, temporary true end - start <= 10 * (Integer.MAX_VALUE/11)
             Node child = treePolicy(root);
             int delta = defaultPolicy(child);
             backup(child, delta);

@@ -22,9 +22,9 @@ import engine.moves.UseSpell;
 public abstract class AbstractHero implements Hero {
 
     public static final int MAXIMUM_HAND_SIZE = 7;
-    public static final int MAXIMUM_HEALTH_POINTS = 10;
-    public static final int MAXIMUM_MANA_POINTS = 40; // todo defaultowo powinno byc 10
-    public static final int INITIAL_HEALTH_POINTS = 10;
+    public static final int MAXIMUM_HEALTH_POINTS = 20;
+    public static final int MAXIMUM_MANA_POINTS = 10; // todo defaultowo powinno byc 10
+    public static final int INITIAL_HEALTH_POINTS = 20;
     public static final int INITIAL_MANA_POINTS = 0;
     public static final int INITIAL_PUNISH_FOR_EMPTY_DECK = 0;
     public static final int INITIAL_ROUND_NUMBER = 0;
