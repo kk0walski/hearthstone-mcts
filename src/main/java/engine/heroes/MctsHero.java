@@ -58,9 +58,9 @@ public class MctsHero extends AbstractHero implements HeuristicHero {
         } else if (move instanceof UseSpell) {
             System.out.println("[Ruch MCTS] UseSpell " + ((UseSpell) move.getCard()).getClass().getName());
         } else if (move instanceof AttackHero) {
-            System.out.println("[Ruch MCTS] AttackHero (" + ((AttackHero) move.getCard()).getClass().getName() + ") - cel " + ((AttackHero) move.getCard()).getHeroToGetAttacked().getName());
+            System.out.println("[Ruch MCTS] AttackHero - cel " + ((AttackHero) move).getHeroToGetAttacked().getName());
         } else if (move instanceof AttackMinion) {
-            System.out.println("[Ruch MCTS] AttackMinion (" + ((AttackMinion) move.getCard()).getClass().getName() + ") - cel " + ((AttackMinion) move.getCard()).getMinionToGetAttacked().getName());
+            System.out.println("[Ruch MCTS] AttackMinion - cel " + ((AttackMinion) move).getMinionToGetAttacked().getName());
         } else {
             System.out.println("[Ruch MCTS] EndRound");
         }
