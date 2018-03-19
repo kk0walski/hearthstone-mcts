@@ -19,6 +19,8 @@ public class MctsAlgorithm {
 
     private static final int CP_FACTOR = 1;
     private Node root;
+    private int numberOfPlayouts;
+    private int maximumTreeDepth;
 
     public MctsAlgorithm(Node root) {
         this.root = root;
@@ -35,6 +37,8 @@ public class MctsAlgorithm {
             end = System.currentTimeMillis();
         }
         bestFound = bestChild(root, 0).getMoveInNode();
+        numberOfPlayouts = root.getTotalGames();
+        maximumTreeDepth = getTreeDepth();
         return bestFound;
     }
 
@@ -176,5 +180,42 @@ public class MctsAlgorithm {
     private boolean nodeIsNonTerminal(Node root) {
         root.getGame().checkForGameEnd();
         return !(root.getGame().isGameOver());
+    }
+
+    private int getTreeDepth() {
+        return maxDepth(root);
+    }
+
+    private int maxDepth(Node root) {
+        if(root==null)
+            return 0;
+
+        if(root.getChilds() != null && !root.getChilds().isEmpty()) {
+            int leftDepth = 0;
+
+            if(root.getChilds().get(0) != null) {
+                leftDepth = maxDepth(root.getChilds().get(0));
+            }
+
+            int rightDepth = 0;
+
+            if(root.getChilds().get(1) != null) {
+                rightDepth = maxDepth(root.getChilds().get(1));
+            }
+
+            int bigger = Math.max(leftDepth, rightDepth);
+
+            return bigger+1;
+        } else {
+            return 0;
+        }
+    }
+
+    public int getNumberOfPlayouts() {
+        return numberOfPlayouts;
+    }
+
+    public int getMaximumTreeDepth() {
+        return maximumTreeDepth;
     }
 }

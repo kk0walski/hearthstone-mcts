@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import engine.Card;
 import engine.Game;
+import engine.Hero;
 import engine.Move;
 import engine.cards.CardsHelper;
 import engine.cards.Minion;
@@ -123,10 +124,14 @@ public class BaseTextGui {
             baseInfo();
         }
 
-        if (game.getWinner() == game.getFirstHero()) //celowe por�wnanie referencji
+        if (game.getWinner() == game.getFirstHero()) {
             System.out.println("Brawo gracz 1 wygrywa");
-        else
+
+        }
+        else {
             System.out.println("Brawo gracz 2 wygrywa");
+
+        }
     }
 
     public void makeMove() {
@@ -280,8 +285,19 @@ public class BaseTextGui {
     }
 
 
+
     public static void main(String[] args) {
         BaseTextGui g = new BaseTextGui(new Game());
         g.play();
+    }
+
+    private class GameResult {
+
+        private Hero firstHero;
+        private Hero secondHero;
+        private Hero winner;
+        private int numberOfPlayouts;
+
+
     }
 }
