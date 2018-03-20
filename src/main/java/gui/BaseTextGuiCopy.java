@@ -1,11 +1,5 @@
 package gui;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.*;
-
 import engine.Card;
 import engine.Game;
 import engine.Move;
@@ -18,15 +12,18 @@ import engine.cards.spells.HealingTouch;
 import engine.heroes.AbstractHero;
 import engine.heroes.HeuristicHero;
 import engine.heroes.MctsHero;
-import engine.moves.AttackHero;
-import engine.moves.AttackMinion;
-import engine.moves.EndRound;
-import engine.moves.PutCard;
-import engine.moves.UseSpell;
+import engine.moves.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
-public class BaseTextGui {
+public class BaseTextGuiCopy {
     Game game;
     Scanner keyboard;
 
@@ -41,7 +38,7 @@ public class BaseTextGui {
     private final int attack = 3;
     private final int end = 4;
 
-    public BaseTextGui(Game game) {
+    public BaseTextGuiCopy(Game game) {
         super();
         this.game = game;
         keyboard = new Scanner(System.in);
@@ -395,12 +392,12 @@ public class BaseTextGui {
          Mcts vs Aggresive
          */
 
-        longBunchAggresive(stringBuilder);
+//        longBunchAggresive(stringBuilder);
 
         /**
          Mcts vs Passive
          */
-//        longBunchPassive(stringBuilder);
+        longBunchPassive(stringBuilder);
     }
 
     private static void longBunchRandom(StringBuilder stringBuilder) {
@@ -476,11 +473,11 @@ public class BaseTextGui {
          * iterations: 5
          */
 
-        timeForMctsMove = 1;
-        totalTimeForMctsMove = 10;
-        iterations = 20;
-
-        performTestMctsWithAggresive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
+//        timeForMctsMove = 1;
+//        totalTimeForMctsMove = 10;
+//        iterations = 5;
+//
+//        performTestMctsWithAggresive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
 
         /**
          * move: 2s
@@ -490,7 +487,7 @@ public class BaseTextGui {
 
         timeForMctsMove = 2;
         totalTimeForMctsMove = 10;
-        iterations = 20;
+        iterations = 5;
 
         performTestMctsWithAggresive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
 
@@ -502,7 +499,7 @@ public class BaseTextGui {
 
         timeForMctsMove = 2;
         totalTimeForMctsMove = 20;
-        iterations = 20;
+        iterations = 5;
 
         performTestMctsWithAggresive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
 
@@ -514,10 +511,9 @@ public class BaseTextGui {
 
         timeForMctsMove = 4;
         totalTimeForMctsMove = 10;
-        iterations = 20;
+        iterations = 5;
 
         performTestMctsWithAggresive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
-
 
         /**
          * move: 4s
@@ -527,19 +523,7 @@ public class BaseTextGui {
 
         timeForMctsMove = 4;
         totalTimeForMctsMove = 20;
-        iterations = 20;
-
-        performTestMctsWithAggresive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
-
-        /**
-         * move: 8s
-         * total moves: 60s
-         * iterations: 5
-         */
-
-        timeForMctsMove = 8;
-        totalTimeForMctsMove = 60;
-        iterations = 20;
+        iterations = 5;
 
         performTestMctsWithAggresive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
     }
@@ -553,59 +537,73 @@ public class BaseTextGui {
          * iterations: 5
          */
 
-        timeForMctsMove = 1;
-        totalTimeForMctsMove = 10;
-        iterations = 20;
+//        timeForMctsMove = 1;
+//        totalTimeForMctsMove = 10;
+//        iterations = 5;
+//
+//        performTestMctsWithPassive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
+//
+//        /**
+//         * move: 2s
+//         * total moves: 10s
+//         * iterations: 5
+//         */
+//
+//        timeForMctsMove = 2;
+//        totalTimeForMctsMove = 10;
+//        iterations = 5;
+//
+//        performTestMctsWithPassive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
+//
+//        /**
+//         * move: 2s
+//         * total moves: 20s
+//         * iterations: 5
+//         */
+//
+//        timeForMctsMove = 2;
+//        totalTimeForMctsMove = 20;
+//        iterations = 5;
+//
+//        performTestMctsWithPassive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
 
-        performTestMctsWithPassive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
+
+
+//        /**
+//         * move: 4s
+//         * total moves: 20s
+//         * iterations: 5
+//         */
+//
+//        timeForMctsMove = 4;
+//        totalTimeForMctsMove = 20;
+//        iterations = 5;
+//
+//        performTestMctsWithPassive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
 
         /**
-         * move: 2s
-         * total moves: 10s
+         * move: 8s
+         * total moves: 60s
          * iterations: 5
          */
 
-        timeForMctsMove = 2;
-        totalTimeForMctsMove = 10;
-        iterations = 20;
+        timeForMctsMove = 8;
+        totalTimeForMctsMove = 60;
+        iterations = 5;
 
         performTestMctsWithPassive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
 
-        /**
-         * move: 2s
-         * total moves: 20s
-         * iterations: 5
-         */
-
-        timeForMctsMove = 2;
-        totalTimeForMctsMove = 20;
-        iterations = 20;
-
-        performTestMctsWithPassive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
-
-        /**
-         * move: 4s
-         * total moves: 10s
-         * iterations: 5
-         */
-
-        timeForMctsMove = 4;
-        totalTimeForMctsMove = 10;
-        iterations = 20;
-
-        performTestMctsWithPassive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
-
-        /**
-         * move: 4s
-         * total moves: 20s
-         * iterations: 5
-         */
-
-        timeForMctsMove = 4;
-        totalTimeForMctsMove = 20;
-        iterations = 20;
-
-        performTestMctsWithPassive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
+//        /**
+//         * move: 4s
+//         * total moves: 10s
+//         * iterations: 5
+//         */
+//
+//        timeForMctsMove = 4;
+//        totalTimeForMctsMove = 10;
+//        iterations = 5;
+//
+//        performTestMctsWithPassive(timeForMctsMove, totalTimeForMctsMove, iterations, stringBuilder);
     }
 
     private static void shortBunch(StringBuilder stringBuilder) {
@@ -621,7 +619,7 @@ public class BaseTextGui {
 
         timeForMctsMove = 1;
         totalTimeForMctsMove = 2;
-        iterations = 20;
+        iterations = 5;
 
         stringBuilder.append("single_move_time;round_time;mcts_win;maximal_number_of_playouts;max_tree_depth\n");
         try {
@@ -657,7 +655,7 @@ public class BaseTextGui {
     private static void performTestMctsWithRandom(int timeForMctsMove, int totalTimeForMctsMove, int iterations, StringBuilder stringBuilder) {
         stringBuilder.setLength(0);
         for(int i=0; i<iterations; i++) {
-            BaseTextGui g = new BaseTextGui(new Game());
+            BaseTextGuiCopy g = new BaseTextGuiCopy(new Game());
             int numberOfWinningHero = g.mctsWithRandomPlay(timeForMctsMove, totalTimeForMctsMove);
             int maxNumberOfPlayouts = Collections.max(((MctsHero) g.game.getFirstHero()).getNumbersOfPlayouts());
             int maxTreeDepth = Collections.max(((MctsHero) g.game.getFirstHero()).getMaximumTreeDepths());
@@ -684,7 +682,7 @@ public class BaseTextGui {
         stringBuilder.setLength(0);
 
         for(int i=0; i<iterations; i++) {
-            BaseTextGui g = new BaseTextGui(new Game());
+            BaseTextGuiCopy g = new BaseTextGuiCopy(new Game());
             int numberOfWinningHero = g.mctsWithAggresivePlay(timeForMctsMove, totalTimeForMctsMove);
             int maxNumberOfPlayouts = Collections.max(((MctsHero) g.game.getFirstHero()).getNumbersOfPlayouts());
             int maxTreeDepth = Collections.max(((MctsHero) g.game.getFirstHero()).getMaximumTreeDepths());
@@ -711,7 +709,7 @@ public class BaseTextGui {
         stringBuilder.setLength(0);
 
         for(int i=0; i<iterations; i++) {
-            BaseTextGui g = new BaseTextGui(new Game());
+            BaseTextGuiCopy g = new BaseTextGuiCopy(new Game());
             int numberOfWinningHero = g.mctsWithPassivePlay(timeForMctsMove, totalTimeForMctsMove);
             int maxNumberOfPlayouts = Collections.max(((MctsHero) g.game.getFirstHero()).getNumbersOfPlayouts());
             int maxTreeDepth = Collections.max(((MctsHero) g.game.getFirstHero()).getMaximumTreeDepths());

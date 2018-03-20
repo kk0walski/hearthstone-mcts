@@ -19,26 +19,24 @@ public class MctsAlgorithm {
 
     private static final int CP_FACTOR = 1;
     private Node root;
-    private int numberOfPlayouts;
-    private int maximumTreeDepth;
+    private int timeForMctsMove;
 
-    public MctsAlgorithm(Node root) {
+    public MctsAlgorithm(Node root, int timeForMctsMove) {
         this.root = root;
+        this.timeForMctsMove = timeForMctsMove;
     }
 
     public Move run() {
         long start = System.currentTimeMillis();
         long end = start;
         Move bestFound = null;
-        while (end - start <= 4 * 1000) { // originally end - start <= 10 * 1000, temporary true end - start <= 10 * (Integer.MAX_VALUE/11)
+        while (end - start <= timeForMctsMove * 1000) { // originally end - start <= 10 * 1000, temporary true end - start <= 10 * (Integer.MAX_VALUE/11)
             Node child = treePolicy(root);
             int delta = defaultPolicy(child);
             backup(child, delta);
             end = System.currentTimeMillis();
         }
         bestFound = bestChild(root, 0).getMoveInNode();
-        numberOfPlayouts = root.getTotalGames();
-        maximumTreeDepth = getTreeDepth();
         return bestFound;
     }
 
@@ -199,7 +197,7 @@ public class MctsAlgorithm {
 
             int rightDepth = 0;
 
-            if(root.getChilds().get(1) != null) {
+            if(root.getChilds().size()>1 && root.getChilds().get(1) != null) {
                 rightDepth = maxDepth(root.getChilds().get(1));
             }
 
@@ -212,10 +210,10 @@ public class MctsAlgorithm {
     }
 
     public int getNumberOfPlayouts() {
-        return numberOfPlayouts;
+        return root.getTotalGames();
     }
 
     public int getMaximumTreeDepth() {
-        return maximumTreeDepth;
+        return getTreeDepth();
     }
 }

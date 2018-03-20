@@ -53,8 +53,20 @@ public class Game {
         setGameOver(false);
     }
 
-    public void initializeAndStartRandomWithMctsGame() {
-        initializeRandomHeroAndMcts();
+    public void initializeAndStartRandomWithMctsGame(int timeForMctsMove, int totalTimeForMctsMoves) {
+        initializeRandomHeroAndMcts(timeForMctsMove, totalTimeForMctsMoves);
+        setActiveHero(firstHero);
+        setGameOver(false);
+    }
+
+    public void initializeAndStartAggresiveWithMctsGame(int timeForMctsMove, int totalTimeForMctsMoves) {
+        initializeAggresiveHeroAndMcts(timeForMctsMove, totalTimeForMctsMoves);
+        setActiveHero(firstHero);
+        setGameOver(false);
+    }
+
+    public void initializeAndStartPassiveWithMctsGame(int timeForMctsMove, int totalTimeForMctsMoves) {
+        initializePassiveAndMcts(timeForMctsMove, totalTimeForMctsMoves);
         setActiveHero(firstHero);
         setGameOver(false);
     }
@@ -108,10 +120,24 @@ public class Game {
         assignCardsToHero(secondHero);
     }
 
-    private void initializeRandomHeroAndMcts() {
-        firstHero = new MctsHero(this, "Mcts Hero", generateStandardDeck(), 3);
+    private void initializeRandomHeroAndMcts(int timeForMctsMove, int totalTimeForMctsMoves) {
+        firstHero = new MctsHero(this, "Mcts Hero", generateStandardDeck(), 3,  timeForMctsMove,  totalTimeForMctsMoves);
         assignCardsToHero(firstHero);
         secondHero = new RandomHero(this, "Random Hero", generateStandardDeck(), 4);
+        assignCardsToHero(secondHero);
+    }
+
+    private void initializeAggresiveHeroAndMcts(int timeForMctsMove, int totalTimeForMctsMoves) {
+        firstHero = new MctsHero(this, "Mcts Hero", generateStandardDeck(), 3,  timeForMctsMove,  totalTimeForMctsMoves);
+        assignCardsToHero(firstHero);
+        secondHero = new AgresiveHero(this, "Aggresive Hero", generateStandardDeck(), 4);
+        assignCardsToHero(secondHero);
+    }
+
+    private void initializePassiveAndMcts(int timeForMctsMove, int totalTimeForMctsMoves) {
+        firstHero = new MctsHero(this, "Mcts Hero", generateStandardDeck(), 3,  timeForMctsMove,  totalTimeForMctsMoves);
+        assignCardsToHero(firstHero);
+        secondHero = new PassiveHero(this, "Passive Hero", generateStandardDeck(), 4);
         assignCardsToHero(secondHero);
     }
 
