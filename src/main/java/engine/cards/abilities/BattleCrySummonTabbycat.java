@@ -1,13 +1,12 @@
 package engine.cards.abilities;
 
-import java.util.List;
-
 import engine.Card;
 import engine.Game;
 import engine.Hero;
 import engine.cards.Ability;
 import engine.cards.minions.Tabbycat;
-import engine.heroes.DefaultHero;
+
+import java.util.List;
 
 public class BattleCrySummonTabbycat implements Ability {
 

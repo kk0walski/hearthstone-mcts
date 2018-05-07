@@ -53,7 +53,6 @@ public class EndRound implements Move {
 
     @Override
     public int getCardIndex() {
-        // TODO Auto-generated method stub
         return -1;
     }
 }

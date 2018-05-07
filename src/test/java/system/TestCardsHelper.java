@@ -1,8 +1,6 @@
 package system;
 
 import engine.Card;
-import engine.cards.Minion;
-import engine.cards.Spell;
 import engine.cards.minions.*;
 import engine.cards.spells.ArcaneShot;
 import engine.cards.spells.Fireball;

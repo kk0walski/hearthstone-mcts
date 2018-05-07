@@ -121,28 +121,27 @@ public class Game {
     }
 
     private void initializeRandomHeroAndMcts(int timeForMctsMove, int totalTimeForMctsMoves) {
-        firstHero = new MctsHero(this, "Mcts Hero", generateStandardDeck(), 3,  timeForMctsMove,  totalTimeForMctsMoves);
+        firstHero = new MctsHero(this, "Mcts Hero", generateStandardDeck(), 3, timeForMctsMove, totalTimeForMctsMoves);
         assignCardsToHero(firstHero);
         secondHero = new RandomHero(this, "Random Hero", generateStandardDeck(), 4);
         assignCardsToHero(secondHero);
     }
 
     private void initializeAggresiveHeroAndMcts(int timeForMctsMove, int totalTimeForMctsMoves) {
-        firstHero = new MctsHero(this, "Mcts Hero", generateStandardDeck(), 3,  timeForMctsMove,  totalTimeForMctsMoves);
+        firstHero = new MctsHero(this, "Mcts Hero", generateStandardDeck(), 3, timeForMctsMove, totalTimeForMctsMoves);
         assignCardsToHero(firstHero);
         secondHero = new AgresiveHero(this, "Aggresive Hero", generateStandardDeck(), 4);
         assignCardsToHero(secondHero);
     }
 
     private void initializePassiveAndMcts(int timeForMctsMove, int totalTimeForMctsMoves) {
-        firstHero = new MctsHero(this, "Mcts Hero", generateStandardDeck(), 3,  timeForMctsMove,  totalTimeForMctsMoves);
+        firstHero = new MctsHero(this, "Mcts Hero", generateStandardDeck(), 3, timeForMctsMove, totalTimeForMctsMoves);
         assignCardsToHero(firstHero);
         secondHero = new PassiveHero(this, "Passive Hero", generateStandardDeck(), 4);
         assignCardsToHero(secondHero);
     }
 
     public void switchActiveHero() {
-        // System.out.println("-----------------------------------");
         if (activeHero == null) {
             return;
         }
@@ -175,7 +174,6 @@ public class Game {
 
     public void end() {
         setGameOver(true);
-        // activeHero = null;
     }
 
     public void endWithWinner(Hero winner) {
@@ -200,7 +198,7 @@ public class Game {
     }
 
     public Hero getEnemyOf(Hero hero) {
-        if (hero == firstHero) { //celowo porownanie ref
+        if (hero == firstHero) {
             return secondHero;
         } else {
             return firstHero;
@@ -276,24 +274,19 @@ public class Game {
         this.winner = winner;
     }
 
-
-//  protected Game game;
-//  protected List<Move> availableMoves;
-
     public Game deepCopy(Node root) {
         Game result = new Game();
-        Hero firstHero=null;
-        Hero secHero=null;
-        if(this.firstHero==activeHero) {
-        	 firstHero = this.firstHero.deepCopy(root);
-        	 secondHero.generateAvailableMoves();
-        	 secHero = this.secondHero.deepCopy(root);
+        Hero firstHero = null;
+        Hero secHero = null;
+        if (this.firstHero == activeHero) {
+            firstHero = this.firstHero.deepCopy(root);
+            secondHero.generateAvailableMoves();
+            secHero = this.secondHero.deepCopy(root);
         }
-        if(this.secondHero==activeHero)
-        {
-        	 this.firstHero.generateAvailableMoves();
-        	firstHero = this.firstHero.deepCopy(root);
-       	 	secHero = this.secondHero.deepCopy(root);
+        if (this.secondHero == activeHero) {
+            this.firstHero.generateAvailableMoves();
+            firstHero = this.firstHero.deepCopy(root);
+            secHero = this.secondHero.deepCopy(root);
         }
         ((AbstractHero) firstHero).setGame(result);
         ((AbstractHero) secHero).setGame(result);
@@ -306,8 +299,8 @@ public class Game {
         else
             result.activeHero = secHero;
 
-        result.firstHero.setAvailableMoves(this.firstHero.copyMovesTo(root,(AbstractHero) result.firstHero, this.firstHero.getAvailableMoves()));
-        result.secondHero.setAvailableMoves(this.secondHero.copyMovesTo(root,(AbstractHero) result.secondHero, this.secondHero.getAvailableMoves()));
+        result.firstHero.setAvailableMoves(this.firstHero.copyMovesTo(root, (AbstractHero) result.firstHero, this.firstHero.getAvailableMoves()));
+        result.secondHero.setAvailableMoves(this.secondHero.copyMovesTo(root, (AbstractHero) result.secondHero, this.secondHero.getAvailableMoves()));
 
         result.firstHero.setGame(result);
         result.secondHero.setGame(result);

@@ -1,19 +1,12 @@
 package engine.mcts;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.List;
-
 import engine.Card;
 import engine.Game;
 import engine.Move;
-import engine.cards.spells.Fireball;
 import engine.heroes.AbstractHero;
-import engine.heroes.RandomHero;
-import engine.moves.PutCard;
+
+import java.util.ArrayDeque;
+import java.util.List;
 
 public class MctsAlgorithm {
 
@@ -30,7 +23,7 @@ public class MctsAlgorithm {
         long start = System.currentTimeMillis();
         long end = start;
         Move bestFound = null;
-        while (end - start <= timeForMctsMove * 1000) { // originally end - start <= 10 * 1000, temporary true end - start <= 10 * (Integer.MAX_VALUE/11)
+        while (end - start <= timeForMctsMove * 1000) {
             Node child = treePolicy(root);
             int delta = defaultPolicy(child);
             backup(child, delta);
@@ -45,14 +38,9 @@ public class MctsAlgorithm {
             if (nodeIsNotFullyExpanded(root)) {
                 return expand(root);
             } else {
-                root = bestChild(root, CP_FACTOR); // tu sie moze cos wykrzaczac z refkami
-                // root.getMoveInNode().performMove(); // też perform move na activehero powinno być
+                root = bestChild(root, CP_FACTOR);
                 root.getGame().getActiveHero().performMove(root.getMoveInNode());
-                // todo root.getGame().checkForGameEnd(); // todo - cofniety
-                // todo if(!(root.getGame().isGameOver())) {
-                root.setUntriedMoves(new ArrayDeque<Move>(root.getGame().getActiveHero().getAvailableMoves())); // tego brakowalo
-                // todo }
-                // root.setUntriedMoves(new ArrayDeque<Move>(root.getGame().getActiveHero().getAvailableMoves())); // zdaje sie ze tutaj tez brakowalo
+                root.setUntriedMoves(new ArrayDeque<Move>(root.getGame().getActiveHero().getAvailableMoves()));
             }
         }
         return root;
@@ -61,17 +49,9 @@ public class MctsAlgorithm {
     Node expand(Node root) {
         Move move = root.getUntriedMoves().pop();
         Node child = new Node(root, move);
-        // System.out.println("[EXPAND] root move: " + root.getMoveInNode() + " | child move: " + child.getMoveInNode() + " | child move cost: " + child.getMoveInNode().getCard());
-//        if(root.getMoveInNode()!=null)
-//     	   System.out.println();
         root.addChild(child);
-        // TODO - wywołać performMove na activeHero z parametrem child.getMoveInNode()
         root.getGame().getActiveHero().performMove(child.getMoveInNode());
-        // todo root.getGame().checkForGameEnd();
-        // todo if(!(root.getGame().isGameOver())) {
-        child.setUntriedMoves(new ArrayDeque<Move>(root.getGame().getActiveHero().getAvailableMoves())); // tego brakowalo // todo - moze produkowac errorsy
-        // todo }
-        // child.getMoveInNode().performMove(); // czyli to niepotrzebne
+        child.setUntriedMoves(new ArrayDeque<Move>(root.getGame().getActiveHero().getAvailableMoves()));
         return child;
     }
 
@@ -82,7 +62,7 @@ public class MctsAlgorithm {
             double current = evaluateBestChildFormula(child, cFactor);
             if (current > bestFoundChildFormulaValue) {
                 bestChild = child;
-                bestFoundChildFormulaValue = current; //tego brakowalo
+                bestFoundChildFormulaValue = current;
             }
         }
         return bestChild;
@@ -108,33 +88,21 @@ public class MctsAlgorithm {
     }
 
     /**
-     *
      * @param root
      * @return 1 if firstHero wins, -1 if secondHero wins.
      */
     int defaultPolicy(Node root) {
-        // todo root.getGame().checkForGameEnd();
-        // todo if(!root.getGame().isGameOver()) {
-            Game copy = root.getGame().deepCopy(root);
-            while (!(copy.isGameOver())) {
-                copy.getActiveHero().chooseRandomSimulationalMove();
-            }
-            if (copy.getWinner().getName().equals(root.getGame().getFirstHero().getName())) {
-                return 1;
-            } else if (copy.getWinner().getName().equals(root.getGame().getSecondHero().getName())) {
-                return -1;
-            } else {
-                throw new IllegalStateException("Invalid winner. #1");
-            }
-        /* todo } else {
-            if(root.getGame().getWinner().getName() == root.getGame().getFirstHero().getName()) {
-                return 1;
-            } else if (root.getGame().getWinner().getName() == root.getGame().getSecondHero().getName()){
-                return -1;
-            } else {
-                throw new IllegalStateException("Invalid winner. #2");
-            }
-        } */
+        Game copy = root.getGame().deepCopy(root);
+        while (!(copy.isGameOver())) {
+            copy.getActiveHero().chooseRandomSimulationalMove();
+        }
+        if (copy.getWinner().getName().equals(root.getGame().getFirstHero().getName())) {
+            return 1;
+        } else if (copy.getWinner().getName().equals(root.getGame().getSecondHero().getName())) {
+            return -1;
+        } else {
+            throw new IllegalStateException("Invalid winner. #1");
+        }
     }
 
     /**
@@ -160,15 +128,11 @@ public class MctsAlgorithm {
                 List<Card> xx = nodeToBackup.getGame().getActiveHero().getBoard();
                 Move e = nodeToBackup.getMoveInNode();
                 nodeToBackup.getGame().getActiveHero().rollback(nodeToBackup.getMoveInNode());
-                nodeToBackup.getGame().getActiveHero().setAvailableMoves( ((AbstractHero) nodeToBackup.getGame().getActiveHero()).possibleMoves()); /// tutaj luju
+                nodeToBackup.getGame().getActiveHero().setAvailableMoves(((AbstractHero) nodeToBackup.getGame().getActiveHero()).possibleMoves());
             }
-            // nodeToBackup.getMoveInNode().rollback();
             List<Card> xx = nodeToBackup.getGame().getActiveHero().getBoard();
             nodeToBackup = nodeToBackup.getParent();
         }
-
-        // TODO - prowadzimy gre do konca w defaultPolicy i w root.getGame().getWinner() mamy zwyciezce
-        // TODO -  musimy tylko pamietac o tym, zeby przy rollbackowaniu ruchu EndRound zmieniac aktywnego gracza na przeciwnego
     }
 
     private boolean nodeIsNotFullyExpanded(Node root) {
@@ -185,25 +149,25 @@ public class MctsAlgorithm {
     }
 
     private int maxDepth(Node root) {
-        if(root==null)
+        if (root == null)
             return 0;
 
-        if(root.getChilds() != null && !root.getChilds().isEmpty()) {
+        if (root.getChilds() != null && !root.getChilds().isEmpty()) {
             int leftDepth = 0;
 
-            if(root.getChilds().get(0) != null) {
+            if (root.getChilds().get(0) != null) {
                 leftDepth = maxDepth(root.getChilds().get(0));
             }
 
             int rightDepth = 0;
 
-            if(root.getChilds().size()>1 && root.getChilds().get(1) != null) {
+            if (root.getChilds().size() > 1 && root.getChilds().get(1) != null) {
                 rightDepth = maxDepth(root.getChilds().get(1));
             }
 
             int bigger = Math.max(leftDepth, rightDepth);
 
-            return bigger+1;
+            return bigger + 1;
         } else {
             return 0;
         }

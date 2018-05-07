@@ -4,7 +4,6 @@ import engine.Card;
 import engine.Game;
 import engine.Move;
 import engine.cards.Minion;
-import engine.cards.Spell;
 import engine.cards.spells.HealingTouch;
 import engine.moves.*;
 
@@ -17,14 +16,14 @@ public class PassiveHero extends AbstractHero implements HeuristicHero {
     }
 
     public PassiveHero() {
-    	super(null,null,null,-1);
-	}
+        super(null, null, null, -1);
+    }
 
-	@Override
+    @Override
     public void chooseHeuristicMove() {
         Move toDo = null;
         while (!(toDo instanceof EndRound)) {
-            int useless = 0;
+            int i = 0;
             int bestFound = -1;
             int bestFoundValue = Integer.MIN_VALUE;
             for (int index = 0; index < availableMoves.size(); index++) {
@@ -49,7 +48,7 @@ public class PassiveHero extends AbstractHero implements HeuristicHero {
                 return 4;
             }
         } else if (toDo instanceof UseSpell) {
-            if(toDo.getCard() instanceof HealingTouch) {
+            if (toDo.getCard() instanceof HealingTouch) {
                 return 2 * toDo.getCard().getCost();
             } else {
                 return 3 * toDo.getCard().getCost();

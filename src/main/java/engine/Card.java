@@ -10,7 +10,5 @@ public interface Card {
 
     int getCost();
 
-    Hero getOwner();
-
     void setOwner(Hero owner);
 }

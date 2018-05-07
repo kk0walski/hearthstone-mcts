@@ -7,10 +7,6 @@ import engine.Move;
 import engine.cards.Minion;
 import engine.cards.minions.Tabbycat;
 import engine.heroes.DefaultHero;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-
 import engine.moves.AttackHero;
 import engine.moves.AttackMinion;
 import engine.moves.EndRound;
@@ -19,7 +15,14 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
 public class TestGameRunner {
+
+    public static List<Card> generateShuffledDeckWithSingleCard(Card card) {
+        return TestCardsHelper.generateShuffledDeck(TestCardsHelper.deckWithSingleCard(card));
+    }
 
     @Test
     public void testGameWithSingleTabbycat() {
@@ -172,7 +175,7 @@ public class TestGameRunner {
         assertThat(secondHero.getHealth(), is(DefaultHero.INITIAL_HEALTH_POINTS));
         assertThat(secondHero.isDead(), is(false));
         assertThat(secondHero.getAvailableMoves(), hasSize(1));
-        assertThat(secondHero.getAvailableMoves(),contains(endSecondHeroRoundMove));
+        assertThat(secondHero.getAvailableMoves(), contains(endSecondHeroRoundMove));
 
         assertThat(secondHero.getHealth(), is(DefaultHero.INITIAL_HEALTH_POINTS));
         assertThat(secondHero.isDead(), is(false));
@@ -193,7 +196,7 @@ public class TestGameRunner {
 
         putCardMove = new PutCard(0, firstHero, secondHero);
         Move attackHeroMove = new AttackHero(0, firstHero.getBoard(), secondHero);
-        Move attackMinionMove = new AttackMinion(0, firstHero.getBoard(), secondHero.getBoard().get(0),0);
+        Move attackMinionMove = new AttackMinion(0, firstHero.getBoard(), secondHero.getBoard().get(0), 0);
         // ---
 
         // --- THEN
@@ -280,10 +283,6 @@ public class TestGameRunner {
         }
 
         System.out.println("The winner is " + testGame.getWinner().getName());
-    }
-
-    public static List<Card> generateShuffledDeckWithSingleCard(Card card) {
-        return TestCardsHelper.generateShuffledDeck(TestCardsHelper.deckWithSingleCard(card));
     }
 
 }

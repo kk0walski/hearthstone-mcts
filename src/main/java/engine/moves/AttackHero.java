@@ -10,7 +10,7 @@ import java.util.List;
 public class AttackHero implements Move {
 
     private int cardInBoardIndex;
-	private List<Card> board;
+    private List<Card> board;
     private Hero heroToGetAttacked;
 
     public AttackHero(int cardInBoardIndex, List<Card> board, Hero heroToGetAttacked) {
@@ -79,30 +79,29 @@ public class AttackHero implements Move {
         return cardInBoardIndex;
     }
 
+    public void setCardInBoardIndex(int cardInBoardIndex) {
+        this.cardInBoardIndex = cardInBoardIndex;
+    }
+
     public List<Card> getBoard() {
         return board;
+    }
+
+    public void setBoard(List<Card> board) {
+        this.board = board;
     }
 
     public Hero getHeroToGetAttacked() {
         return heroToGetAttacked;
     }
 
-	@Override
-	public int getCardIndex() {
-		// TODO Auto-generated method stub
-		return cardInBoardIndex;
-	}
-	
-    public void setCardInBoardIndex(int cardInBoardIndex) {
-		this.cardInBoardIndex = cardInBoardIndex;
-	}
+    public void setHeroToGetAttacked(Hero heroToGetAttacked) {
+        this.heroToGetAttacked = heroToGetAttacked;
+    }
 
-	public void setBoard(List<Card> board) {
-		this.board = board;
-	}
-
-	public void setHeroToGetAttacked(Hero heroToGetAttacked) {
-		this.heroToGetAttacked = heroToGetAttacked;
-	}
+    @Override
+    public int getCardIndex() {
+        return cardInBoardIndex;
+    }
 
 }

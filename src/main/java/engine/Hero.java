@@ -22,6 +22,8 @@ public interface Hero {
 
     Game getGame();
 
+    void setGame(Game resoult);
+
     List<Card> getHand();
 
     int getMana();
@@ -40,17 +42,15 @@ public interface Hero {
 
     List<Move> getAvailableMoves();
 
+    void setAvailableMoves(List<Move> copyMovesTo);
+
     void endRound();
 
     String getName();
 
     Hero deepCopy(Node root);
 
-    List<Move> copyMovesTo(Node root,AbstractHero target, List<Move> toCopy);
-
-    void setAvailableMoves(List<Move> copyMovesTo);
-
-    void setGame(Game resoult);
+    List<Move> copyMovesTo(Node root, AbstractHero target, List<Move> toCopy);
 
     void revertDamage(int damage);
 

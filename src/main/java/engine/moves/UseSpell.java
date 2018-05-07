@@ -1,12 +1,12 @@
 package engine.moves;
 
-import java.util.List;
-
 import engine.Card;
 import engine.Hero;
 import engine.Move;
 import engine.cards.Minion;
 import engine.cards.Spell;
+
+import java.util.List;
 
 public class UseSpell implements Move {
 
@@ -15,10 +15,11 @@ public class UseSpell implements Move {
     private Hero enemy;
     private Spell spellBackup;
 
-    private Minion targetMinion; //only one is not null, i don't have better idea
+    private Minion targetMinion;
     private Hero targetHero;
 
-    private int minionIndex; //if minion is not target =-1 (helpful in copy)
+    private int minionIndex;
+
     public UseSpell(int cardInHandIndex, Hero self, Hero enemy, Minion targetMinion, Hero targetHero) {
         super();
         this.cardInHandIndex = cardInHandIndex;
@@ -27,6 +28,7 @@ public class UseSpell implements Move {
         this.targetMinion = targetMinion;
         this.targetHero = targetHero;
     }
+
     public UseSpell(int cardInHandIndex, Hero self, Hero enemy, Minion targetMinion, int minionIndex) {
         super();
         this.cardInHandIndex = cardInHandIndex;
@@ -41,15 +43,10 @@ public class UseSpell implements Move {
         List<Card> hand = self.getHand();
         hand.get(cardInHandIndex).doAction(self, enemy, targetHero, targetMinion);
         self.decreaseMana(self.getHand().get(cardInHandIndex).getCost());
-        if(hand.get(cardInHandIndex) instanceof Minion) {
-            int breakpoint=0;
-        }
         try {
-        spellBackup = (Spell) hand.get(cardInHandIndex);
-        }
-        catch (Exception e)
-        {
-        	System.out.println();
+            spellBackup = (Spell) hand.get(cardInHandIndex);
+        } catch (Exception e) {
+            System.out.println();
         }
         hand.remove(cardInHandIndex);
     }
@@ -84,15 +81,14 @@ public class UseSpell implements Move {
         return result;
     }
 
-    public Hero getTargetHero()
-    {
-    	return targetHero;
+    public Hero getTargetHero() {
+        return targetHero;
     }
-    public Minion getTargetMinion()
-    {
-    	return targetMinion;
+
+    public Minion getTargetMinion() {
+        return targetMinion;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -128,27 +124,25 @@ public class UseSpell implements Move {
     }
 
     @Override
- 	public int getCardIndex() {
- 		// TODO Auto-generated method stub
- 		return cardInHandIndex;
- 	}
+    public int getCardIndex() {
+        return cardInHandIndex;
+    }
 
-	public Hero getSelf() {
-		return self;
-	}
+    public Hero getSelf() {
+        return self;
+    }
 
-	public Hero getEnemy() {
-		return enemy;
-	}
+    public Hero getEnemy() {
+        return enemy;
+    }
 
-	public int getMinionIndex() {
-		return minionIndex;
-	}
+    public int getMinionIndex() {
+        return minionIndex;
+    }
 
-	public void setMinionIndex(int minionIndex) {
-		this.minionIndex = minionIndex;
-	}
-	
-	
-    
+    public void setMinionIndex(int minionIndex) {
+        this.minionIndex = minionIndex;
+    }
+
+
 }

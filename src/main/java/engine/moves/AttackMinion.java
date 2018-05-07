@@ -9,7 +9,7 @@ import java.util.List;
 public class AttackMinion implements Move {
 
     private int cardInBoardIndex;
-	private List<Card> board;
+    private List<Card> board;
     private Minion minionToGetAttacked;
     private int minionIndex;
 
@@ -18,12 +18,12 @@ public class AttackMinion implements Move {
         this.board = board;
         this.minionToGetAttacked = (Minion) minionToGetAttacked;
     }
-    
+
     public AttackMinion(int cardInBoardIndex, List<Card> board, Card minionToGetAttacked, int minionIndex) {
         this.cardInBoardIndex = cardInBoardIndex;
         this.board = board;
         this.minionToGetAttacked = (Minion) minionToGetAttacked;
-        this.minionIndex=minionIndex;
+        this.minionIndex = minionIndex;
     }
 
     @Override
@@ -83,40 +83,39 @@ public class AttackMinion implements Move {
     }
 
     @Override
-	public int getCardIndex() {
-		// TODO Auto-generated method stub
-		return cardInBoardIndex;
-	}
-    
+    public int getCardIndex() {
+        return cardInBoardIndex;
+    }
+
     public int getCardInBoardIndex() {
-		return cardInBoardIndex;
-	}
+        return cardInBoardIndex;
+    }
 
-	public void setCardInBoardIndex(int cardInBoardIndex) {
-		this.cardInBoardIndex = cardInBoardIndex;
-	}
+    public void setCardInBoardIndex(int cardInBoardIndex) {
+        this.cardInBoardIndex = cardInBoardIndex;
+    }
 
-	public List<Card> getBoard() {
-		return board;
-	}
+    public List<Card> getBoard() {
+        return board;
+    }
 
-	public void setBoard(List<Card> board) {
-		this.board = board;
-	}
+    public void setBoard(List<Card> board) {
+        this.board = board;
+    }
 
-	public Minion getMinionToGetAttacked() {
-		return minionToGetAttacked;
-	}
+    public Minion getMinionToGetAttacked() {
+        return minionToGetAttacked;
+    }
 
-	public void setMinionToGetAttacked(Minion minionToGetAttacked) {
-		this.minionToGetAttacked = minionToGetAttacked;
-	}
+    public void setMinionToGetAttacked(Minion minionToGetAttacked) {
+        this.minionToGetAttacked = minionToGetAttacked;
+    }
 
-	public int getMinionIndex() {
-		return minionIndex;
-	}
+    public int getMinionIndex() {
+        return minionIndex;
+    }
 
-	public void setMinionIndex(int minionIndex) {
-		this.minionIndex = minionIndex;
-	}
+    public void setMinionIndex(int minionIndex) {
+        this.minionIndex = minionIndex;
+    }
 }

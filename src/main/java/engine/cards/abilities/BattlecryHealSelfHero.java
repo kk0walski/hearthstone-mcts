@@ -2,7 +2,6 @@ package engine.cards.abilities;
 
 import engine.Hero;
 import engine.cards.Ability;
-import engine.heroes.DefaultHero;
 
 public class BattlecryHealSelfHero implements Ability {
 

@@ -34,12 +34,12 @@ public class PutCard implements Move {
     public void rollback() {
         List<Card> hand = self.getHand();
         List<Card> board = self.getBoard();
-        Card cardToRevert=null;
+        Card cardToRevert = null;
 
-        cardToRevert = board.get(board.size()-1); // get last putted card on board
-       
+        cardToRevert = board.get(board.size() - 1);
+
         board.remove(cardToRevert);
-        
+
         revertSpecialAbility(cardToRevert);
 
         self.increaseMana(cardToRevert.getCost());
@@ -113,10 +113,9 @@ public class PutCard implements Move {
             return false;
         return true;
     }
-    
+
     @Override
-	public int getCardIndex() {
-		// TODO Auto-generated method stub
-		return cardInHandIndex;
-	}
+    public int getCardIndex() {
+        return cardInHandIndex;
+    }
 }

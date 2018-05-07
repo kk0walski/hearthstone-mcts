@@ -1,8 +1,5 @@
 package engine.heroes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import engine.Card;
 import engine.Game;
 import engine.Hero;
@@ -13,11 +10,10 @@ import engine.cards.spells.ArcaneShot;
 import engine.cards.spells.Fireball;
 import engine.cards.spells.HealingTouch;
 import engine.mcts.Node;
-import engine.moves.AttackHero;
-import engine.moves.AttackMinion;
-import engine.moves.EndRound;
-import engine.moves.PutCard;
-import engine.moves.UseSpell;
+import engine.moves.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractHero implements Hero {
 
@@ -32,18 +28,18 @@ public abstract class AbstractHero implements Hero {
     protected String name;
     protected int health;
     protected int mana;
-    private int increasedMana;
     protected int round;
     protected int punishForEmptyDeck;
-    private Card lastPickedCardBackup;
     protected List<Card> deck;
     protected List<Card> hand;
     protected List<Card> board;
-    private List<Move> movesInRoundBackup;
     protected Game game;
     protected List<Move> availableMoves;
-    private List<Move> availableMovesBackup;
     protected List<Card> activatedMinions;
+    private int increasedMana;
+    private Card lastPickedCardBackup;
+    private List<Move> movesInRoundBackup;
+    private List<Move> availableMovesBackup;
 
     public AbstractHero(Game game, String name, List<Card> initialDeck, int initialHandSize) {
         this.game = game;
@@ -194,7 +190,6 @@ public abstract class AbstractHero implements Hero {
             return;
         }
         if (!(game.getActiveHero().equals(this))) {
-            // throw new IllegalStateException("Only active hero can end round.");
         }
 
         notifyAboutRoundEnd();
@@ -208,12 +203,11 @@ public abstract class AbstractHero implements Hero {
 
     public void receiveDamage(int damage) {
         health = health - damage;
-        // notifyIfDeadHero();
     }
 
     public void revertDamage(int damage) {
         health = health + damage;
-        if(health > MAXIMUM_HEALTH_POINTS) {
+        if (health > MAXIMUM_HEALTH_POINTS) {
             health = MAXIMUM_HEALTH_POINTS;
         }
     }
@@ -231,7 +225,7 @@ public abstract class AbstractHero implements Hero {
     }
 
     protected void revertDeadHeroNotification() {
-        game.checkForGameEnd(); // todo - dodane swiezo
+        game.checkForGameEnd();
         if (game.isGameOver()) {
             game.setGameOver(false);
             game.setWinner(null);
@@ -302,7 +296,6 @@ public abstract class AbstractHero implements Hero {
         if (deck.isEmpty()) {
             punishForEmptyDeck++;
             health = health - punishForEmptyDeck;
-            // System.out.println("Kara za pusty deck dla gracza " + this.name);
             return;
         }
 
@@ -313,16 +306,15 @@ public abstract class AbstractHero implements Hero {
         lastPickedCardBackup = deck.get(0);
         hand.add(deck.get(0));
         hand.get(hand.size() - 1).setOwner(this);
-        deck.remove(deck.get(0)); // TODO - may produce NPE on line above because i'm not sure whether after remove from deck it will change indexes
+        deck.remove(deck.get(0));
     }
 
     private void revertPreviousPickCardFromDeck() {
         if (punishForEmptyDeck > 0) {
             health = health + punishForEmptyDeck;
-            punishForEmptyDeck--; // todo dodane swiezo
-            // System.out.println("Revert kary za pusty deck dla gracza " + this.name);
+            punishForEmptyDeck--;
         } else {
-            deck.add(hand.get(hand.size() - 1)); //get last card in hand - it should be lastPickedCardBackup
+            deck.add(hand.get(hand.size() - 1));
             hand.remove(hand.get(hand.size() - 1));
         }
     }
@@ -457,7 +449,7 @@ public abstract class AbstractHero implements Hero {
         return res;
     }
 
-    public List<Move> copyMovesTo(Node root,AbstractHero target, List<Move> toCopy) {
+    public List<Move> copyMovesTo(Node root, AbstractHero target, List<Move> toCopy) {
         ArrayList<Move> copy = new ArrayList<>();
         for (Move m : toCopy) {
             Move newMove = null;

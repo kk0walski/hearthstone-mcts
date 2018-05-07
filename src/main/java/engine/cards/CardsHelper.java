@@ -32,7 +32,6 @@ public class CardsHelper {
         standardDeckCopyWithDoubledCards.addAll(deepDeckCopy(registeredStandardDeck));
 
         return standardDeckCopyWithDoubledCards;
-        // return shuffle(standardDeckCopyWithDoubledCards);
     }
 
     /**
@@ -70,7 +69,7 @@ public class CardsHelper {
         registerCard(registeredStandardDeck, new Treant());
 
         registerCard(registeredStandardDeck, new HealingTouch());
-         registerCard(registeredStandardDeck, new ArcaneShot());
+        registerCard(registeredStandardDeck, new ArcaneShot());
         registerCard(registeredStandardDeck, new Fireball());
 
     }

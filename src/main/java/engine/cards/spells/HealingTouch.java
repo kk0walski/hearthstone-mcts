@@ -12,18 +12,18 @@ public class HealingTouch extends Spell {
 
     public static final int HERO_HEAL_VALUE = 8;
     private int increasedHealth = 0;
-	
+
     public HealingTouch() {
         setCost(3);
         setName("Healing Touch");
     }
 
     public HealingTouch(Hero activeHero) {
-		this();
-		setOwner(activeHero);
-	}
+        this();
+        setOwner(activeHero);
+    }
 
-	@Override
+    @Override
     public void doAction(Hero owner, Hero enemy, Hero targetHero, Minion targetMinion) {
         if (targetHero != null) {
             increasedHealth = targetHero.increaseHealth(HERO_HEAL_VALUE);

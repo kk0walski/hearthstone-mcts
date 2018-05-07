@@ -2,7 +2,6 @@ package engine.heroes;
 
 import engine.Card;
 import engine.Game;
-import engine.Hero;
 import engine.Move;
 import engine.cards.Minion;
 import engine.mcts.MctsAlgorithm;
@@ -20,7 +19,7 @@ public class MctsHero extends AbstractHero implements HeuristicHero {
     private int totalTimeForMctsMoves;
 
     public MctsHero() {
-        super(null,null,null,-1);
+        super(null, null, null, -1);
     }
 
     public MctsHero(Game game, String name, List<Card> initialDeck, int initialHandSize) {
@@ -35,29 +34,27 @@ public class MctsHero extends AbstractHero implements HeuristicHero {
 
     @Override
     public void chooseHeuristicMove() {
-        // MctsAlgorithm mctsAlgorithm = new MctsAlgorithm(new Node(game));
         long start = System.currentTimeMillis();
         long end = start;
-        Move bestMove =null;
-        while(end - start <= totalTimeForMctsMoves * 1000) { //game.getActiveHero() == this
+        Move bestMove = null;
+        while (end - start <= totalTimeForMctsMoves * 1000) {
             game.checkForGameEnd();
-            if(game.isGameOver() || bestMove instanceof EndRound) {
+            if (game.isGameOver() || bestMove instanceof EndRound) {
                 return;
             }
             MctsAlgorithm mctsAlgorithm = new MctsAlgorithm(new Node(game), timeForMctsMove);
             bestMove = mctsAlgorithm.run();
             numbersOfPlayouts.add(mctsAlgorithm.getNumberOfPlayouts());
             maximumTreeDepths.add(mctsAlgorithm.getMaximumTreeDepth());
-            // System.out.println(bestMove);
             printMoveInfo(bestMove);
             boolean performed = performMove(bestMove);
-            if(!performed) {
+            if (!performed) {
                 System.out.println("Nie wykonany bo był błędny! LOL");
             }
             end = System.currentTimeMillis();
         }
         game.checkForGameEnd();
-        if(game.isGameOver()) {
+        if (game.isGameOver()) {
             System.out.println("Gierka skonczona");
             return;
         }
@@ -77,7 +74,7 @@ public class MctsHero extends AbstractHero implements HeuristicHero {
     }
 
     private void printMoveInfo(Move move) {
-        if(move instanceof PutCard) {
+        if (move instanceof PutCard) {
             System.out.println("[Ruch MCTS] PutCard " + ((Minion) move.getCard()).getName());
         } else if (move instanceof UseSpell) {
             System.out.println("[Ruch MCTS] UseSpell " + move.getCard());

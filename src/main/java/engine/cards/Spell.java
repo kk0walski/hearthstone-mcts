@@ -43,13 +43,13 @@ public class Spell implements Card {
         return cost;
     }
 
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
     @Override
     public Hero getOwner() {
         return null;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
     }
 
     public void setOwner(Hero owner) {

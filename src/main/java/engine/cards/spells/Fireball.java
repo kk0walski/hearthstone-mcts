@@ -17,11 +17,11 @@ public class Fireball extends Spell {
     }
 
     public Fireball(Hero activeHero) {
-		this();
-		setOwner(activeHero);
-	}
+        this();
+        setOwner(activeHero);
+    }
 
-	@Override
+    @Override
     public void doAction(Hero owner, Hero enemy, Hero targetHero, Minion targetMinion) {
         if (targetHero != null) {
             targetHero.receiveDamage(DAMAGE_TO_DEAL);

@@ -1,12 +1,12 @@
 package engine.mcts;
 
+import engine.Game;
+import engine.Move;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
-
-import engine.Game;
-import engine.Move;
 
 public class Node {
 
